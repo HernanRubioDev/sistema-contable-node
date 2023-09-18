@@ -1,0 +1,31 @@
+LEVANTAR BASE DE DATOS POSTGRES. Recordar que tenemos que instalar Postgresql antes. 
+
+Luego de esto, vamos a la terminal
+
+
+psql -U postgres   #Entramos como admin a postgres
+
+CREATE USER juancruz WITH PASSWORD 'juan123';  # Creo usuario
+ALTER USER juancruz CREATEDB;    # Doy permisos
+
+postgres=# CREATE DATABASE project1;   # Creamos la base
+CREATE DATABASE
+
+
+
+postgres=# ALTER DATABASE project1 OWNER TO juancruz;  #Le damos permisos al usuario juancruz
+ALTER DATABASE
+
+### CREAMOS UNA TABLA PORQUE TENEMOS QUE DISEÑAR EN CLASE #######
+
+CREATE TABLE res_users (id serial PRIMARY KEY,name varchar(100),active boolean,login varchar(50) UNIQUE,password varchar(100),email varchar(100) UNIQUE);
+
+id --> secuencial 
+name --> Nombre y apellido juntos
+active --> booleano
+login --> usuario para el login
+password --> contraseña para el login 
+email --> mail del usuario
+
+
+
