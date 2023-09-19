@@ -19,7 +19,7 @@ const NewAccountForm = ({setMenu})=>{
   }
 
   const {form, handleChange} = useForm(initialForm);
-  const {loading, errors, response ,creatAccount} = useAccount();
+  const {loading, errors, response ,createAccount} = useAccount();
 
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
@@ -71,7 +71,7 @@ const NewAccountForm = ({setMenu})=>{
           {form.recivesCredit === "true" ? 
               <div className="w-50 pe-2">
                 <span>Cuenta</span>
-                <input onChange={(e)=>handleChange(e)} onInput={(e)=>creatAccount(e.target.value)} className="form-control" list="accountList" placeholder="Escribe para buscar..." name="account" value={form.account}/>
+                <input onChange={(e)=>handleChange(e)} className="form-control" list="accountList" placeholder="Escribe para buscar..." name="account" value={form.account}/>
                 <datalist id="accountList">
                   {accounts.map(account => <option key={account.id_account} value={account.name} />)}
       
@@ -83,7 +83,7 @@ const NewAccountForm = ({setMenu})=>{
               {loading ? 
               <Loader />
               :
-              <button onClick={()=>creatAccount(form)} type="button" className="btn btn-success me-4">Guardar</button>
+              <button onClick={()=> createAccount(form) } type="button" className="btn btn-success me-4">Guardar</button>
               }
             </div>
         </form>

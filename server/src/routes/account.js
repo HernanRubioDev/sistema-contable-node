@@ -1,8 +1,10 @@
 const {Router} = require("express")
-const {addAccount} = require("../controllers/accountController");
+const {addMajorAccount, addMinorAccount} = require("../controllers/accountController");
 
 const accountRouter = Router();
 
-accountRouter.post("/add", addAccount)
+accountRouter.post("/addMajor/:username", addMajorAccount)
+
+accountRouter.post("/addMinor/:username", addMinorAccount)
 
 module.exports = accountRouter;

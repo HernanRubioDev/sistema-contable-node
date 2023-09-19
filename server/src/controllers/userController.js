@@ -26,7 +26,6 @@ const loginUser = async (req, res)=>{
   let auth = null;
   try {
     const response = await getUserByUsername(username);
-
     switch (true) {
       case response.rowCount === 0:
         res.status(404).json({"status":404});
@@ -36,9 +35,11 @@ const loginUser = async (req, res)=>{
         const hash = response.rows[0].password
         auth = await bcrypt.compare(password, hash) 
         if(auth){
+          const name = response.rows[0].name;
+          const surname = response.rows[0].surname;
           const token = await authUser(username)
           token !== null ? 
-          res.status(201).json({"status":201,"auth_token":token}) 
+          res.status(201).json({"status":201,"auth_token":token, "username":username, "name":name, "surname":surname}) 
           : 
           res.status(202).json({"status":202, "auth_token":null});
         }

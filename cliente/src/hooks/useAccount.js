@@ -8,12 +8,12 @@ const useAccount = ()=>{
   const [response, setResponse] = useState(null);
   const {handleSession} = useContext(sessionContext)
   
-  const creatAccount = async(account)=>{
+  const createAccount = async(account)=>{
     setLoading(true)
     infoToast.show()
     setLoading(false)
   }
 
-  return {loading, errors, response, creatAccount}
+  return {loading, errors, response, createAccount}
 }
 export default useAccount
