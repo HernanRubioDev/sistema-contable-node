@@ -83,7 +83,7 @@ const addMinorAccount = async (req, res)=>{
   }
 
   try {
-    const account = getLastMinorAccount(idUser, mayorAccount);
+    const account = await getLastMinorAccount(idUser, mayorAccount);
     switch (true) {
       case account.rowCount !== 0:
         accountCode = parseInt(account.rows[0].code) + 1
@@ -91,8 +91,27 @@ const addMinorAccount = async (req, res)=>{
         break;
 
       case account.rowCount === 0:
-        newAccount.code = `${mayorAccount}01`
+        res.json({"status":404})
         break
+
+      default:
+        res.json({"status":500})
+        break
+    }
+  } catch (error) {
+    res.json({"status":500})
+  }
+
+  try {
+    const response = await setAccount(idUser, newAccount);
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({"status":201})
+        break;
+    
+      default:
+        res.json({"status":500})
+        break;
     }
   } catch (error) {
     res.json({"status":500})
