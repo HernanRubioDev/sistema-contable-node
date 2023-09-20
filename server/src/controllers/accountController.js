@@ -6,7 +6,7 @@ const addMajorAccount = async(req, res)=>{
   const newAccount = req.body;
   let accountCode = null;
   let idUser = null;
-
+  console.log(newAccount)
   //BUSCO EL ID DEL USUARIO
   try {
     const user = await getUserByUsername(username)

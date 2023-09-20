@@ -76,6 +76,7 @@ const useUser = ()=>{
       switch (true) {
         case res.status === 201:
           localStorage.setItem ("auth_token", res.auth_token);
+          localStorage.setItem("username", res.username)
           handleSession(true)
           break;
         

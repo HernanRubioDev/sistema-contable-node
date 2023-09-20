@@ -3,7 +3,7 @@ import useForm from "../hooks/useForm";
 import Loader from "./Loader";
 import OpenMenuButton from "./OpenMenuButton";
 
-const NewAccountForm = ({setMenu})=>{
+const NewAccountForm = ({loading, setMenu, createAccount})=>{
   const handleClick = ()=>{
     setMenu("search")
   }
@@ -13,13 +13,12 @@ const NewAccountForm = ({setMenu})=>{
   const initialForm = {
     name: '',
     type:'1',
-    recivesCredit:"true",
+    recivesCredit:"false",
     account:'',
-    credit:''
+    credit:0
   }
 
   const {form, handleChange} = useForm(initialForm);
-  const {loading, errors, response ,createAccount} = useAccount();
 
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
@@ -40,11 +39,11 @@ const NewAccountForm = ({setMenu})=>{
               <span>Recibe saldo</span>
               <div className="d-flex">
                   <label>
-                    <input onChange={(e)=>handleChange(e)} className="form-check-input" type="radio" name="recivesCredit" value={true} defaultChecked={true}/>
+                    <input onChange={(e)=>handleChange(e)} className="form-check-input" type="radio" name="recivesCredit" value={true}/>
                     Si
                   </label>
                   <label>
-                    <input onChange={(e)=>handleChange(e)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} />
+                    <input onChange={(e)=>handleChange(e)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true} />
                     No
                   </label>
               </div>
@@ -64,7 +63,7 @@ const NewAccountForm = ({setMenu})=>{
             </div>
             <div className="w-50 ps-3">
               <span>Saldo inicial</span>
-              <input onChange={(e)=>handleChange(e)} className="form-control" type="number" placeholder="Ej: 2000" name="credit" value={form.credit} autoComplete="off"/>
+              <input onChange={(e)=>handleChange(e)} className="form-control" type="number" placeholder="Ej: 2000" name="credit" value={parseFloat(form.credit)} autoComplete="off"/>
             </div>
           </div>
           <div className="d-flex mt-3">
@@ -79,13 +78,11 @@ const NewAccountForm = ({setMenu})=>{
               </div>  : ''
             }
           </div>
+          {loading ? <Loader /> : 
             <div className="d-flex justify-content-end mt-2">
-              {loading ? 
-              <Loader />
-              :
-              <button onClick={()=> createAccount(form) } type="button" className="btn btn-success me-4">Guardar</button>
-              }
+              <button type="button" onClick={()=>createAccount(form)} className="btn btn-success me-4">Guardar</button> 
             </div>
+          }
         </form>
       </div>
     </div>

@@ -1,12 +1,14 @@
 const {pool} = require("../../db");
 
 const setAccount = async(idUser, newAccount)=>{
-  const {name, getCredit, credit, code} = newAccount
+  const {name, recivesCredit, credit, code} = newAccount
   const query = "INSERT INTO accounts (name, get_credit, credit, id_user, code) VALUES ($1, $2, $3, $4, $5)";
   try {
-    const res = await pool.query(query, [name, getCredit, credit, idUser, code])
+    const res = await pool.query(query, [name, recivesCredit, credit, idUser, code])
+    console.log(res)
     return res
   } catch (error) {
+    console.log(error)
     return null
   }
 }
