@@ -1,4 +1,4 @@
-const {setAccount, getLastMajorAccount} = require("../models/accountModel");
+const {setAccount, getLastMajorAccount, getLastMinorAccount} = require("../models/accountModel");
 const {getUserByUsername} = require("../models/userModel");
 
 const addMajorAccount = async(req, res)=>{
@@ -59,11 +59,45 @@ const addMajorAccount = async(req, res)=>{
 
 }
 
-const addMinorAccount = (req, res)=>{
+const addMinorAccount = async (req, res)=>{
   const username = req.params.username
   const newAccount = req.body;
   let accountCode = null;
+  let mayorAccount = newAccount.code.slice(0,3);
   let idUser = null;
+
+  try {
+    const user = await getUserByUsername(username)
+    switch (true) {
+      case user.rowCount !== 0:
+        idUser = user.rows[0].id_user;
+        break;
+    
+      default:
+        res.json({"status":400})
+        break;
+    }
+
+  } catch (error) {
+    res.json({"status":500})
+  }
+
+  try {
+    const account = getLastMinorAccount(idUser, mayorAccount);
+    switch (true) {
+      case account.rowCount !== 0:
+        accountCode = parseInt(account.rows[0].code) + 1
+        newAccount.code = accountCode.toString();
+        break;
+
+      case account.rowCount === 0:
+        newAccount.code = `${mayorAccount}01`
+        break
+    }
+  } catch (error) {
+    res.json({"status":500})
+  }
+
 }
 
 module.exports = {addMajorAccount, addMinorAccount}
