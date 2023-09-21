@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import AccoutMenuWrapper from "../components/AccountMenuWrapper";
 import InfoToast from "../components/InfoToast";
 import useAccount from "../hooks/useAccount";
+import AlertModal from "../components/AlertModal";
 
 const Accounts = ()=>{
   const navigate = useNavigate();
@@ -15,13 +16,14 @@ const Accounts = ()=>{
   },[session])
 
   const [menu, setMenu] = useState('search');
-  const {loading, errors, response, createAccount} = useAccount();
+  const {loading, errors, response, accounts, createAccount, getMajorAccounts} = useAccount();
   return(
     <div className="login d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <AccoutMenuWrapper menu={menu} loading={loading} setMenu={setMenu} createAccount={createAccount}/>
+      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts}/>
       <InfoToast response={response}/>
+      <AlertModal response={response} />
     </div>
   )
 }

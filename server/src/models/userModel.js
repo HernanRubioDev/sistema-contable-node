@@ -27,9 +27,18 @@ const setAuth = async(username, token) =>{
     const res = await pool.query(query, [token, username]);
     return res;
   } catch (error) {
-    console.log("entro")
     return null;
   }
 }
 
-module.exports = {setUser, getUserByUsername, setAuth}
+const checkAuth = async(auth_token)=>{
+  const query = "SELECT * FROM users WHERE auth_token=$1";
+  try {
+    const res = await pool.query(query, [auth_token]);
+    return res
+  } catch (error) {
+    return null;
+  }
+}
+
+module.exports = {setUser, getUserByUsername, setAuth, checkAuth}

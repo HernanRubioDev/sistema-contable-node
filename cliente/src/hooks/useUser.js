@@ -117,6 +117,7 @@ const useUser = ()=>{
 
   const logOutUser = async ()=>{
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("username");
     handleSession(false);
   }
 

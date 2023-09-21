@@ -3,18 +3,16 @@ import useForm from "../hooks/useForm";
 import Loader from "./Loader";
 import OpenMenuButton from "./OpenMenuButton";
 
-const NewAccountForm = ({loading, setMenu, createAccount})=>{
+const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAccounts})=>{
   const handleClick = ()=>{
     setMenu("search")
   }
-
-  const accounts = [{id_account:"1",name:"Banco Rio"},{id_account:"2",name:"Banco Nacion"}]
 
   const initialForm = {
     name: '',
     type:'1',
     recivesCredit:"false",
-    account:'',
+    code:'',
     credit:0
   }
 
@@ -39,7 +37,7 @@ const NewAccountForm = ({loading, setMenu, createAccount})=>{
               <span>Recibe saldo</span>
               <div className="d-flex">
                   <label>
-                    <input onChange={(e)=>handleChange(e)} className="form-check-input" type="radio" name="recivesCredit" value={true}/>
+                    <input onChange={(e)=>handleChange(e)} onClick={()=>getMajorAccounts()} className="form-check-input" type="radio" name="recivesCredit" value={true}/>
                     Si
                   </label>
                   <label>
@@ -69,13 +67,20 @@ const NewAccountForm = ({loading, setMenu, createAccount})=>{
           <div className="d-flex mt-3">
           {form.recivesCredit === "true" ? 
               <div className="w-50 pe-2">
-                <span>Cuenta</span>
-                <input onChange={(e)=>handleChange(e)} className="form-control" list="accountList" placeholder="Escribe para buscar..." name="account" value={form.account}/>
-                <datalist id="accountList">
-                  {accounts.map(account => <option key={account.id_account} value={account.name} />)}
-      
-                </datalist>
+              <span>Cuenta</span>
+              <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="code" value={form.code}>
+                <option className="d-none" value={null}>Selecciona una cuenta</option>
+                {accounts.map(account => <option key={account.id_account} value={account.code}>{account.name}</option>)}
+              </select>
               </div>  : ''
+            }
+            {form.recivesCredit === "true" ?
+            <div className="flex-grow-1 pe-2 ms-3">
+              <span>Código</span>
+              <input className="form-control-plaintext border rounded ps-2 bg-body-secondary" type="text" readOnly placeholder="Aquí aparecerá el codigo de la cuenta" name="code" value={form.code}/>
+            </div>
+            :
+            ''
             }
           </div>
           {loading ? <Loader /> : 

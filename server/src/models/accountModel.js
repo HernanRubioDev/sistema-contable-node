@@ -33,5 +33,15 @@ const getLastMinorAccount = async (idUser, mayorAccount) =>{
   }
 }
 
-module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount}
+const getMajorsAccounts = async(idUser)=>{
+  const query = `SELECT * FROM accounts WHERE code LIKE '%00' AND id_user=$1`;
+  try {
+    const res = await pool.query(query, [idUser]);
+    return res
+  } catch (error) {
+    return null
+  }
+}
+
+module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts}
 

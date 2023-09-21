@@ -1,16 +1,18 @@
-import { useContext, useState } from "react";
+import {useState } from "react";
 import { helpHttp } from "../helpers/helpHttp"
-import sessionContext from "../context/UserContext";
+import useUser from "./useUser";
 
 const useAccount = ()=>{
   const api = helpHttp();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [response, setResponse] = useState(null);
-  const {handleSession} = useContext(sessionContext)
+  const [accounts, setAccounts] = useState([])
+  const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
-  
+
   const createAccount = async(form)=>{
+    const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
     let url;
@@ -28,7 +30,6 @@ const useAccount = ()=>{
         "content-type":"application/json",
       }
     }
-    console.log(form.credit)
     try {
       const res = await api.post(url, options);
       switch (true) {
@@ -37,6 +38,15 @@ const useAccount = ()=>{
           infoToast.show();
           break;
     
+        case res.status === 401:
+          setResponse({title:"Error", body:"Este usuario no está autorizado. Será redirigido al Login.", success: false})
+          alertModal.show();
+          setTimeout(() => {
+            logOutUser()
+            alertModal.hide()
+          }, 2000);
+          break
+
         default:
           setResponse({status:res.status, title:"Error", body:"La cuenta no se ha podido crear."})
           infoToast.show();
@@ -50,7 +60,24 @@ const useAccount = ()=>{
     setLoading(false)
   }
 
-
-  return {loading, errors, response, createAccount}
+  const getMajorAccounts = async()=>{
+    const username = localStorage.getItem("username")
+    const auth_token = localStorage.getItem("auth_token")
+    const url = `http://localhost:3000/account/get/${username}/?auth_token=${auth_token}`
+    try {
+      const res = await api.get(url)
+      switch (true) {
+        case res.status===200:
+          setAccounts(res.accounts)
+          break;
+        
+        default:
+          break;
+      }
+    } catch (error) {
+      
+    }
+  }
+  return {loading, errors, response, accounts, createAccount, getMajorAccounts}
 }
 export default useAccount
