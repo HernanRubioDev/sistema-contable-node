@@ -21,7 +21,7 @@ const Accounts = ()=>{
     <div className="login d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts}/>
+      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} errors={errors} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts} />
       <InfoToast response={response}/>
       <AlertModal response={response} />
     </div>

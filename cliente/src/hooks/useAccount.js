@@ -47,6 +47,10 @@ const useAccount = ()=>{
           }, 2000);
           break
 
+        case res.status === 400:
+          setErrors(res.validations)
+          break;
+
         default:
           setResponse({status:res.status, title:"Error", body:"La cuenta no se ha podido crear."})
           infoToast.show();
@@ -78,6 +82,7 @@ const useAccount = ()=>{
       
     }
   }
+
   return {loading, errors, response, accounts, createAccount, getMajorAccounts}
 }
 export default useAccount

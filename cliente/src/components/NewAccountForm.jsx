@@ -3,7 +3,7 @@ import useForm from "../hooks/useForm";
 import Loader from "./Loader";
 import OpenMenuButton from "./OpenMenuButton";
 
-const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAccounts})=>{
+const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getMajorAccounts})=>{
   const handleClick = ()=>{
     setMenu("search")
   }
@@ -13,7 +13,7 @@ const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAcco
     type:'1',
     recivesCredit:"false",
     code:'',
-    credit:0
+    credit: ''
   }
 
   const {form, handleChange} = useForm(initialForm);
@@ -32,6 +32,11 @@ const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAcco
             <div className="flex-grow-1 pe-2">
               <span>Nombre</span>
               <input onChange={(e)=>handleChange(e)} className="form-control" type="text" placeholder="Ej: Banco río" name="name" value={form.name} autoComplete="off"/>
+              {errors.name && 
+                <div className='w-100 lh-0 d-flex align-items-center'>
+                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.name}</p>
+                </div>
+              }
             </div>
             <div className="d-flex flex-column justify-content-center w-50 ps-3">
               <span>Recibe saldo</span>
@@ -41,7 +46,7 @@ const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAcco
                     Si
                   </label>
                   <label>
-                    <input onChange={(e)=>handleChange(e)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true} />
+                    <input onChange={(e)=>handleChange(e)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true}/>
                     No
                   </label>
               </div>
@@ -61,7 +66,12 @@ const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAcco
             </div>
             <div className="w-50 ps-3">
               <span>Saldo inicial</span>
-              <input onChange={(e)=>handleChange(e)} className="form-control" type="number" placeholder="Ej: 2000" name="credit" value={parseFloat(form.credit)} autoComplete="off"/>
+              <input onChange={(e)=>handleChange(e)} className="form-control" type="number" name="credit" value={form.recivesCredit==="true" ? form.credit : form.credit=0} autoComplete="off" disabled={form.recivesCredit==="false" ? true : false} min={0}/>
+              {errors.credit && 
+                <div className='w-100 lh-0 d-flex align-items-center'>
+                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.credit}</p>
+                </div>
+              }
             </div>
           </div>
           <div className="d-flex mt-3">
@@ -81,7 +91,7 @@ const NewAccountForm = ({loading, accounts, setMenu, createAccount, getMajorAcco
             </div>
             :
             ''
-            }
+          }
           </div>
           {loading ? <Loader /> : 
             <div className="d-flex justify-content-end mt-2">
