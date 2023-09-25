@@ -1,14 +1,12 @@
 const {pool} = require("../../db");
 
 const setAccount = async(idUser, newAccount)=>{
-  const {name, recivesCredit, credit, code} = newAccount
-  const query = "INSERT INTO accounts (name, get_credit, credit, id_user, code) VALUES ($1, $2, $3, $4, $5)";
+  const {name, recivesCredit, credit, code, date_creation} = newAccount
+  const query = "INSERT INTO accounts (name, get_credit, credit, id_user, code, date_creation) VALUES ($1, $2, $3, $4, $5, $6)";
   try {
-    const res = await pool.query(query, [name, recivesCredit, credit, idUser, code])
-    console.log(res)
+    const res = await pool.query(query, [name, recivesCredit, credit, idUser, code, date_creation])
     return res
   } catch (error) {
-    console.log(error)
     return null
   }
 }
@@ -43,5 +41,15 @@ const getMajorsAccounts = async(idUser)=>{
   }
 }
 
-module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts}
+const getAccountByName = async(idUser, accountName)=>{
+  const query = `SELECT * FROM accounts WHERE name LIKE '${accountName}%' AND id_user=$1`;
+  try {
+    const res = await pool.query(query,[idUser]);
+    return res;
+  } catch (error) {
+    return null
+  }
+}
+
+module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName}
 

@@ -1,7 +1,10 @@
 import useForm from "../hooks/useForm";
 import OpenMenuButton from "./OpenMenuButton";
+import '../stylesheets/SearchAccountForm.css';
+import AccountTableRow from "./AccountTableRow";
+import Loader from "./Loader";
 
-const SearchAccountForm = ({setMenu})=>{
+const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName})=>{
 
   const handleClick = ()=>{
     setMenu("add")
@@ -23,34 +26,25 @@ const SearchAccountForm = ({setMenu})=>{
           <div className="me-4">
             <input onChange={(e)=>handleChange(e)} className="form-control" type="text" placeholder="Buscar por nombre" name="name" value={form.name} autoComplete="off"/>
           </div>
-          <button type="button" className="btn btn-success pe-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
+          {loading ? <Loader />
+          :
+          <button onClick={()=>getAccountByName(form.name)} type="button" className="btn btn-success pe-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
+          }
         </form>
-        <div className="mx-3">
+        <div className="mx-3 table-container">
           <table className="table table-striped">
-            <thead>
+            <thead className="sticky-top">
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Tipo</th>
                 <th scope="col">Saldo</th>
                 <th scope="col">Creada</th>
+                <th scope="col">Código</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Banco Rio</td>
-                <td>???</td>
-                <td>$18000</td>
-                <td>12/06/23</td>
-                <td>
-                  <button className="bg-transparent border-0">
-                    <img className="me-1" src="icons/delete.svg"/>
-                  </button>
-                  <button className="bg-transparent border-0">
-                    <img className="ms-1" src="icons/edit.svg"/>
-                  </button>
-                </td>
-              </tr>
+            <tbody >
+              {Object.keys(accounts).length ? accounts.map(account => <AccountTableRow key={account.id_account} data={account}/>) : <tr><td colSpan='6' className="text-center">Sin Datos</td></tr>}
             </tbody>
           </table>
         </div>

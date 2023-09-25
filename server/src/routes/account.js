@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const {addMajorAccount, addMinorAccount, searchAccountByName} = require("../controllers/accountController");
+const {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName} = require("../controllers/accountController");
 const {MajorAccountsMiddleware} = require("../middlewares/MajorAccountsMiddleware");
 
 const accountRouter = Router();
@@ -8,6 +8,9 @@ accountRouter.post("/addMajor/:username", MajorAccountsMiddleware, addMajorAccou
 
 accountRouter.post("/addMinor/:username", addMinorAccount)
 
-accountRouter.get("/get/:username", searchAccountByName)
+accountRouter.get("/getMajorAccounts/:username", searchMajorAccounts)
+
+accountRouter.get("/getAccounts/:username", searchAccountByName)
+
 
 module.exports = accountRouter;

@@ -15,6 +15,7 @@ const useAccount = ()=>{
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
+    
     let url;
 
     if(form.recivesCredit === "true"){
@@ -67,7 +68,7 @@ const useAccount = ()=>{
   const getMajorAccounts = async()=>{
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
-    const url = `http://localhost:3000/account/get/${username}/?auth_token=${auth_token}`
+    const url = `http://localhost:3000/account/getMajorAccounts/${username}/?auth_token=${auth_token}`
     try {
       const res = await api.get(url)
       switch (true) {
@@ -83,6 +84,27 @@ const useAccount = ()=>{
     }
   }
 
-  return {loading, errors, response, accounts, createAccount, getMajorAccounts}
+  const getAccountByName = async(accountName)=>{
+    const username = localStorage.getItem("username")
+    const auth_token = localStorage.getItem("auth_token")
+    setLoading(true)
+    const url = `http://localhost:3000/account/getAccounts/${username}/?auth_token=${auth_token}&&accountName=${accountName}`
+    try {
+      const res = await api.get(url);
+      switch (true) {
+        case res.status === 200:
+          setAccounts(res.accounts)
+          break;
+      
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error(error)
+    }
+    setLoading(false)
+  }
+
+  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName}
 }
 export default useAccount

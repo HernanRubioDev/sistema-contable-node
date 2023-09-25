@@ -14,7 +14,7 @@ const Dashboard = ()=>{
   },[session])
 
   return(
-    <div className="login d-flex flex-wrap overflow-hidden">
+    <div className="vh-100 d-flex flex-wrap overflow-hidden">
         <Header />
         <Menu />
         <DashboardMenu />

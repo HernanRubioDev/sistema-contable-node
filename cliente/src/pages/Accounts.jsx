@@ -16,12 +16,12 @@ const Accounts = ()=>{
   },[session])
 
   const [menu, setMenu] = useState('search');
-  const {loading, errors, response, accounts, createAccount, getMajorAccounts} = useAccount();
+  const {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName} = useAccount();
   return(
-    <div className="login d-flex flex-wrap overflow-hidden">
+    <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} errors={errors} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts} />
+      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} errors={errors} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts} getAccountByName={getAccountByName}/>
       <InfoToast response={response}/>
       <AlertModal response={response} />
     </div>
