@@ -132,13 +132,13 @@ const addMinorAccount = async (req, res)=>{
 }
 
 const searchMajorAccounts = async (req, res)=>{
-  let idUser;
+  let id_company;
   const username = req.params.username
   try {
     const user = await getUserByUsername(username)
     switch (true) {
       case user.rowCount !== 0:
-        idUser = user.rows[0].id_user;
+        id_company = user.rows[0].id_company;
         break;
     
       default:
@@ -151,7 +151,7 @@ const searchMajorAccounts = async (req, res)=>{
   }
 
   try {
-    const accounts = await getMajorsAccounts(idUser);
+    const accounts = await getMajorsAccounts(id_company);
     switch (true) {
       case accounts.rowCount !== 0:
         res.json({"status":200, "accounts":accounts.rows})

@@ -33,10 +33,10 @@ const getLastMinorAccount = async (id_company, mayorAccount) =>{
   }
 }
 
-const getMajorsAccounts = async(idUser)=>{
-  const query = `SELECT * FROM accounts WHERE code LIKE '%00' AND id_user=$1`;
+const getMajorsAccounts = async(id_company)=>{
+  const query = `SELECT * FROM accounts WHERE code LIKE '%00' AND id_company=$1`;
   try {
-    const res = await pool.query(query, [idUser]);
+    const res = await pool.query(query, [id_company]);
     return res
   } catch (error) {
     return null
