@@ -12,6 +12,8 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
     username:'',
     password:'',
     rePassword:'',
+    id_company:'',
+    role:'normal'
   }
   
   const [form, setForm] = useState(initialForm)
@@ -75,12 +77,21 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
                 </div>
                 }
             </div>
-            <div className="input-group">
+            <div className="input-group mb-3">
               <span className="input-group-text" id="login-password"><img src="public/icons/password.svg" /></span>
               <input onChange={(e)=>handleChange(e)} type="password" className="form-control py-xxl-2" placeholder="Repita su contraseña" aria-label="Password" aria-describedby="login-password" name='rePassword' value={form.rePassword} />
                 {errors.rePassword && 
                 <div className='w-100 lh-0 d-flex align-items-center'>
                   <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.rePassword}</p>
+                </div>
+                }
+            </div>
+            <div className="input-group mb-3">
+              <span className="input-group-text" id="login-password"><img src="public/icons/id-company.svg" /></span>
+              <input onChange={(e)=>handleChange(e)} type="password" className="form-control py-xxl-2" placeholder="Id de empresa" aria-label="Password" aria-describedby="login-password" name='id_company' value={form.id_company} min={0}/>
+                {errors.id_company && 
+                <div className='w-100 lh-0 d-flex align-items-center'>
+                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.id_company}</p>
                 </div>
                 }
             </div>

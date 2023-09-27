@@ -6,14 +6,17 @@ const addMajorAccount = async(req, res)=>{
   const newAccount = req.body;
   let accountCode = null;
   let idUser = null;
+  let id_company = null;
   const date = new Date();
   newAccount.date_creation = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   //BUSCO EL ID DEL USUARIO
+
   try {
     const user = await getUserByUsername(username)
     switch (true) {
       case user.rowCount !== 0:
         idUser = user.rows[0].id_user;
+        id_company = user.rows[0].id_company;
         break;
     
       default:
@@ -27,15 +30,17 @@ const addMajorAccount = async(req, res)=>{
 
   //BUSCO LA EL CODIGO DE LA ULTIMA CUENTA MAYOR O LO CREO
   try {
-    const account = await getLastMajorAccount(idUser, newAccount.type);
+    const account = await getLastMajorAccount(id_company, newAccount.type);
     switch (true) {
       case account.rowCount !== 0:
         accountCode = parseInt(account.rows[0].code) + 100
         newAccount.code = accountCode.toString();
+        newAccount.id_company = id_company
         break;
-
-      case account.rowCount === 0:
+        
+        case account.rowCount === 0:
         newAccount.code = `${newAccount.type}0000`
+        newAccount.id_company = id_company
         break
     }
   } catch (error) {
@@ -67,6 +72,7 @@ const addMinorAccount = async (req, res)=>{
   let accountCode = null;
   let mayorAccount = newAccount.code.slice(0,3);
   let idUser = null;
+  let id_company = null;
   const date = new Date();
   newAccount.date_creation = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
@@ -75,6 +81,7 @@ const addMinorAccount = async (req, res)=>{
     switch (true) {
       case user.rowCount !== 0:
         idUser = user.rows[0].id_user;
+        id_company = user.rows[0].id_company;
         break;
     
       default:
@@ -87,11 +94,12 @@ const addMinorAccount = async (req, res)=>{
   }
 
   try {
-    const account = await getLastMinorAccount(idUser, mayorAccount);
+    const account = await getLastMinorAccount(id_company, mayorAccount);
     switch (true) {
       case account.rowCount !== 0:
         accountCode = parseInt(account.rows[0].code) + 1
         newAccount.code = accountCode.toString();
+        newAccount.id_company = id_company
         break;
 
       case account.rowCount === 0:
@@ -126,7 +134,6 @@ const addMinorAccount = async (req, res)=>{
 const searchMajorAccounts = async (req, res)=>{
   let idUser;
   const username = req.params.username
-
   try {
     const user = await getUserByUsername(username)
     switch (true) {
@@ -168,7 +175,7 @@ const searchAccountByName = async (req, res)=>{
     const user = await getUserByUsername(username)
     switch (true) {
       case user.rowCount !== 0:
-        idUser = user.rows[0].id_user;
+        id_company = user.rows[0].id_company;
         break;
     
       default:
@@ -181,7 +188,7 @@ const searchAccountByName = async (req, res)=>{
   }
 
   try {
-    const accounts = await getAccountByName(idUser, accountName);
+    const accounts = await getAccountByName(id_company, accountName);
     switch (true) {
       case accounts.rowCount !== 0:
         res.json({"status":200, "accounts":accounts.rows})

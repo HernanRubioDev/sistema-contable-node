@@ -1,13 +1,13 @@
 const {pool} = require("../../db");
 
 const setUser = async (user)=>{
-  const {name, surname, username, password} = user
-  const query = 'INSERT INTO users (name, surname, username, password) VALUES ($1, $2, $3, $4)';
+  const {name, surname, username, password, role, id_company} = user
+  const query = 'INSERT INTO users (name, surname, username, password, user_role, id_company) VALUES ($1, $2, $3, $4, $5, $6)';
   try {
-    const res = await pool.query(query, [name, surname, username, password])
+    const res = await pool.query(query, [name, surname, username, password, role, id_company])
     return res
   } catch (error) {
-    
+    return null
   }
 }
 
@@ -17,7 +17,7 @@ const getUserByUsername = async(username) =>{
     const res = await pool.query(query, [username])
     return res
   } catch (error) {
-    console.error(error)
+    return null
   }
 }
 
