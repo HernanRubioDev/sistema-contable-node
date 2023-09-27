@@ -9,6 +9,7 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName})=>{
   const handleClick = ()=>{
     setMenu("add")
   }
+  
   const initialForm = {
     name:""
   }
@@ -17,7 +18,7 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName})=>{
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
       <OpenMenuButton />
       <div className="d-flex flex-column justify-content-between align-items-center pt-3">
-        <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/add.svg" /> Agregar</button>
+        <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/add.svg" />Agregar</button>
         <h5 className="text-secondary align-self-start ms-4">Cuentas</h5>
       </div>
       <div className="bg-white mx-3 my-3 shadow-sm">
