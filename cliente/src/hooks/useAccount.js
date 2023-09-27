@@ -15,14 +15,13 @@ const useAccount = ()=>{
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
-    
     let url;
 
     if(form.recivesCredit === "true"){
-      url = `http://localhost:3000/account/addMinor/${username}/?auth_token=${auth_token}`
+      url = `http://localhost:3000/account/addMinor/${username}/${auth_token}`
     }
     else {
-      url = `http://localhost:3000/account/addMajor/${username}/?auth_token=${auth_token}`
+      url = `http://localhost:3000/account/addMajor/${username}/${auth_token}`
     }
     setLoading(true)
     const options = {
@@ -68,7 +67,7 @@ const useAccount = ()=>{
   const getMajorAccounts = async()=>{
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
-    const url = `http://localhost:3000/account/getMajorAccounts/${username}/?auth_token=${auth_token}`
+    const url = `http://localhost:3000/account/getMajorAccounts/${username}/${auth_token}`
     try {
       const res = await api.get(url)
       switch (true) {
@@ -88,7 +87,7 @@ const useAccount = ()=>{
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
     setLoading(true)
-    const url = `http://localhost:3000/account/getAccounts/${username}/?auth_token=${auth_token}&&accountName=${accountName}`
+    const url = `http://localhost:3000/account/getAccounts/${username}/${auth_token}/?accountName=${accountName}`
     try {
       const res = await api.get(url);
       switch (true) {

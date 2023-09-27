@@ -31,10 +31,10 @@ const setAuth = async(username, token) =>{
   }
 }
 
-const checkAuth = async(auth_token)=>{
-  const query = "SELECT * FROM users WHERE auth_token=$1";
+const checkAuth = async(username, auth_token)=>{
+  const query = "SELECT * FROM users WHERE username=$1 AND auth_token=$2";
   try {
-    const res = await pool.query(query, [auth_token]);
+    const res = await pool.query(query, [username, auth_token]);
     return res
   } catch (error) {
     return null;
