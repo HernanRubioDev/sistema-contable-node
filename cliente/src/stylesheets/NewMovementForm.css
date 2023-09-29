@@ -1,0 +1,5 @@
+.move-table-container{
+ height: 9rem;
+ max-height: 9rem;
+ overflow-y: auto;
+}

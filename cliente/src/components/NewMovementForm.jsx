@@ -1,16 +1,36 @@
 import { NavLink } from "react-router-dom";
 import OpenMenuButton from "./OpenMenuButton";
+import MovementTableRow from "./MovementTableRow";
+import '../stylesheets/NewMovementForm.css';
+import useForm from "../hooks/useForm";
+import { useState } from "react";
 
 const NewMovementForm = ({menu, setMenu})=>{
+
+  const today = new Date();
+  const actualDate = today.toISOString().slice(0, 10);
+
   const handleClick = ()=>{
     setMenu('search')
   }
+
+  const initialForm = {
+    date:actualDate,
+    moveNum:'',
+    description:'',
+    account:'',
+    amount:'',
+    type:'debe',
+  }
+
+  const {form, handleChange} = useForm(initialForm)
+
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
 
       <OpenMenuButton />
 
-      <div className="d-flex flex-column justify-content-between align-items-center pt-3">
+      <div className="d-flex flex-column justify-content-between align-items-center mt-2">
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/back-arrow.svg" /> Volver</button>
         <h5 className="text-secondary align-self-start ms-4">Asientos</h5>
       </div>
@@ -23,17 +43,17 @@ const NewMovementForm = ({menu, setMenu})=>{
             <div className="d-flex flex-column flex-grow-1 me-4">
               <div className="d-flex flex-column">
                 <label>Fecha</label>
-                <input className="form-control" type="date" />
+                <input onChange={(e)=>handleChange(e)} className="form-control" type="date" max={actualDate} name="date" value={form.date}/>
               </div>
               <div className="d-flex flex-column mt-2">
                 <label>N° Asiento</label>
-                <input className="form-control" type="text" readOnly disabled/>
+                <input className="form-control" type="text" readOnly disabled name="moveNum" value={form.moveNum}/>
               </div>
             </div>
             <div className="d-flex flex-grow-1 ms-2 mt-2 mt-lg-0">
               <div className="d-flex flex-column flex-grow-1">
                 <label>Descripción</label>
-                <textarea className="form-control h-100 resize-none" />
+                <textarea onChange={(e)=>handleChange(e)} className="form-control h-100 resize-none" name="description" value={form.description}/>
               </div>
             </div> 
           </div>
@@ -42,8 +62,9 @@ const NewMovementForm = ({menu, setMenu})=>{
 
             <div className="d-flex flex-column col-12 col-lg-6 me-2 ">
               <label>Cuenta</label>
-              <select className="form-select">
-                <option>Banco Rio</option>
+              <select onChange={(e)=>handleChange(e)} className="form-select" name="account" value={form.account}>
+                <option value="Banco Rio" >Banco Rio</option>
+                <option value="Banco Nacion" >Banco Nacion</option>
               </select>
             </div>
 
@@ -62,27 +83,29 @@ const NewMovementForm = ({menu, setMenu})=>{
             <div className="d-flex col-12 col-lg-6 me-2">
               <div className="d-flex flex-grow-1 flex-column">
                 <label>Monto</label>
-                <input type="numer" className="form-control"/>
+                <input onChange={(e)=>handleChange(e)} type="numer" className="form-control" name="ammount" value={form.ammount}/>
               </div>
             </div>
             <div className="d-flex flex-grow-1 ms-4">
               <div className="d-flex justify-content-center align-items-center mt-2 mt-lg-0 flex-grow-1">
                 <div className="me-4">
                   <label>Debe</label>
-                  <input type="radio" className="ms-2 form-check-input"/>
+                  <input onChange={(e)=>handleChange(e)} type="radio" className="ms-2 form-check-input" name="type" value="debe" defaultChecked={true}/>
                 </div>
                 <div className="ms-4">
                   <label>Haber</label>
-                  <input type="radio" className=" ms-2 form-check-input"/>
+                  <input onChange={(e)=>handleChange(e)}  type="radio" className=" ms-2 form-check-input" name="type" value="haber"/>
                 </div>
               </div>
             </div>
           </div>
-          <div className="d-flex flex-grow-1 mt-3">
-            <button className="btn btn-success w-25">Agregar</button>
+          <div className="d-flex justify-content-center justify-content-lg-evenly col-6 my-2">
+            <button className="btn btn-secondary col-5">Agregar</button>
+            <button className="btn btn-success col-5">Registrar</button>
           </div>
-            <table className="table table-striped mt-1">
-              <thead>
+          <div className="move-table-container">
+            <table className="table table-bordered table-striped mt-1">
+              <thead className="sticky-top">
                 <tr>
                   <th scope="col">Cuenta</th>
                   <th scope="col">Debe</th>
@@ -90,7 +113,12 @@ const NewMovementForm = ({menu, setMenu})=>{
                   <th scope="col">Acción</th>
                 </tr>
               </thead>
+              <tbody>
+                <MovementTableRow />
+
+              </tbody>
             </table> 
+          </div>
         </form>
       </div>
 
