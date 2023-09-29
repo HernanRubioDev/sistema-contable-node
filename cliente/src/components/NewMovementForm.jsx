@@ -19,26 +19,29 @@ const NewMovementForm = ({menu, setMenu})=>{
     moveNum:'',
     description:'',
     account:'',
-    amount:'',
+    ammount:'',
     type:'debe',
   }
 
   const {form, handleChange} = useForm(initialForm)
+  const [rows, setRows] = useState([]);
+
+  const addRow = (form)=>{
+    setRows([...rows, form])
+  }
 
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
 
       <OpenMenuButton />
 
-      <div className="d-flex flex-column justify-content-between align-items-center mt-2">
+      <div className="d-flex flex-column justify-content-between align-items-center my-3">
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/back-arrow.svg" /> Volver</button>
-        <h5 className="text-secondary align-self-start ms-4">Asientos</h5>
       </div>
       
       <div className="d-flex flex-column bg-white shadow-sm mx-3">
         <h3 className="fs-5 text-secondary text-center ms-3 mt-2">Registrar Asiento</h3>
         <form className="d-flex flex-column mb-3 mx-3">
-
           <div className="d-flex flex-wrap">
             <div className="d-flex flex-column flex-grow-1 me-4">
               <div className="d-flex flex-column">
@@ -83,7 +86,7 @@ const NewMovementForm = ({menu, setMenu})=>{
             <div className="d-flex col-12 col-lg-6 me-2">
               <div className="d-flex flex-grow-1 flex-column">
                 <label>Monto</label>
-                <input onChange={(e)=>handleChange(e)} type="numer" className="form-control" name="ammount" value={form.ammount}/>
+                <input onChange={(e)=>handleChange(e)} type="number" className="form-control" name="ammount" value={form.ammount} min={0}/>
               </div>
             </div>
             <div className="d-flex flex-grow-1 ms-4">
@@ -100,8 +103,8 @@ const NewMovementForm = ({menu, setMenu})=>{
             </div>
           </div>
           <div className="d-flex justify-content-center justify-content-lg-evenly col-6 my-2">
-            <button className="btn btn-secondary col-5">Agregar</button>
-            <button className="btn btn-success col-5">Registrar</button>
+            <button onClick={()=>addRow(form)} type="button" className="btn btn-secondary col-5">Agregar</button>
+            <button type="button" className="btn btn-success col-5">Registrar</button>
           </div>
           <div className="move-table-container">
             <table className="table table-bordered table-striped mt-1">
@@ -114,8 +117,7 @@ const NewMovementForm = ({menu, setMenu})=>{
                 </tr>
               </thead>
               <tbody>
-                <MovementTableRow />
-
+                {rows.map(row => <MovementTableRow row={row}/>)}
               </tbody>
             </table> 
           </div>

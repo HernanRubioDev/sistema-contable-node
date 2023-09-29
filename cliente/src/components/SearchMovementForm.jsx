@@ -25,9 +25,8 @@ const SearchMovementForm = ({menu, setMenu})=>{
 
       <OpenMenuButton />
 
-      <div className="d-flex flex-column justify-content-between align-items-center pt-3">
+      <div className="d-flex flex-column justify-content-between align-items-center mt-3">
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/add.svg" />Agregar</button>
-        <h5 className="text-secondary align-self-start ms-4">Asientos</h5>
       </div>
 
       <div className="bg-white mx-3 my-3 shadow-sm">
