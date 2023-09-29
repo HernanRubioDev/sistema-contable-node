@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../stylesheets/login.css';
+import '../stylesheets/Login.css';
 
 import { NavLink } from "react-router-dom";
 import Loader from './Loader';
