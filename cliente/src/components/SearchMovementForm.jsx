@@ -1,21 +1,23 @@
 import useForm from "../hooks/useForm";
 import { useState } from "react";
 import OpenMenuButton from "./OpenMenuButton";
-
+import MovementDetailsRow from "./MovementDetailsRow";
 const SearchMovementForm = ({menu, setMenu})=>{
-  
   const initialForm = {
     dateFrom:'',
     dateTo:''
   }
 
-  
   const handleClick = ()=>{
     setMenu("add")
   }
 
   const handleReset = ()=>{
     setDate(initialForm)
+  }
+
+  const openDetailsModal = ()=>{
+    
   }
 
   const {form, handleChange} = useForm(initialForm);
@@ -29,7 +31,7 @@ const SearchMovementForm = ({menu, setMenu})=>{
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/add.svg" />Agregar</button>
       </div>
 
-      <div className="bg-white mx-3 my-3 shadow-sm">
+      <div className="bg-white mx-3 my-3 shadow">
         <h3 className="fs-5 text-secondary text-center ms-3 mt-2">Buscar Asiento</h3>
         <form className="d-flex flex-wrap align-items-center ms-3 my-3">
           <div className="d-flex flex-column me-3">
@@ -54,16 +56,7 @@ const SearchMovementForm = ({menu, setMenu})=>{
               </tr>
             </thead>
             <tbody >
-              <tr>
-                <td>04/10/2020</td>
-                <td>1234</td>
-                <td>Venta a crédito</td>
-                <td>
-                  <button className="bg-transparent border-0">
-                    <img src="icons/see-more.svg"/>
-                  </button>
-                </td>
-              </tr>
+              <MovementDetailsRow />
             </tbody>
           </table>
         </div>

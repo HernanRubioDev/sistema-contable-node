@@ -4,6 +4,7 @@ import Menu from "../components/Menu";
 import { useContext, useEffect, useState } from "react";
 import sessionContext from "../context/UserContext";
 import MovementsMenuWrapper from "../components/MovementMenuWrapper";
+import MovementDetailsModal from "../components/MovementDetailsModal";
 
 const Movements = ()=>{
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Movements = ()=>{
       <Header />
       <Menu />
       <MovementsMenuWrapper menu={menu} setMenu={setMenu}/>
+      <MovementDetailsModal />
     </div>
   );
 }

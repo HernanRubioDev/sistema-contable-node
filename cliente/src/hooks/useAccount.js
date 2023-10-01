@@ -11,6 +11,7 @@ const useAccount = ()=>{
   const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
 
+
   const createAccount = async(form)=>{
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     const username = localStorage.getItem("username")
