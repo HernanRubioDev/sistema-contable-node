@@ -4,7 +4,7 @@ import '../stylesheets/SearchAccountForm.css';
 import AccountTableRow from "./AccountTableRow";
 import Loader from "./Loader";
 
-const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName})=>{
+const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAccountToEdit})=>{
 
   const handleClick = ()=>{
     setMenu("add")
@@ -27,12 +27,12 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName})=>{
           <div className="me-4">
             <input onChange={(e)=>handleChange(e)} className="form-control" type="text" placeholder="Buscar por nombre" name="name" value={form.name} autoComplete="off"/>
           </div>
-          {loading ? <Loader />
-          :
           <button onClick={()=>getAccountByName(form.name)} type="button" className="btn btn-success pe-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
-          }
         </form>
-        <div className="mx-3 table-container">
+        <div className="mx-3 table-container d-flex justify-content-center">
+          {loading ?
+          <Loader />
+        :
           <table className="table table-striped">
             <thead className="sticky-top">
               <tr>
@@ -45,9 +45,10 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName})=>{
               </tr>
             </thead>
             <tbody >
-              {Object.keys(accounts).length ? accounts.map(account => <AccountTableRow key={account.id_account} data={account}/>) : <tr><td colSpan='6' className="text-center">Sin Datos</td></tr>}
+              {Object.keys(accounts).length ? accounts.map(account => <AccountTableRow key={account.id_account} data={account} setAccountToEdit={setAccountToEdit}/>) : <tr><td colSpan='6' className="text-center">Sin Datos</td></tr>}
             </tbody>
           </table>
+          }
         </div>
       </div>
     </div>

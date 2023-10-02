@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName} = require("../controllers/accountController");
+const {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount} = require("../controllers/accountController");
 const {MajorAccountsMiddleware} = require("../middlewares/MajorAccountsMiddleware");
 const {authMiddleware} = require("../middlewares/authMiddleware")
 
@@ -15,6 +15,9 @@ accountRouter.get("/getMajorAccounts/:username/:auth_token", authMiddleware, sea
 
 
 accountRouter.get("/getAccounts/:username/:auth_token", authMiddleware, searchAccountByName)
+
+
+accountRouter.patch("/editAccount/:username/:auth_token", authMiddleware, editAccount)
 
 
 module.exports = accountRouter;

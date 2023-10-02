@@ -1,4 +1,4 @@
-const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName} = require("../models/accountModel");
+const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName} = require("../models/accountModel");
 const {getUserByUsername} = require("../models/userModel");
 
 const addMajorAccount = async(req, res)=>{
@@ -30,6 +30,7 @@ const addMajorAccount = async(req, res)=>{
 
   //BUSCO LA EL CODIGO DE LA ULTIMA CUENTA MAYOR O LO CREO
   try {
+    
     const account = await getLastMajorAccount(id_company, newAccount.type);
     switch (true) {
       case account.rowCount !== 0:
@@ -203,4 +204,24 @@ const searchAccountByName = async (req, res)=>{
   }
 }
 
-module.exports = {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName}
+const editAccount = async(req, res)=>{
+  const {name, id_account} = req.body
+  
+  try {
+    const response = await patchAccoutName(id_account, name);
+
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({"status":200})
+        break;
+    
+      default:
+        res.json({"status":500});
+        break;
+    }
+  } catch (error) {
+    res.json({"status":500});
+  }
+}
+
+module.exports = {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount}

@@ -17,7 +17,6 @@ const useAccount = ()=>{
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
     let url;
-
     if(form.recivesCredit === "true"){
       url = `http://localhost:3000/account/addMinor/${username}/${auth_token}`
     }
@@ -105,6 +104,59 @@ const useAccount = ()=>{
     setLoading(false)
   }
 
-  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName}
+  const editAccount = async (account)=>{
+    const username = localStorage.getItem("username")
+    const auth_token = localStorage.getItem("auth_token")
+    const editUrl = `http://localhost:3000/account/editAccount/${username}/${auth_token}`
+    
+    const options = {
+      body: account,
+      headers:{
+        "content-type":"application/json",
+      }
+    }
+
+    try {
+      setLoading(true)
+      const res =  await api.patch(editUrl, options);
+      switch (true) {
+        case res.status === 200:
+          updateAccountsEdited(account)
+          setResponse({status:res.status, title:"Editado", body:"El nombre de la cuenta fue modificado.", success: true})
+          infoToast.show()
+          break;
+
+        case res.status === 401:
+          setResponse({title:"Error", body:"Este usuario no está autorizado. Será redirigido al Login.", success: false})
+          alertModal.show();
+          setTimeout(() => {
+            logOutUser()
+            alertModal.hide()
+          }, 2000);
+          break
+
+        case res.status === 500:
+          setResponse({title:"Error", body:"No se ha podido editar la cuenta", success: false})
+          infoToast.show()
+          break;
+      
+        default:
+          setResponse({title:"Error", body:"No se ha podido editar la cuenta", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+        setResponse({title:"Error", body:"No se ha podido editar la cuenta", success: false})
+        infoToast.show()
+    }
+    setLoading(false)
+  }
+
+  const updateAccountsEdited = (accountEdited)=>{
+    const newAccounts = accounts.map(acc => acc.id_account !== accountEdited.id_account ? acc : accountEdited)
+    setAccounts(newAccounts)
+  }
+
+  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName, editAccount}
 }
 export default useAccount

@@ -3,7 +3,7 @@ const InfoToast = ({response})=>{
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="infoToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div className="toast-header">
-          {response && response.status === 201 ? 
+          {response && response.success === true ? 
           <img src="icons/correct-check.svg" className="rounded me-2" /> 
           :
           <img src="icons/error-check.svg" className="rounded me-2" /> 

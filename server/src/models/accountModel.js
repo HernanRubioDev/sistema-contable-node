@@ -53,5 +53,15 @@ const getAccountByName = async(id_company, accountName)=>{
   }
 }
 
-module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName}
+const patchAccoutName = async(id_account, name)=>{
+  const query = "UPDATE accounts SET name=$1 WHERE id_account=$2";
+  try {
+    const res = await pool.query(query,[name, id_account])
+    return res
+  } catch (error) {
+    return null
+  }
+}
+
+module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName}
 

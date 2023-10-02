@@ -1,7 +1,8 @@
-const AccountTableRow = ({data})=>{
-  const {name,  credit, code, date_creation} = data;
+const AccountTableRow = ({data, setAccountToEdit})=>{
+  let {name,  credit, get_credit ,code, date_creation} = data;
   let type;
   switch (true) {
+
     case code[0] === '1':
       type = "Activo"
       break;
@@ -25,18 +26,19 @@ const AccountTableRow = ({data})=>{
     default:
       break;
   }
+
   return(
   <tr>
     <td>{name}</td>
     <td>{type}</td>
-    <td>${credit}</td>
+    <td>{get_credit ? `$ ${credit}` : '-'}</td>
     <td>{date_creation}</td>
     <td>{code}</td>
     <td>
       <button className="bg-transparent border-0">
         <img className="me-1" src="icons/delete.svg"/>
       </button>
-      <button className="bg-transparent border-0">
+      <button onClick={()=>setAccountToEdit(data)} className="bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#editAccount">
           <img className="ms-1" src="icons/edit.svg"/>
       </button>
     </td>
