@@ -63,5 +63,15 @@ const patchAccoutName = async(id_account, name)=>{
   }
 }
 
-module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName}
+const deleteAccount = async(id_account)=>{
+  const query = "DELETE FROM accounts WHERE id_account=$1";
+  try {
+    const res = pool.query(query,[id_account])
+    return res;
+  } catch (error) {
+    return null;
+  }
+}
+
+module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName, deleteAccount}
 

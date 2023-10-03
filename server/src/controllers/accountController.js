@@ -1,4 +1,4 @@
-const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName} = require("../models/accountModel");
+const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName, deleteAccount} = require("../models/accountModel");
 const {getUserByUsername} = require("../models/userModel");
 
 const addMajorAccount = async(req, res)=>{
@@ -224,4 +224,23 @@ const editAccount = async(req, res)=>{
   }
 }
 
-module.exports = {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount}
+const removeAccount = async(req, res)=>{
+  const {id_account} = req.body;
+  try {
+    const response = await deleteAccount(id_account);
+
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({"status":200})
+        break;
+    
+      default:
+        res.json({"status":500})
+        break;
+    }
+  } catch (error) {
+    res.json({"status":500});
+  }
+}
+
+module.exports = {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount, removeAccount}

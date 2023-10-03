@@ -34,7 +34,7 @@ const useAccount = ()=>{
       const res = await api.post(url, options);
       switch (true) {
         case res.status === 201:
-          setResponse({status:res.status, title:"Creada", body:"La cuenta se creó correctamente."})
+          setResponse({status:res.status, title:"Creada", body:"La cuenta se creó correctamente.", success: true})
           infoToast.show();
           break;
     
@@ -152,11 +152,69 @@ const useAccount = ()=>{
     setLoading(false)
   }
 
+  const deleteAccount = async(account)=>{
+    const username = localStorage.getItem("username")
+    const auth_token = localStorage.getItem("auth_token")
+    const deleteUrl = `http://localhost:3000/account/deleteAccount/${username}/${auth_token}`
+    
+    const options = {
+      body: account,
+      headers:{
+        "content-type":"application/json",
+      }
+    }
+
+    try {
+      setLoading(true)
+      const res =  await api.remove(deleteUrl, options);
+      switch (true) {
+        case res.status === 200:
+          updateAccountsDeleted(account)
+          setResponse({status:res.status, title:"Eliminada", body:"La cuenta ha sido eliminada", success: true})
+          infoToast.show()
+          break;
+
+        case res.status === 400:
+          setResponse({title:"Error", body:"No se puede eliminar esta cuenta ya que posee movimientos o cuentas asociadas.", success: false})
+          infoToast.show();
+          break;
+
+        case res.status === 401:
+          setResponse({title:"Error", body:"Este usuario no está autorizado. Será redirigido al Login.", success: false})
+          alertModal.show();
+          setTimeout(() => {
+            logOutUser()
+            alertModal.hide()
+          }, 2000);
+          break
+
+        case res.status === 500:
+          setResponse({title:"Error", body:"No se ha podido eliminar la cuenta", success: false})
+          infoToast.show()
+          break;
+      
+        default:
+          setResponse({title:"Error", body:"No se ha podido eliminar la cuenta", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+        setResponse({title:"Error", body:"No se ha podido eliminar la cuenta", success: false})
+        infoToast.show()
+    }
+    setLoading(false)
+  }
+
   const updateAccountsEdited = (accountEdited)=>{
     const newAccounts = accounts.map(acc => acc.id_account !== accountEdited.id_account ? acc : accountEdited)
     setAccounts(newAccounts)
   }
 
-  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName, editAccount}
+  const updateAccountsDeleted = (accountDeleted)=>{
+    const newAccounts = accounts.filter(acc => acc.id_account !== accountDeleted.id_account)
+    setAccounts(newAccounts)
+  }
+
+  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount}
 }
 export default useAccount

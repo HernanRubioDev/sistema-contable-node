@@ -4,7 +4,7 @@ import '../stylesheets/SearchAccountForm.css';
 import AccountTableRow from "./AccountTableRow";
 import Loader from "./Loader";
 
-const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAccountToEdit})=>{
+const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAccountToEdit, setAccountToDelete})=>{
 
   const handleClick = ()=>{
     setMenu("add")
@@ -45,7 +45,7 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAcc
               </tr>
             </thead>
             <tbody >
-              {Object.keys(accounts).length ? accounts.map(account => <AccountTableRow key={account.id_account} data={account} setAccountToEdit={setAccountToEdit}/>) : <tr><td colSpan='6' className="text-center">Sin Datos</td></tr>}
+              {Object.keys(accounts).length ? accounts.map(account => <AccountTableRow key={account.id_account} data={account} setAccountToEdit={setAccountToEdit} setAccountToDelete={setAccountToDelete}/>) : <tr><td colSpan='6' className="text-center">Sin Datos</td></tr>}
             </tbody>
           </table>
           }

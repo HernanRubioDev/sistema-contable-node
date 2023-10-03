@@ -1,4 +1,4 @@
-const AccountTableRow = ({data, setAccountToEdit})=>{
+const AccountTableRow = ({data, setAccountToEdit, setAccountToDelete})=>{
   let {name,  credit, get_credit ,code, date_creation} = data;
   let type;
   switch (true) {
@@ -35,7 +35,7 @@ const AccountTableRow = ({data, setAccountToEdit})=>{
     <td>{date_creation}</td>
     <td>{code}</td>
     <td>
-      <button className="bg-transparent border-0">
+      <button onClick={()=>setAccountToDelete(data)} className="bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#ConfirmModal">
         <img className="me-1" src="icons/delete.svg"/>
       </button>
       <button onClick={()=>setAccountToEdit(data)} className="bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#editAccount">
