@@ -43,6 +43,16 @@ const getMajorsAccounts = async(id_company)=>{
   }
 }
 
+const getMinorAccounts = async(id_company) =>{
+  const query = `SELECT * FROM accounts WHERE code NOT LIKE '%00' AND id_company=$1`;
+  try {
+    const res = await pool.query(query, [id_company]);
+    return res
+  } catch (error) {
+    return null
+  }
+}
+
 const getAccountByName = async(id_company, accountName)=>{
   const query = `SELECT * FROM accounts WHERE name LIKE '${accountName}%' AND id_company=$1`;
   try {
@@ -73,5 +83,5 @@ const deleteAccount = async(id_account)=>{
   }
 }
 
-module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName, deleteAccount}
+module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getMinorAccounts, getAccountByName, patchAccoutName, deleteAccount}
 

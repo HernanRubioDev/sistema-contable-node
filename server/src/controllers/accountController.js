@@ -1,4 +1,4 @@
-const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getAccountByName, patchAccoutName, deleteAccount} = require("../models/accountModel");
+const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getMinorAccounts, getAccountByName, patchAccoutName, deleteAccount} = require("../models/accountModel");
 const {getUserByUsername} = require("../models/userModel");
 
 const addMajorAccount = async(req, res)=>{
@@ -167,6 +167,41 @@ const searchMajorAccounts = async (req, res)=>{
   }
 }
 
+const searchMinorAccounts = async(req, res) =>{
+  let id_company;
+  const username = req.params.username
+  try {
+    const user = await getUserByUsername(username)
+    switch (true) {
+      case user.rowCount !== 0:
+        id_company = user.rows[0].id_company;
+        break;
+    
+      default:
+        res.json({"status":400})
+        break;
+    }
+
+  } catch (error) {
+    res.json({"status":500})
+  }
+
+  try {
+    const accounts = await getMinorAccounts(id_company);
+    switch (true) {
+      case accounts.rowCount !== 0:
+        res.json({"status":200, "accounts":accounts.rows})
+        break;
+
+      default:
+        res.json({"status":404})
+        break;
+    }
+  } catch (error) {
+    res.json({"status":500})
+  }
+}
+
 const searchAccountByName = async (req, res)=>{
   let idUser;
   const accountName = req.query.accountName;
@@ -243,4 +278,4 @@ const removeAccount = async(req, res)=>{
   }
 }
 
-module.exports = {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount, removeAccount}
+module.exports = {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount, removeAccount, searchMinorAccounts}

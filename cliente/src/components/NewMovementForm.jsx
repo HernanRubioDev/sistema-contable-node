@@ -3,9 +3,14 @@ import OpenMenuButton from "./OpenMenuButton";
 import MovementTableRow from "./MovementTableRow";
 import '../stylesheets/NewMovementForm.css';
 import useForm from "../hooks/useForm";
-import { useState } from "react";
+import { useEffect, useId, useState } from "react";
+import Loader from "./Loader";
 
-const NewMovementForm = ({menu, setMenu})=>{
+const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovements, loading})=>{
+  
+  useEffect(()=>{
+    getMinorAccounts()
+  },[])
 
   const today = new Date();
   const actualDate = today.toISOString().slice(0, 10);
@@ -20,7 +25,7 @@ const NewMovementForm = ({menu, setMenu})=>{
     description:'',
     account:'',
     ammount:'',
-    type:'debe',
+    type:'debe'
   }
 
   const {form, handleChange} = useForm(initialForm)
@@ -66,8 +71,7 @@ const NewMovementForm = ({menu, setMenu})=>{
             <div className="d-flex flex-column col-12 col-lg-6 me-2 ">
               <label>Cuenta</label>
               <select onChange={(e)=>handleChange(e)} className="form-select" name="account" value={form.account}>
-                <option value="Banco Rio" >Banco Rio</option>
-                <option value="Banco Nacion" >Banco Nacion</option>
+                { accounts && accounts.map(acc => <option key={acc.id_account} value={acc.account}>{acc.name}</option>) }
               </select>
             </div>
 
@@ -104,9 +108,12 @@ const NewMovementForm = ({menu, setMenu})=>{
           </div>
           <div className="d-flex justify-content-center justify-content-evenly col-6 my-2">
             <button onClick={()=>addRow(form)} type="button" className="btn btn-secondary col-5">Agregar</button>
-            <button type="button" className="btn btn-success col-5">Registrar</button>
+            <button onClick={()=>addMovements(rows)} type="button" className="btn btn-success col-5">Registrar</button>
           </div>
-          <div className="move-table-container">
+          <div className={`${loading ? '' : 'move-table-container'}  d-flex justify-content-center`}>
+            {loading ? 
+            <Loader /> 
+            : 
             <table className="table table-bordered table-striped mt-1">
               <thead className="sticky-top">
                 <tr>
@@ -117,9 +124,10 @@ const NewMovementForm = ({menu, setMenu})=>{
                 </tr>
               </thead>
               <tbody>
-                {rows.map(row => <MovementTableRow row={row}/>)}
+                {rows.map((row, index) => <MovementTableRow key={index}  row={row}/>)}
               </tbody>
             </table> 
+            }
           </div>
         </form>
       </div>

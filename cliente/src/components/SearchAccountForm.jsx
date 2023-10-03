@@ -21,8 +21,9 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAcc
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/add.svg" />Agregar</button>
         <h5 className="text-secondary align-self-start ms-4">Cuentas</h5>
       </div>
+
       <div className="bg-white mx-3 my-3 shadow">
-      <h3 className="fs-5 text-secondary text-center ms-3 mt-2">Buscar Cuenta</h3>
+        <h3 className="fs-5 text-secondary text-center ms-3 mt-2">Buscar Cuenta</h3>
         <form className="d-flex align-items-center ms-3 my-3">
           <div className="me-4">
             <input onChange={(e)=>handleChange(e)} className="form-control" type="text" placeholder="Buscar por nombre" name="name" value={form.name} autoComplete="off"/>

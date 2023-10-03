@@ -5,6 +5,9 @@ import { useContext, useEffect, useState } from "react";
 import sessionContext from "../context/UserContext";
 import MovementsMenuWrapper from "../components/MovementMenuWrapper";
 import MovementDetailsModal from "../components/MovementDetailsModal";
+import useAccount from "../hooks/useAccount";
+import useMovement from "../hooks/useMovement";
+import InfoToast from "../components/InfoToast";
 
 const Movements = ()=>{
   const navigate = useNavigate();
@@ -15,13 +18,15 @@ const Movements = ()=>{
 
   
   const [menu, setMenu] = useState('search');
-
+  const {getMinorAccounts, accounts} = useAccount();
+  const {loading, errors, response ,addMovements} = useMovement();
   return(
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <MovementsMenuWrapper menu={menu} setMenu={setMenu}/>
+      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} setMenu={setMenu} getMinorAccounts={getMinorAccounts} addMovements={addMovements}/>
       <MovementDetailsModal />
+      <InfoToast response={response}/>
     </div>
   );
 }

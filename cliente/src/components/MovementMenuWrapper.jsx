@@ -1,10 +1,10 @@
 import NewMovementForm from "./NewMovementForm";
 import SearchMovementForm from "./SearchMovementForm";
 
-const MovementsMenuWrapper = ({setMenu, menu})=>{
+const MovementsMenuWrapper = ({menu, accounts, setMenu, getMinorAccounts, addMovements, loading})=>{
   switch (menu) {
     case 'add':
-      return <NewMovementForm menu={menu} setMenu={setMenu} />
+      return <NewMovementForm menu={menu} loading={loading} setMenu={setMenu} getMinorAccounts={getMinorAccounts} accounts={accounts} addMovements={addMovements}/>
 
 
     case 'search':

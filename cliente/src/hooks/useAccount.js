@@ -83,6 +83,25 @@ const useAccount = ()=>{
     }
   }
 
+  const getMinorAccounts = async()=>{
+    const username = localStorage.getItem("username")
+    const auth_token = localStorage.getItem("auth_token")
+    const minorAccountsUrl = `http://localhost:3000/account/getMinorAccounts/${username}/${auth_token}`
+    try {
+      const res = await api.get(minorAccountsUrl)
+      switch (true) {
+        case res.status === 200:
+          setAccounts(res.accounts)
+          break;
+      
+        default:
+          break;
+      }
+    } catch (error) {
+      
+    }
+  }
+
   const getAccountByName = async(accountName)=>{
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
@@ -215,6 +234,6 @@ const useAccount = ()=>{
     setAccounts(newAccounts)
   }
 
-  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount}
+  return {loading, errors, response, accounts, createAccount, getMajorAccounts, getMinorAccounts, getAccountByName, editAccount, deleteAccount}
 }
 export default useAccount
