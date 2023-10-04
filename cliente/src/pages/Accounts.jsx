@@ -21,12 +21,12 @@ const Accounts = ()=>{
   const [accountToEdit, setAccountToEdit] = useState(null);
   const [accountToDeletem, setAccountToDelete] = useState(null);
 
-  const {loading, errors, response, accounts, createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount} = useAccount();
+  const {loading, errors, response, accounts, setAccounts, createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount} = useAccount();
   return(
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} errors={errors} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts} getAccountByName={getAccountByName} setAccountToEdit={setAccountToEdit} setAccountToDelete={setAccountToDelete}/>
+      <AccoutMenuWrapper menu={menu} loading={loading} accounts={accounts} errors={errors} setAccounts={setAccounts} setMenu={setMenu} createAccount={createAccount} getMajorAccounts={getMajorAccounts} getAccountByName={getAccountByName} setAccountToEdit={setAccountToEdit} setAccountToDelete={setAccountToDelete}/>
       <InfoToast response={response}/>
       <AlertModal response={response} />
       <EditAccountModal accountToEdit={accountToEdit} setAccountToEdit={setAccountToEdit} editAccount={editAccount}/>

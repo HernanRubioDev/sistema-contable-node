@@ -11,7 +11,7 @@ const EditAccountModal = ({accountToEdit, setAccountToEdit, editAccount})=>{
 
 
   return(
-    <div className="modal fade" id="editAccount" tabIndex="-1" aria-labelledby="editAccountLabel" aria-hidden="true">
+    <div className="modal fade overflow-hidden" id="editAccount" tabIndex="-1" aria-labelledby="editAccountLabel" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered modal">
         <div className="modal-content">
           <div className="modal-header">

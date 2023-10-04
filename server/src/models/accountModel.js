@@ -2,7 +2,6 @@ const {pool} = require("../../db");
 
 const setAccount = async(idUser, newAccount)=>{
   const {name, recivesCredit, credit, code, date_creation, id_company} = newAccount
-  console.log(id_company)
   const query = "INSERT INTO accounts (name, get_credit, credit, id_user, code, date_creation, id_company) VALUES ($1, $2, $3, $4, $5, $6, $7)";
   try {
     const res = await pool.query(query, [name, recivesCredit, credit, idUser, code, date_creation, id_company])
@@ -54,7 +53,7 @@ const getMinorAccounts = async(id_company) =>{
 }
 
 const getAccountByName = async(id_company, accountName)=>{
-  const query = `SELECT * FROM accounts WHERE name LIKE '${accountName}%' AND id_company=$1`;
+  const query = `SELECT * FROM accounts WHERE name LIKE '${accountName}%' AND id_company=$1 ORDER BY code ASC`;
   try {
     const res = await pool.query(query,[id_company]);
     return res;

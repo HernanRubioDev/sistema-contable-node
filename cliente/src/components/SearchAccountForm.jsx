@@ -3,9 +3,12 @@ import OpenMenuButton from "./OpenMenuButton";
 import '../stylesheets/SearchAccountForm.css';
 import AccountTableRow from "./AccountTableRow";
 import Loader from "./Loader";
+import { useEffect } from "react";
 
-const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAccountToEdit, setAccountToDelete})=>{
+const SearchAccountForm = ({accounts, loading, setMenu, setAccounts, getAccountByName, setAccountToEdit, setAccountToDelete})=>{
 
+  useEffect(()=>setAccounts([]),[])
+  
   const handleClick = ()=>{
     setMenu("add")
   }
@@ -13,7 +16,9 @@ const SearchAccountForm = ({accounts, loading, setMenu, getAccountByName, setAcc
   const initialForm = {
     name:""
   }
+  
   const {form, handleChange} = useForm(initialForm);
+
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
       <OpenMenuButton />

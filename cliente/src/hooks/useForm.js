@@ -15,6 +15,6 @@ const useUser = (initialForm)=>{
     e.preventDefault();
   }
 
-  return {form, errors, setErrors, handleChange, handleLogin}
+  return {form, errors, setErrors, setForm, handleChange, handleLogin}
 }
 export default useUser;

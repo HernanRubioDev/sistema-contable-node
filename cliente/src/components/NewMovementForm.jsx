@@ -12,6 +12,10 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
     getMinorAccounts()
   },[])
 
+  useEffect(()=>{
+    if(accounts.length !== 0) form.account = accounts[0].name
+  },[accounts])
+
   const today = new Date();
   const actualDate = today.toISOString().slice(0, 10);
 

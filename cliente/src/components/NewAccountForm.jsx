@@ -16,7 +16,7 @@ const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getM
     credit: ''
   }
 
-  const {form, handleChange} = useForm(initialForm);
+  const {form, handleChange, setForm} = useForm(initialForm);
 
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
@@ -47,7 +47,7 @@ const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getM
                     Si
                   </label>
                   <label>
-                    <input onChange={(e)=>handleChange(e)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true}/>
+                    <input  onClick={()=>setForm(initialForm)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true}/>
                     No
                   </label>
               </div>
