@@ -35,6 +35,11 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
     setRows([...rows, form])
   }
 
+  const deleteRow = (row)=>{
+    const newRows = rows.filter(el => el != row);
+    setRows(newRows)
+  }
+
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
 
@@ -110,7 +115,7 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
             <button onClick={()=>addRow(form)} type="button" className="btn btn-secondary col-5">Agregar</button>
             <button onClick={()=>addMovements(rows)} type="button" className="btn btn-success col-5">Registrar</button>
           </div>
-          <div className={`${loading ? '' : 'move-table-container'}  d-flex justify-content-center`}>
+          <div className={`${loading ? 'd-flex justify-content-center' : 'move-table-container'}`}>
             {loading ? 
             <Loader /> 
             : 
@@ -124,7 +129,7 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, index) => <MovementTableRow key={index}  row={row}/>)}
+                {rows.map((row, index) => <MovementTableRow key={index}  row={row} deleteRow={deleteRow}/>)}
               </tbody>
             </table> 
             }

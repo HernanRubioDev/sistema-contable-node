@@ -5,3 +5,7 @@
 .resize-none{
   resize: none;
 }
+
+.cursor-pointer{
+  cursor: pointer;
+}

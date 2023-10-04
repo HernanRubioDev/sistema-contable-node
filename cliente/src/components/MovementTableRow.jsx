@@ -1,4 +1,4 @@
-const MovementTableRow = ({row})=>{
+const MovementTableRow = ({row, deleteRow})=>{
   const {date, moveNum, description, account, ammount, type} = row
     return(
         <tr>
@@ -6,8 +6,8 @@ const MovementTableRow = ({row})=>{
         <td>{type==="debe" ? ammount : ''}</td>
         <td className="text-end">{type==="haber" ? ammount : ''}</td>
         <td>
-          <img src="icons/delete.svg" />
-          <img src="icons/edit.svg" />
+          <img onClick={()=>deleteRow(row)} className="cursor-pointer" src="icons/delete.svg" />
+          {/*<img className="cursor-pointer" src="icons/edit.svg" />*/}
         </td>
       </tr>
     );

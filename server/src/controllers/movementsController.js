@@ -1,4 +1,5 @@
 const {getUserByUsername} = require("../models/userModel");
+const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
   let id_company;
@@ -9,14 +10,16 @@ const addNewMovement = async(req, res) =>{
     switch (true) {
       case user.rowCount !== 0:
         id_company = user.rows[0].id_company;
-        movement.id_company = id_company;
+        movement.forEach(mov => {
+          mov.id_company = id_company
+        });
         break;
     
       default:
         res.json({"status":400})
         break;
     }
-
+    console.log(movement)
   } catch (error) {
     res.json({"status":500})
   }

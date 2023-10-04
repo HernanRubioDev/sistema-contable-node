@@ -24,7 +24,6 @@ const useMovement = ()=>{
       }
     }
     setLoading(true)
-
     try {
       const response = await api.post(addMovementUrl, options);
       switch (true) {
