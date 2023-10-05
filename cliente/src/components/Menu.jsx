@@ -36,8 +36,15 @@ const Menu =()=>{
 
          <li className="d-flex justify-content-center mt-4 option-hover py-1 ps-5">
           <NavLink to={"/movements"} className="w-100 d-flex text-decoration-none">
-              <img className="me-4 " src="icons/transaction.svg"/>
+              <img className="me-4" src="icons/transaction.svg"/>
               <span className="text-white fs-4 lh-0">Asientos</span>
+          </NavLink>
+         </li>
+
+         <li className="d-flex justify-content-center mt-4 option-hover py-1 ps-5">
+          <NavLink to={"/books"} className="w-100 d-flex text-decoration-none">
+              <img className="me-4" src="icons/abacus.svg"/>
+              <span className="text-white fs-4 lh-0">Libros</span>
           </NavLink>
          </li>
       </ul>

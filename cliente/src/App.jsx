@@ -6,6 +6,7 @@ import { SessionProvider } from './context/UserContext';
 import Accounts from './pages/Accounts';
 import Dashboard from './pages/Dashboard';
 import Movements from './pages/Movements';
+import Books from './pages/Books';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
               <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='/accounts' element={<Accounts />}/>
               <Route path='/movements' element={<Movements />}/>
+              <Route path='/books' element={<Books />}/>
           </Routes>
         </Router>
       </SessionProvider>
