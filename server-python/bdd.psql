@@ -1,0 +1,8 @@
+CREATE TABLE users (
+    id_user SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    surname VARCHAR(20)  NOT NULL,
+    username VARCHAR(20)  NOT NULL,
+    password VARCHAR(255)  NOT NULL,
+    auth_token VARCHAR
+);
