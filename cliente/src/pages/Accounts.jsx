@@ -3,11 +3,11 @@ import Header from "../components/Header"
 import Menu from "../components/Menu";
 import sessionContext from "../context/UserContext";
 import { useContext, useEffect, useState } from "react";
-import AccoutMenuWrapper from "../components/AccountMenuWrapper";
+import AccoutMenuWrapper from "../components/accounts/AccountMenuWrapper";
 import InfoToast from "../components/InfoToast";
 import useAccount from "../hooks/useAccount";
 import AlertModal from "../components/AlertModal";
-import EditAccountModal from "../components/EditAccountModal";
+import EditAccountModal from "../components/accounts/EditAccountModal";
 import ConfirmModal from "../components/ConfirmModal";
 
 const Accounts = ()=>{

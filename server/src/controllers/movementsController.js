@@ -19,7 +19,6 @@ const addNewMovement = async(req, res) =>{
         res.json({"status":400})
         break;
     }
-    console.log(movement)
   } catch (error) {
     res.json({"status":500})
   }
@@ -32,7 +31,6 @@ const addNewMovement = async(req, res) =>{
         "Content-Type":"application/json"
       }
     })
-    console.log(response)
   } catch (error) {
     console.log(error)
   }

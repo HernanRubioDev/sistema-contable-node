@@ -3,11 +3,11 @@ import Header from "../components/Header"
 import Menu from "../components/Menu";
 import { useContext, useEffect, useState } from "react";
 import sessionContext from "../context/UserContext";
-import MovementsMenuWrapper from "../components/MovementMenuWrapper";
-import MovementDetailsModal from "../components/MovementDetailsModal";
 import useAccount from "../hooks/useAccount";
 import useMovement from "../hooks/useMovement";
 import InfoToast from "../components/InfoToast";
+import MovementsMenuWrapper from "../components/movements/MovementMenuWrapper";
+import MovementDetailsModal from "../components/movements/MovementDetailsModal";
 
 const Movements = ()=>{
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Movements = ()=>{
   
   const [menu, setMenu] = useState('search');
   const {getMinorAccounts, accounts} = useAccount();
-  const {loading, errors, response ,addMovements} = useMovement();
+  const {loading, errors, response, addMovements} = useMovement();
   return(
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />

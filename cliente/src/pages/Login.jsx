@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import LoginForm from '../components/LoginForm';
-import '../stylesheets/Login.css';
+import LoginForm from '../components/login/LoginForm';
+
 import { useContext, useEffect } from 'react';
 import sessionContext from '../context/UserContext';
 import useUser from '../hooks/useUser';

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/register/RegisterForm";
 import { useContext, useEffect } from "react";
 import sessionContext from "../context/UserContext";
 import useUser from "../hooks/useUser";

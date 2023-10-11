@@ -7,7 +7,6 @@ const useMovement = ()=>{
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [response, setResponse] = useState(null);
-  const [accounts, setAccounts] = useState([])
   const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
   

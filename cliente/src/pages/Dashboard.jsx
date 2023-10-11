@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import sessionContext from "../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import Menu from "../components/Menu";
-import DashboardMenu from "../components/DashboardMenu";
+import DashboardMenu from "../components/dashboard/DashboardMenu";
 
 
 const Dashboard = ()=>{

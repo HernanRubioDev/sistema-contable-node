@@ -1,4 +1,5 @@
 const MovementTableRow = ({row, deleteRow})=>{
+
   const {date, moveNum, description, account, ammount, type} = row
     return(
         <tr>

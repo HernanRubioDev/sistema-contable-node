@@ -175,6 +175,7 @@ def done_move ():
         if not validar_balance(lineas_asiento):
             asiento_balanceado = False
             break
+        
         elif validar_balance(lineas_asiento) : #Asiento balanceado y no se realizo insercion
             if move_insert == 0: 
                 try:

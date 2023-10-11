@@ -10,8 +10,8 @@ const useAccount = ()=>{
   const [accounts, setAccounts] = useState([])
   const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
-
-
+  
+  
   const createAccount = async(form)=>{
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     const username = localStorage.getItem("username")
@@ -115,6 +115,8 @@ const useAccount = ()=>{
           break;
       
         default:
+          setResponse({title:"Editado", body:"El nombre de la cuenta fue modificado.", success:false});
+          alertModal.show()
           break;
       }
     } catch (error) {
@@ -194,7 +196,7 @@ const useAccount = ()=>{
           break;
 
         case res.status === 400:
-          setResponse({title:"Error", body:"No se puede eliminar esta cuenta ya que posee movimientos o cuentas asociadas.", success: false})
+          setResponse({title:"Error", body:res.validations.message , success: false})
           infoToast.show();
           break;
 

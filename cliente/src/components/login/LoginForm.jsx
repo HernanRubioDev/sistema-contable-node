@@ -1,8 +1,8 @@
-import '../stylesheets/Login.css';
+
 
 import { NavLink } from "react-router-dom";
-import useForm from '../hooks/useForm';
-import Loader from './Loader';
+import useForm from '../../hooks/useForm';
+import Loader from '../Loader';
 
 const LoginForm = ({loading, errors, loginUser})=>{
   

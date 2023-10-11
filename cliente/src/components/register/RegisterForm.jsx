@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import '../stylesheets/Login.css';
+
 
 import { NavLink } from "react-router-dom";
-import Loader from './Loader';
+import Loader from '../Loader';
 
 const RegisterForm = ({loading, errors, response, registerUser})=>{
   

@@ -1,9 +1,10 @@
-import useAccount from "../hooks/useAccount";
-import useForm from "../hooks/useForm";
-import Loader from "./Loader";
-import OpenMenuButton from "./OpenMenuButton";
+import useForm from "../../hooks/useForm";
+import Loader from "../Loader";
+import OpenMenuButton from "../OpenMenuButton";
+
 
 const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getMajorAccounts})=>{
+  
   const handleClick = ()=>{
     setMenu("search")
   }
@@ -47,7 +48,7 @@ const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getM
                     Si
                   </label>
                   <label>
-                    <input  onClick={()=>setForm(initialForm)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true}/>
+                    <input onClick={()=>setForm(initialForm)} className="form-check-input ms-3" type="radio" name="recivesCredit" value={false} defaultChecked={true}/>
                     No
                   </label>
               </div>

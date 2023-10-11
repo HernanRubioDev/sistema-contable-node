@@ -1,9 +1,10 @@
-import useForm from "../hooks/useForm";
-import OpenMenuButton from "./OpenMenuButton";
-import '../stylesheets/SearchAccountForm.css';
-import AccountTableRow from "./AccountTableRow";
-import Loader from "./Loader";
+import useForm from "../../hooks/useForm";
+import OpenMenuButton from "../OpenMenuButton";
+import '../../stylesheets/SearchAccountForm.css';
+
 import { useEffect } from "react";
+import AccountTableRow from "./AccountTableRow";
+import Loader from "../Loader";
 
 const SearchAccountForm = ({accounts, loading, setMenu, setAccounts, getAccountByName, setAccountToEdit, setAccountToDelete})=>{
 

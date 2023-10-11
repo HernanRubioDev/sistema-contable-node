@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import OpenMenuButton from "./OpenMenuButton";
-import MovementTableRow from "./MovementTableRow";
-import '../stylesheets/NewMovementForm.css';
-import useForm from "../hooks/useForm";
+import OpenMenuButton from "../../components/OpenMenuButton";
+import '../../stylesheets/NewMovementForm.css';
+import useForm from "../../hooks/useForm";
 import { useEffect, useId, useState } from "react";
-import Loader from "./Loader";
+import Loader from "../Loader";
+import MovementTableRow from "../movements/MovementTableRow"
 
 const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovements, loading})=>{
   
@@ -133,7 +133,7 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, index) => <MovementTableRow key={index}  row={row} deleteRow={deleteRow}/>)}
+                {rows.map((row, index) => <MovementTableRow key={index} row={row} deleteRow={deleteRow}/>)}
               </tbody>
             </table> 
             }

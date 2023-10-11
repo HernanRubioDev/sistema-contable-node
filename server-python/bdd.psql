@@ -1,8 +1,48 @@
 CREATE TABLE users (
-    id_user SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    surname VARCHAR(20)  NOT NULL,
-    username VARCHAR(20)  NOT NULL,
-    password VARCHAR(255)  NOT NULL,
-    auth_token VARCHAR
+	id_user SERIAL PRIMARY KEY,
+	name VARCHAR (40) NOT NULL,
+	surname VARCHAR (40) NOT NULL,
+	username VARCHAR (20) NOT NULL,
+	password VARCHAR (60) NOT NULL,
+	auth_token VARCHAR,
+	user_role VARCHAR (20) NOT NULL,
+	id_company INTEGER NOT NULL, 
+	
+	CONSTRAINT users_username_key UNIQUE (username)
+	
+	);
+
+CREATE TABLE accounts (
+	id_account SERIAL PRIMARY KEY,
+	name VARCHAR (30) NOT NULL,
+	recive_credit boolean NOT NULL,
+	credit numeric (10,2) NOT NULL,
+	code VARCHAR (5) NOT NULL,
+	date_creation VARCHAR (10) NOT NULL,
+	id_company INTEGER NOT NULL,
+	
+	CONSTRAINT account_name_key UNIQUE (name)
+
+	);
+
+CREATE TABLE account_moves (
+	id_move SERIAL PRIMARY KEY,
+	date DATE NOT NULL,
+  id_account INTEGER NOT NULL,
+	description VARCHAR (255) NOT NULL,
+	move_number INTEGET not null,
+	id_company INTEGER NOT NULL,
+
+    CONSTRAINT account_move_fk FOREIGN KEY (id_account) REFERENCES accounts (id_account)
+);
+
+CREATE TABLE account_move_lines (
+	id_line SERIAL PRIMARY KEY,
+	id_move INTEGER NOT NULL,
+	debit NUMERIC (10,2) NOT NULL,
+	credit NUMERIC (10,2) NOT NULL,
+	partial_credit NUMERIC(10,2) NOT NULL,
+
+	CONSTRAINT move_lines_fk FOREIGN KEY (id_move) REFERENCES account_moves (id_move)
+	
 );
