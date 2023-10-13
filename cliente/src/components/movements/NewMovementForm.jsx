@@ -29,19 +29,27 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
     description:'',
     account:'',
     ammount:'',
-    type:'debe'
+    type:'debe',
+    rows:[]
   }
 
-  const {form, handleChange} = useForm(initialForm)
-  const [rows, setRows] = useState([]);
+  const {form, setForm, handleChange} = useForm(initialForm)
 
   const addRow = (form)=>{
-    setRows([...rows, form])
+    const newRow = {date:form.date, account:form.account, type:form.type, ammount:form.ammount}
+    form.rows.push(newRow);
+    setForm({
+      ...form,
+      [form.rows]: form.rows
+    })
   }
 
   const deleteRow = (row)=>{
-    const newRows = rows.filter(el => el != row);
-    setRows(newRows)
+    form.rows.splice(form.rows.indexOf(row), 1);
+    setForm({
+      ...form,
+      [form.rows]: form.rows
+    })
   }
 
   return(
@@ -117,7 +125,7 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
           </div>
           <div className="d-flex justify-content-center justify-content-evenly col-6 my-2">
             <button onClick={()=>addRow(form)} type="button" className="btn btn-secondary col-5">Agregar</button>
-            <button onClick={()=>addMovements(rows)} type="button" className="btn btn-success col-5">Registrar</button>
+            <button onClick={()=>addMovements(form)} type="button" className="btn btn-success col-5">Registrar</button>
           </div>
           <div className={`${loading ? 'd-flex justify-content-center' : 'move-table-container'}`}>
             {loading ? 
@@ -133,7 +141,7 @@ const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovement
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, index) => <MovementTableRow key={index} row={row} deleteRow={deleteRow}/>)}
+                {form.rows.map((row, index) => <MovementTableRow key={index} row={row} deleteRow={deleteRow}/>)}
               </tbody>
             </table> 
             }

@@ -19,7 +19,7 @@ const Accounts = ()=>{
 
   const [menu, setMenu] = useState('search');
   const [accountToEdit, setAccountToEdit] = useState(null);
-  const [accountToDeletem, setAccountToDelete] = useState(null);
+  const [accountToDelete, setAccountToDelete] = useState(null);
 
   const {loading, errors, response, accounts, setAccounts, createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount} = useAccount();
   return(
@@ -30,7 +30,7 @@ const Accounts = ()=>{
       <InfoToast response={response}/>
       <AlertModal response={response} />
       <EditAccountModal accountToEdit={accountToEdit} setAccountToEdit={setAccountToEdit} editAccount={editAccount}/>
-      <ConfirmModal accountToDeletem={accountToDeletem} deleteAccount={deleteAccount}/>
+      <ConfirmModal accountToDelete={accountToDelete} deleteAccount={deleteAccount}/>
     </div>
   )
 }

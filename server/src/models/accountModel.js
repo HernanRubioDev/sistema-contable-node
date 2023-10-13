@@ -1,61 +1,62 @@
 const {pool} = require("../../db");
 
-const setAccount = async(idUser, newAccount)=>{
-  const {name, recivesCredit, credit, code, date_creation, id_company} = newAccount
-  const query = "INSERT INTO accounts (name, get_credit, credit, id_user, code, date_creation, id_company) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+const setAccount = async(newAccount)=>{
+  const {name, recive_credit, credit, code, date_creation} = newAccount
+  const query = "INSERT INTO accounts (name, recive_credit, credit, code, date_creation) VALUES ($1, $2, $3, $4, $5)";
   try {
-    const res = await pool.query(query, [name, recivesCredit, credit, idUser, code, date_creation, id_company])
+    const res = await pool.query(query, [name, recive_credit, credit, code, date_creation])
     return res
   } catch (error) {
     return null
   }
 }
 
-const getLastMajorAccount = async (id_company, type)=>{ 
-  const query = `SELECT * FROM accounts WHERE code LIKE '%00' AND code LIKE '${type}%' AND id_company=$1 ORDER BY code DESC LIMIT 1`
+const getLastMajorAccount = async (type)=>{ 
+  const query = `SELECT * FROM accounts WHERE code LIKE '%00' AND code LIKE '${type}%' ORDER BY code DESC LIMIT 1`
   
   try {
-    const res = await pool.query(query, [id_company])
+    const res = await pool.query(query)
     return res;
   } catch (error) {
     return null
   }
 }
 
-const getLastMinorAccount = async (id_company, mayorAccount) =>{
-  const query = `SELECT * FROM accounts WHERE code LIKE '${mayorAccount}%' AND id_company = $1 ORDER BY code DESC LIMIT 1`
+const getLastMinorAccount = async (mayorAccount) =>{
+  const query = `SELECT * FROM accounts WHERE code LIKE '${mayorAccount}%' ORDER BY code DESC LIMIT 1`
   try {
-    const res = await pool.query(query, [id_company]);
+    const res = await pool.query(query);
     return res
   } catch (error) {
     return null
   }
 }
 
-const getMajorsAccounts = async(id_company)=>{
-  const query = `SELECT * FROM accounts WHERE code LIKE '%00' AND id_company=$1`;
+const getMajorsAccounts = async()=>{
+  const query = `SELECT * FROM accounts WHERE code LIKE '%00'`;
   try {
-    const res = await pool.query(query, [id_company]);
+    const res = await pool.query(query);
     return res
   } catch (error) {
     return null
   }
 }
 
-const getMinorAccounts = async(id_company) =>{
-  const query = `SELECT * FROM accounts WHERE code NOT LIKE '%00' AND id_company=$1`;
+const getMinorAccounts = async() =>{
+  const query = `SELECT * FROM accounts WHERE code NOT LIKE '%00'`;
   try {
-    const res = await pool.query(query, [id_company]);
+    const res = await pool.query(query);
     return res
   } catch (error) {
     return null
   }
 }
 
-const getAccountByName = async(id_company, accountName)=>{
-  const query = `SELECT * FROM accounts WHERE name LIKE '${accountName}%' AND id_company=$1 ORDER BY code ASC`;
+const getAccountByName = async(accountName)=>{
+  const query = `SELECT * ,to_char(date_creation, 'DD/MM/YYYY') AS date_creation FROM accounts WHERE name LIKE '${accountName}%' ORDER BY code ASC
+`;
   try {
-    const res = await pool.query(query,[id_company]);
+    const res = await pool.query(query);
     return res;
   } catch (error) {
     return null

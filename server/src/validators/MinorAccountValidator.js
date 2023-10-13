@@ -1,7 +1,7 @@
 const {pool} = require("../../db")
 
-const majorAccountValidations = async(account)=>{
-  const {name, credit} = account
+const minorAccountValidations = async(account)=>{
+  const {name, code, credit} = account
   const errors = {}
   
   const res = await pool.query("SELECT * FROM accounts WHERE name=$1", [name]);
@@ -15,6 +15,10 @@ const majorAccountValidations = async(account)=>{
       errors.message = "Ya existe una cuenta con este nombre."
       break;
 
+    case code === '':
+      errors.message = "Debe seleccionar una cuenta."
+      break
+
     case credit < 0:
       errors.message = "El monto no puede ser menor a 0"
       break;
@@ -27,4 +31,5 @@ const majorAccountValidations = async(account)=>{
   return errors
 }
 
-module.exports = {majorAccountValidations}
+module.exports = {minorAccountValidations}
+

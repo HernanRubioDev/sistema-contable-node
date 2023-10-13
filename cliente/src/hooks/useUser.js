@@ -12,6 +12,7 @@ const useUser = ()=>{
   const {handleSession} = useContext(sessionContext)
 
   const registerUser= async (user)=>{
+    console.log(user)
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     setLoading(true)
     const endpoint = "http://localhost:3000/user/register";
@@ -24,12 +25,13 @@ const useUser = ()=>{
     try {
       const res = await api.post(endpoint, options)
       switch (true) {
+
         case res.status === 400:
           setErrors(res.validations);
           break;
       
         case res.status === 201:
-          setResponse({title:"¡Bienvendio!", body:"Su cuenta ha sido creada con éxito.", success:true})
+          setResponse(res)
           alertModal.show()
           setTimeout(() => {
             alertModal.hide()
@@ -37,24 +39,19 @@ const useUser = ()=>{
           }, 3000);
           break;
 
-        case res.status === 202:
-          setResponse({status:res.status ,title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
-          alertModal.show()
-          break;
-
         case res.status === 500:
-          setResponse({status:res.status ,title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
+          setResponse(res)
           alertModal.show()
           break;
 
         default:
-          setResponse({status:res.status ,title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
+          setResponse(res)
           alertModal.show()
           break;
       }
       
     } catch (error) {
-      setResponse({status:res.status ,title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
+      setResponse(res)
       alertModal.show()
     }
     setLoading(false)
@@ -80,8 +77,8 @@ const useUser = ()=>{
           handleSession(true)
           break;
         
-        case res.status === 202 || res.status === 500:
-          setErrors({message:"El usuario o la contraseña son incorrectos."})
+        case res.status === 500:
+          setErrors(res.status)
           handleSession(false)
           alertModal.show()
           break
@@ -92,12 +89,12 @@ const useUser = ()=>{
             break
         
         case res.status === 403:
-          setErrors({message:"El usuario o la contraseña son incorrectos."});
+          setErrors(res);
           handleSession(false)
           break
         
         case res.status === 404:
-          setErrors({message:"El usuario o la contraseña son incorrectos."});
+          setErrors(res);
           handleSession(false)
           break
 

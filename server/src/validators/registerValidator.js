@@ -113,24 +113,4 @@ const repeatPasswordValidation = (rePassword, password)=>{
   return errors;
 }
 
-const idCompanyValidation = (id_company)=>{
-  const id_companyRegEx = /[0-9]/g
-  const errors = {}
-  switch (true) {
-    case id_company === "":
-      errors.id_company="Este campo es obligatorio."
-      break;
-    
-    case !id_companyRegEx.test(id_company):
-      errors.id_company="Este campo solo acepta números."
-      break
-
-    default:
-      delete errors.id_company
-      break;
-  }
-
-  return errors
-}
-
-module.exports = {nameVilation, surnameVilation, usernameVilation, passwordVilation, repeatPasswordValidation, idCompanyValidation}
+module.exports = {nameVilation, surnameVilation, usernameVilation, passwordVilation, repeatPasswordValidation}

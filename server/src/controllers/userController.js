@@ -9,17 +9,18 @@ const registerUser = async (req, res)=>{
     const response = await setUser(user)
     switch (true) {
       case response.rowCount !== 0:
-        res.status(201).json({"status":201});
+        res.status(201).json({status:201, title:"¡Bienvendio!", body:"Su cuenta ha sido creada con éxito.", success:true});
         break;
     
       default:
-        res.status(202).json({"status":202});
+        res.status(500).json({status: 500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false});
         break;
     }
   } catch (error) {
-    res.status(500).json({"status":500})
+    res.status(500).json({status:500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
   }
 }
+
 
 const loginUser = async (req, res)=>{
   const {username, password} = req.body;
@@ -28,32 +29,35 @@ const loginUser = async (req, res)=>{
     const response = await getUserByUsername(username);
     switch (true) {
       case response.rowCount === 0:
-        res.status(404).json({"status":404});
+        res.json({status:404, message:"El usuario o la contraseña son incorrectos."});
         break;
 
       case response.rowCount !== 0:
         const hash = response.rows[0].password
         auth = await bcrypt.compare(password, hash) 
         if(auth){
+    
           const name = response.rows[0].name;
           const surname = response.rows[0].surname;
           const token = await authUser(username)
-          token !== null ? 
-          res.status(201).json({"status":201,"auth_token":token, "username":username, "name":name, "surname":surname}) 
+    
+          token !== null ?
+          res.json({"status":201,"auth_token":token, "username":username, "name":name, "surname":surname}) 
           : 
-          res.status(202).json({"status":202, "auth_token":null});
+          res.json({status:500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
         }
-        else res.status(403).json({"status":403, "auth_token":null})
+        else res.json({status:403, message:"El usuario o la contraseña son incorrectos."})
         break
 
       default:
-        res.status(500).json({"status":500, "auth_token":null});
+        res.json({status:500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false});
         break;
     }
   } catch (error) {
-    res.status(500).json({"status":500, "auth_token":null});
+    res.json({status:500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false});
   }
 }
+
 
 const authUser = async (username)=>{
   const token = uuidv4();

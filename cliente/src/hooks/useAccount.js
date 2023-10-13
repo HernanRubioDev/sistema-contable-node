@@ -13,28 +13,26 @@ const useAccount = ()=>{
   
   
   const createAccount = async(form)=>{
+
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     const username = localStorage.getItem("username")
     const auth_token = localStorage.getItem("auth_token")
     let url;
-    if(form.recivesCredit === "true"){
-      url = `http://localhost:3000/account/addMinor/${username}/${auth_token}`
-    }
-    else {
-      url = `http://localhost:3000/account/addMajor/${username}/${auth_token}`
-    }
+    form.recive_credit === "true" ? url = `http://localhost:3000/account/addMinor/${username}/${auth_token}` : url = `http://localhost:3000/account/addMajor/${username}/${auth_token}`
     setLoading(true)
+    
     const options = {
       body: form,
       headers:{
         "content-type":"application/json",
       }
     }
+
     try {
       const res = await api.post(url, options);
       switch (true) {
         case res.status === 201:
-          setResponse({status:res.status, title:"Creada", body:"La cuenta se creó correctamente.", success: true})
+          setResponse(res)
           infoToast.show();
           break;
     
@@ -48,11 +46,12 @@ const useAccount = ()=>{
           break
 
         case res.status === 400:
-          setErrors(res.validations)
+          setResponse(res)
+          infoToast.show();
           break;
 
         default:
-          setResponse({status:res.status, title:"Error", body:"La cuenta no se ha podido crear."})
+          setResponse(res)
           infoToast.show();
           break;
       }
@@ -113,10 +112,14 @@ const useAccount = ()=>{
         case res.status === 200:
           setAccounts(res.accounts)
           break;
+
+          case res.status === 500:
+            setAccounts(res.accounts)
+            break;
       
         default:
-          setResponse({title:"Editado", body:"El nombre de la cuenta fue modificado.", success:false});
-          alertModal.show()
+          setResponse(res);
+          infoToast.show()
           break;
       }
     } catch (error) {
@@ -143,7 +146,7 @@ const useAccount = ()=>{
       switch (true) {
         case res.status === 200:
           updateAccountsEdited(account)
-          setResponse({status:res.status, title:"Editado", body:"El nombre de la cuenta fue modificado.", success: true})
+          setResponse(res)
           infoToast.show()
           break;
 
@@ -157,7 +160,7 @@ const useAccount = ()=>{
           break
 
         case res.status === 500:
-          setResponse({title:"Error", body:"No se ha podido editar la cuenta", success: false})
+          setResponse(res)
           infoToast.show()
           break;
       
@@ -188,11 +191,12 @@ const useAccount = ()=>{
     try {
       setLoading(true)
       const res =  await api.remove(deleteUrl, options);
+      console.log(res)
       switch (true) {
         case res.status === 200:
-          updateAccountsDeleted(account)
-          setResponse({status:res.status, title:"Eliminada", body:"La cuenta ha sido eliminada", success: true})
+          setResponse(res)
           infoToast.show()
+          updateAccountsDeleted(account)
           break;
 
         case res.status === 400:
@@ -210,17 +214,18 @@ const useAccount = ()=>{
           break
 
         case res.status === 500:
-          setResponse({title:"Error", body:"No se ha podido eliminar la cuenta", success: false})
+          setResponse(res)
           infoToast.show()
           break;
       
         default:
-          setResponse({title:"Error", body:"No se ha podido eliminar la cuenta", success: false})
+          setResponse(res)
           infoToast.show()
           break;
       }
     } catch (error) {
-        setResponse({title:"Error", body:"No se ha podido eliminar la cuenta", success: false})
+      console.log(error)
+        setResponse(res)
         infoToast.show()
     }
     setLoading(false)

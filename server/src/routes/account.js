@@ -3,14 +3,14 @@ const {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByNam
 const {MajorAccountsMiddleware} = require("../middlewares/MajorAccountsMiddleware");
 const {authMiddleware} = require("../middlewares/authMiddleware")
 const {deleteAccountMiddleware} = require("../middlewares/deleteAccountMiddleware");
-
+const { MinorAccountsMiddleware } = require("../middlewares/MinorAccountsMiddleware");
 const accountRouter = Router();
 
 
 accountRouter.post("/addMajor/:username/:auth_token", authMiddleware, MajorAccountsMiddleware, addMajorAccount)
 
 
-accountRouter.post("/addMinor/:username/:auth_token", authMiddleware, addMinorAccount)
+accountRouter.post("/addMinor/:username/:auth_token", authMiddleware, MinorAccountsMiddleware, addMinorAccount)
 
 
 accountRouter.get("/getMajorAccounts/:username/:auth_token", authMiddleware, searchMajorAccounts)

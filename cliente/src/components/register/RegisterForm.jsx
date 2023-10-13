@@ -12,8 +12,7 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
     username:'',
     password:'',
     rePassword:'',
-    id_company:'',
-    role:'normal'
+    user_role:'contador'
   }
   
   const [form, setForm] = useState(initialForm)
@@ -46,7 +45,7 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
               <input onChange={(e)=>handleChange(e)} type="text" className="form-control py-xxl-2" placeholder="Usuario" aria-label="Username" aria-describedby="login-username" name='username' value={form.username} />
                 {errors.username && 
                 <div className='w-100 lh-0 d-flex align-items-center'>
-                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.username}</p>
+                  <img src='/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.username}</p>
                 </div>
                 }
             </div>
@@ -55,7 +54,7 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
               <input onChange={(e)=>handleChange(e)} type="text" className="form-control py-xxl-2" placeholder="Nombre" aria-label="Name" aria-describedby="login-name" name='name' value={form.name} autoFocus />
               {errors.name && 
               <div className='w-100 lh-0 d-flex align-items-center'>
-                <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.name}</p>
+                <img src='/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.name}</p>
               </div>
               }
             </div>
@@ -64,7 +63,7 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
               <input onChange={(e)=>handleChange(e)} type="text" className="form-control py-xxl-2" placeholder="Apellido" aria-label="Surname" aria-describedby="login-surname" name='surname' value={form.surname} />
                 {errors.surname && 
                 <div className='w-100 lh-0 d-flex align-items-center'>
-                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.surname}</p>
+                  <img src='/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.surname}</p>
                 </div>
                 }
             </div>
@@ -73,28 +72,20 @@ const RegisterForm = ({loading, errors, response, registerUser})=>{
               <input onChange={(e)=>handleChange(e)} type="password" className="form-control py-xxl-2" placeholder="Contraseña" aria-label="Password" aria-describedby="login-password" name='password' value={form.password} />
                 {errors.password && 
                 <div className='w-100 lh-0 d-flex align-items-center'>
-                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.password}</p>
+                  <img src='/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.password}</p>
                 </div>
                 }
             </div>
             <div className="input-group mb-3">
-              <span className="input-group-text" id="login-password"><img src="public/icons/password.svg" /></span>
+              <span className="input-group-text" id="login-password"><img src="/icons/password.svg" /></span>
               <input onChange={(e)=>handleChange(e)} type="password" className="form-control py-xxl-2" placeholder="Repita su contraseña" aria-label="Password" aria-describedby="login-password" name='rePassword' value={form.rePassword} />
                 {errors.rePassword && 
                 <div className='w-100 lh-0 d-flex align-items-center'>
-                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.rePassword}</p>
+                  <img src='/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.rePassword}</p>
                 </div>
                 }
             </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="login-password"><img src="public/icons/id-company.svg" /></span>
-              <input onChange={(e)=>handleChange(e)} type="password" className="form-control py-xxl-2" placeholder="Id de empresa" aria-label="Password" aria-describedby="login-password" name='id_company' value={form.id_company} min={0}/>
-                {errors.id_company && 
-                <div className='w-100 lh-0 d-flex align-items-center'>
-                  <img src='public/icons/danger.svg'/><p className='text-danger m-0 ms-1'>{errors.id_company}</p>
-                </div>
-                }
-            </div>
+  
         </div>
             <div className='d-flex flex-column justify-content-center align-items-center flex-grow-1'>
             {loading ? <Loader className='text-center'/> : <button onClick={()=>registerUser(form)} type="button" className="btn btn-success w-100 py-2 py-xxl-3">Regisrarse</button>}

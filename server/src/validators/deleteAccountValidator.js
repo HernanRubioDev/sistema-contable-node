@@ -1,6 +1,6 @@
 const {pool} = require("../../db")
 
-const deleteMajorAccountValidator = async (account)=>{
+const deleteMajorAccountValidation = async (account)=>{
 
   const {code} = account;
   const errors = {}
@@ -20,4 +20,22 @@ const deleteMajorAccountValidator = async (account)=>{
   return errors;
 }
 
-module.exports = {deleteMajorAccountValidator}
+const deleteMinorAccoutValidation = async(account)=>{
+  const {id_account} = account;
+  const errors = {}
+  const query = "SELECT * FROM accounts_moves_lines WHERE id_account = $1";
+  const moves = await pool.query(query, [id_account])
+  moves.rowCount = 1;
+  switch (true) {
+    case moves.rowCount !== 0:
+      errors.message = "No se puede eliminar una cuenta que posee movimientos asociados."
+      break;
+  
+    default:
+      delete errors.message
+      break;
+  }
+  return errors
+}
+
+module.exports = {deleteMajorAccountValidation, deleteMinorAccoutValidation}

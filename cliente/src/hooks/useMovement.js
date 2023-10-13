@@ -12,7 +12,8 @@ const useMovement = ()=>{
   
 
   const addMovements = async (movements)=>{
-    const username = localStorage.getItem("username");
+    console.log(movements)
+    /*const username = localStorage.getItem("username");
     const auth_token = localStorage.getItem("auth_token");
     const addMovementUrl = `http://localhost:3000/movement/addMovement/${username}/${auth_token}`
 
@@ -41,7 +42,7 @@ const useMovement = ()=>{
       infoToast.show()
     }
 
-    setLoading(false)
+    setLoading(false)*/
   }
 
   return {loading, errors, response, addMovements}

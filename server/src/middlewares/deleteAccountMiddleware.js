@@ -1,14 +1,13 @@
-const {deleteMajorAccountValidator} = require("../validators/deleteAccountValidator");
+const {deleteMajorAccountValidation, deleteMinorAccoutValidation} = require("../validators/deleteAccountValidator");
 
 const deleteAccountMiddleware = async(req, res, next)=>{
   const account = req.body;
   let validations={};
-  console.log(account.get_credit)
-  if(account.get_credit){
-    console.log("menor")
+  if(account.recive_credit){
+    validations = {...await deleteMinorAccoutValidation(account)}
   }
   else{
-   validations = {...await deleteMajorAccountValidator(account)}
+   validations = {...await deleteMajorAccountValidation(account)}
   }
  
  Object.keys(validations).length !== 0 ? res.json({"status":400, validations}): next()

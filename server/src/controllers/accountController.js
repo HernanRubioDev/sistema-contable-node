@@ -2,157 +2,92 @@ const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, 
 const {getUserByUsername} = require("../models/userModel");
 
 const addMajorAccount = async(req, res)=>{
-  const username = req.params.username
   const newAccount = req.body;
+
   let accountCode = null;
-  let idUser = null;
-  let id_company = null;
   const date = new Date();
-  newAccount.date_creation = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-  //BUSCO EL ID DEL USUARIO
-
+  newAccount.date_creation = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   try {
-    const user = await getUserByUsername(username)
-    switch (true) {
-      case user.rowCount !== 0:
-        idUser = user.rows[0].id_user;
-        id_company = user.rows[0].id_company;
-        break;
-    
-      default:
-        res.json({"status":400})
-        break;
-    }
-
-  } catch (error) {
-    res.json({"status":500})
-  }
-
-  //BUSCO LA EL CODIGO DE LA ULTIMA CUENTA MAYOR O LO CREO
-  try {
-    
-    const account = await getLastMajorAccount(id_company, newAccount.type);
+    const account = await getLastMajorAccount(newAccount.type); //BUSCO LA EL CODIGO DE LA ULTIMA CUENTA MAYOR O LO CREO
+  
     switch (true) {
       case account.rowCount !== 0:
         accountCode = parseInt(account.rows[0].code) + 100
         newAccount.code = accountCode.toString();
-        newAccount.id_company = id_company
         break;
         
         case account.rowCount === 0:
         newAccount.code = `${newAccount.type}0000`
-        newAccount.id_company = id_company
         break
     }
   } catch (error) {
-    res.json({"status":500})
+    res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
   }
 
-//CREO LA CUENTA
   try {
-    const response = await setAccount(idUser, newAccount);
+    const response = await setAccount(newAccount); //CREO LA CUENTA
     switch (true) {
       case response.rowCount !== 0:
-        res.json({"status":201})
+        res.json({status:201, title:"Creada", body:"La cuenta se creó correctamente.", success: true})
         break;
     
       default:
-        res.json({"status":500})
+        res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
         break;
     }
   } catch (error) {
-    res.json({"status":500})
+    res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
   }
-
 }
 
 const addMinorAccount = async (req, res)=>{
-  const username = req.params.username
   const newAccount = req.body;
-  newAccount.date
   let accountCode = null;
   let mayorAccount = newAccount.code.slice(0,3);
-  let idUser = null;
-  let id_company = null;
   const date = new Date();
-  newAccount.date_creation = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  newAccount.date_creation = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
   try {
-    const user = await getUserByUsername(username)
-    switch (true) {
-      case user.rowCount !== 0:
-        idUser = user.rows[0].id_user;
-        id_company = user.rows[0].id_company;
-        break;
-    
-      default:
-        res.json({"status":400})
-        break;
-    }
-
-  } catch (error) {
-    res.json({"status":500})
-  }
-
-  try {
-    const account = await getLastMinorAccount(id_company, mayorAccount);
+    const account = await getLastMinorAccount(mayorAccount);
     switch (true) {
       case account.rowCount !== 0:
         accountCode = parseInt(account.rows[0].code) + 1
         newAccount.code = accountCode.toString();
-        newAccount.id_company = id_company
         break;
 
       case account.rowCount === 0:
-        res.json({"status":404})
+        res.json({status:404, title:"Error", body:"Debe seleccionar la cuenta asociada", success: false})
         break
 
       default:
-        res.json({"status":500})
+        res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
         break
     }
   } catch (error) {
-    res.json({"status":500})
+    res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
   }
 
   try {
-    const response = await setAccount(idUser, newAccount);
+    const response = await setAccount(newAccount);
     switch (true) {
       case response.rowCount !== 0:
-        res.json({"status":201})
+        res.json({status:201, title:"Creada", body:"La cuenta se creó correctamente.", success: true})
         break;
     
       default:
-        res.json({"status":500})
+        res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
         break;
     }
   } catch (error) {
-    res.json({"status":500})
+    res.json({status:500, title:"Error", body:"La cuenta no se ha podido crear.", success: false})
   }
 
 }
 
 const searchMajorAccounts = async (req, res)=>{
-  let id_company;
-  const username = req.params.username
-  try {
-    const user = await getUserByUsername(username)
-    switch (true) {
-      case user.rowCount !== 0:
-        id_company = user.rows[0].id_company;
-        break;
-    
-      default:
-        res.json({"status":400})
-        break;
-    }
-
-  } catch (error) {
-    res.json({"status":500})
-  }
 
   try {
-    const accounts = await getMajorsAccounts(id_company);
+    const accounts = await getMajorsAccounts();
     switch (true) {
       case accounts.rowCount !== 0:
         res.json({"status":200, "accounts":accounts.rows})
@@ -168,26 +103,9 @@ const searchMajorAccounts = async (req, res)=>{
 }
 
 const searchMinorAccounts = async(req, res) =>{
-  let id_company;
-  const username = req.params.username
+  console.log("entro")
   try {
-    const user = await getUserByUsername(username)
-    switch (true) {
-      case user.rowCount !== 0:
-        id_company = user.rows[0].id_company;
-        break;
-    
-      default:
-        res.json({"status":400})
-        break;
-    }
-
-  } catch (error) {
-    res.json({"status":500})
-  }
-
-  try {
-    const accounts = await getMinorAccounts(id_company);
+    const accounts = await getMinorAccounts();
     switch (true) {
       case accounts.rowCount !== 0:
         res.json({"status":200, "accounts":accounts.rows})
@@ -203,39 +121,29 @@ const searchMinorAccounts = async(req, res) =>{
 }
 
 const searchAccountByName = async (req, res)=>{
-  let idUser;
   const accountName = req.query.accountName;
-  const username = req.params.username
 
   try {
-    const user = await getUserByUsername(username)
-    switch (true) {
-      case user.rowCount !== 0:
-        id_company = user.rows[0].id_company;
-        break;
-    
-      default:
-        res.json({"status":400})
-        break;
-    }
-
-  } catch (error) {
-    res.json({"status":500})
-  }
-
-  try {
-    const accounts = await getAccountByName(id_company, accountName);
+    const accounts = await getAccountByName(accountName);
     switch (true) {
       case accounts.rowCount !== 0:
-        res.json({"status":200, "accounts":accounts.rows})
+        res.json({status:200, accounts:accounts.rows})
         break;
-    
+
+        case accounts.rowCount === 0:
+          res.json({status:200, accounts:[]})
+          break;
+
+      case accounts === null:
+        res.json({status:500, title:"Error", body:"No se a podido completar la busqueda.", success:false})
+        break;
+
       default:
-        res.json({"status":400})
+        res.json({status:500, title:"Error", body:"No se a podido completar la busqueda.", success:false})
         break;
     }
   } catch (error) {
-    res.json({"status":500})
+    res.json({status:500, title:"Error", body:"No se a podido completar la busqueda.", success:false})
   }
 }
 
@@ -247,34 +155,34 @@ const editAccount = async(req, res)=>{
 
     switch (true) {
       case response.rowCount !== 0:
-        res.json({"status":200})
+        res.json({status: 200, title:"Editado", body:"El nombre de la cuenta fue modificado.", success: true})
         break;
     
       default:
-        res.json({"status":500});
+        res.json({title:"Error", body:"No se ha podido editar la cuenta", success: false});
         break;
     }
   } catch (error) {
-    res.json({"status":500});
+    res.json({title:"Error", body:"No se ha podido editar la cuenta", success: false});
   }
 }
 
 const removeAccount = async(req, res)=>{
   const {id_account} = req.body;
+
   try {
     const response = await deleteAccount(id_account);
-
     switch (true) {
       case response.rowCount !== 0:
-        res.json({"status":200})
+        res.json({status:200, title:"Eliminada", body:"La cuenta ha sido eliminada", success: true})
         break;
     
       default:
-        res.json({"status":500})
+        res.json({status:500, title:"Error", body:"No se ha podido elimiar la cuenta", success: false})
         break;
     }
   } catch (error) {
-    res.json({"status":500});
+    res.json({status:500, title:"Error", body:"No se ha podido elimiar la cuenta", success: false});
   }
 }
 

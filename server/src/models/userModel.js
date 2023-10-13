@@ -1,10 +1,10 @@
 const {pool} = require("../../db");
 
 const setUser = async (user)=>{
-  const {name, surname, username, password, role, id_company} = user
-  const query = 'INSERT INTO users (name, surname, username, password, user_role, id_company) VALUES ($1, $2, $3, $4, $5, $6)';
+  const {name, surname, username, password, user_role} = user
+  const query = 'INSERT INTO users (name, surname, username, password, user_role) VALUES ($1, $2, $3, $4, $5)';
   try {
-    const res = await pool.query(query, [name, surname, username, password, role, id_company])
+    const res = await pool.query(query, [name, surname, username, password, user_role])
     return res
   } catch (error) {
     return null

@@ -1,5 +1,5 @@
 
-const ConfirmModal = ({accountToDeletem, deleteAccount})=>{
+const ConfirmModal = ({accountToDelete, deleteAccount})=>{
     return(
     <form className="modal fade" id="ConfirmModal" tabIndex="-1" aria-labelledby="ConfirmModalLabel" aria-hidden="true">
 			<div className="modal-dialog modal-dialog-centered">
@@ -12,7 +12,7 @@ const ConfirmModal = ({accountToDeletem, deleteAccount})=>{
 						<p>¿Está seguro de que desea eliminar esta cuenta?</p>
 					</div>
 					<div className="modal-footer">
-						<button onClick={()=>deleteAccount(accountToDeletem)} type="button" data-bs-dismiss="modal" className="btn btn-danger"> Eliminar</button>
+						<button onClick={()=>deleteAccount(accountToDelete)} type="button" data-bs-dismiss="modal" className="btn btn-danger"> Eliminar</button>
 					</div>
 				</div>
 			</div>
