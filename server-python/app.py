@@ -20,86 +20,8 @@ def conection():
     return conn
 
 
-#END POINTS 
-@app.get('/api/users')
-def get_users():
-    return 'getting users'
-
-@app.post('/api/new_users')
-def create_users():
-    #Tomo datos del json
-    new_user = request.get_json()
-    username = new_user['username']
-    name = new_user['name']
-    surname = new_user['surname']
-    pwd = Fernet(key).encrypt(bytes(new_user['password'],'utf-8'))
-    #Abro conexion
-    import pdb; pdb.set_trace()
-    conn = conection()
-    cur = conn.cursor(cursor_factory=extras.RealDictCursor)
-    cur.execute("insert into users (name,surname,username,password) VALUES (%s,%s,%s,%s) RETURNING *",(name,surname,username,pwd)) #Inserto nuevo usuario
-    
-    new_created_user = cur.fetchone()
-
-    conn.commit()
-    #Cierro conexiones
-    cur.close()
-    conn.close()
-
-    return jsonify(new_created_user)
-
-@app.delete('/api/users/<id>')
-def delete_users(id):
-    conn = conection()  #Llamo a funcion conection()
-    cur = conn.cursor(cursor_factory=extras.RealDictCursor)
-    cur.execute('DELETE FROM users wherer id=%s RETURNING *',(id))
-    user = cur.fetchone()
-
-    if user is None:  #Si no hay usuario
-        return jsonify({'message':'User NOT Found'}),404
-
-    return jsonify(user)
-
-@app.put('/api/users/<id>')
-def update_users(id):
-    #Tomo datos del json
-    new_user = request.get_json()
-    username = new_user['username']
-    name = new_user['name']
-    surname = new_user['surname']
-    pwd = Fernet(key).encrypt(bytes(new_user['password'],'utf-8'))
-    #Abro conexion
-    conn = conection()
-    cur = conn.cursor(cursor_factory=extras.RealDictCursor)
-    cur.execute("update users set username=%s, name=%s, password=%s  where id = %s RETURNING *",(username,name,pwd,id)) #Inserto nuevo usuario
-    user = cur.fetchone()
-
-
-    conn.commit()
-    #Cierro conexiones
-    cur.close()
-    conn.close()
-
-    return jsonify(user)
-
-@app.get('/api/users/<id>')
-def get_user(id):
-    conn = conection()  #Llamo a funcion conection()
-    cur = conn.cursor(cursor_factory=extras.RealDictCursor) 
-
-    cur.execute('SELECT * FROM users where id= %s',(id))
-    user = cur.fetchone()
-    if user is None:  #Si no hay usuario
-        return jsonify({'message':'User NOT Found'}),404
-    
-    return jsonify(user)
-
-
-
-
 @app.post('/user/login')
 def login():
-    #import pdb; pdb.set_trace()
     conn = conection()
     cur = conn.cursor(cursor_factory=extras.RealDictCursor)
     username = request.json.get("username",None)
@@ -124,7 +46,6 @@ def login():
 ############## Asientos Contables ############
 @app.post('/movements')
 def done_move ():
-    import pdb; pdb.set_trace()
     #Traigo los datos del json que recibo 
     lineas_asiento = request.json
 
@@ -143,6 +64,7 @@ def done_move ():
         monto = linea.get('ammount')
         type = linea.get('type')
         id_cpny  = linea.get('id_company')
+        move_number = linea.get('moveNum')
         date = datetime.strptime(date, '%Y-%m-%d').date() #Datetime para comparar despues
         #Busco el id de la cuenta 
         cur.execute("SELECT id_account from accounts where name = %s",(account,))
@@ -166,11 +88,16 @@ def done_move ():
         
         fecha_ultimo = cur.fetchone()['max']
         # Restriccion/validacion 1 : fecha del asiento no puede ser menor a la del ultimo asiento
-        if fecha_ultimo > date : 
-            return jsonify({
-                "status":400,
-                "error":'Fecha erronea'
-            })
+        if fecha_ultimo is not None:
+            if fecha_ultimo > date : 
+                return jsonify({
+                    "status":400,
+                    "error":'Fecha erronea'
+                })
+        
+        else:
+            fecha_ultimo = None
+        
         
         if not validar_balance(lineas_asiento):
             asiento_balanceado = False
@@ -179,16 +106,15 @@ def done_move ():
         elif validar_balance(lineas_asiento) : #Asiento balanceado y no se realizo insercion
             if move_insert == 0: 
                 try:
-                    cur.execute("INSERT into account_moves(date,description,id_company) values (%s,%s,%s) RETURNING id_move",(date,description,id_cpny))
+                    cur.execute("INSERT into account_moves(date,description,id_company, move_number) values (%s,%s,%s,%s) RETURNING id_move",(date,description,id_cpny, move_number))
                     conn.commit()
                     if cur.rowcount == 1:
                         move_insert += 1
                         print('Insercion exitosa')
                         id_insertado = cur.fetchone()['id_move']
                         id_asiento = id_insertado
-                        import pdb; pdb.set_trace()
                         #Insercion primera linea
-                        cur.execute("INSERT into account_move_lines(id_move,id_account,debit,credit) values (%s,%s,%s,%s) RETURNING id_line",(int(id_asiento),int(id_account),debe,haber))
+                        cur.execute("INSERT into account_move_lines(id_move,id_account,debit,credit) values (%s,%s,%s,%s)",(int(id_asiento),int(id_account),debe,haber))
                         conn.commit()
                 except:
                     return jsonify({
@@ -198,7 +124,7 @@ def done_move ():
             else:
                 #Insercion de linea
                 try:
-                    cur.execute("INSERT into account_move_lines(id_move,id_account,debit,credit) values (%s,%s,%s,%s) RETURNING id_line",(int(id_asiento),int(id_account),debe,haber))
+                    cur.execute("INSERT into account_move_lines(id_move,id_account,debit,credit) values (%s,%s,%s,%s)",(int(id_asiento),int(id_account),debe,haber))
                     conn.commit()
                 except:
                     return jsonify({
@@ -208,8 +134,11 @@ def done_move ():
 
     if asiento_balanceado: 
         print('Asiento Balanceado')
+        return jsonify({
+            "status" : 201,
+            "msj": 'Asiento insertado correctamente'
+        })
     else:
-        import pdb; pdb.set_trace()
         return jsonify({
             "status": 400,
             "error": 'El asiento no está balanceado.'
