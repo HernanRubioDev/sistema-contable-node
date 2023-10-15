@@ -39,14 +39,17 @@ const loginUser = async (req, res)=>{
     
           const name = response.rows[0].name;
           const surname = response.rows[0].surname;
+          const user_role = response.rows[0].user_role;
+    
           const token = await authUser(username)
     
           token !== null ?
-          res.json({"status":201,"auth_token":token, "username":username, "name":name, "surname":surname}) 
+          res.json({status:201,auth_token:token, username:username, name:name, surname:surname, user_role: user_role}) 
           : 
           res.json({status:500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
         }
-        else res.json({status:403, message:"El usuario o la contraseña son incorrectos."})
+        else {console.log("entro") 
+        res.json({status:403, message:"El usuario o la contraseña son incorrectos."})}
         break
 
       default:

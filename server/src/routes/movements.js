@@ -4,6 +4,6 @@ const {addNewMovement} = require("../controllers/movementsController");
 
 const movementsRouter = Router();
 
-movementsRouter.post("/addMovement/:username/:auth_token", authMiddleware, addNewMovement);
+movementsRouter.post("/addMovement/:username/:user_role/:auth_token", authMiddleware, addNewMovement);
 
 module.exports=movementsRouter

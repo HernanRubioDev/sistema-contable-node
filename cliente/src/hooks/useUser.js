@@ -12,7 +12,6 @@ const useUser = ()=>{
   const {handleSession} = useContext(sessionContext)
 
   const registerUser= async (user)=>{
-    console.log(user)
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
     setLoading(true)
     const endpoint = "http://localhost:3000/user/register";
@@ -70,15 +69,17 @@ const useUser = ()=>{
 
     try {
       const res = await api.post(loginEndpoint, options)
+      console.log(res)
       switch (true) {
         case res.status === 201:
           localStorage.setItem ("auth_token", res.auth_token);
           localStorage.setItem("username", res.username)
+          localStorage.setItem("user_role", res.user_role)
           handleSession(true)
           break;
         
         case res.status === 500:
-          setErrors(res.status)
+          setResponse(res)
           handleSession(false)
           alertModal.show()
           break

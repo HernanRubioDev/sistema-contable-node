@@ -7,16 +7,18 @@ const useMovement = ()=>{
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [response, setResponse] = useState(null);
+  const [movements, setMovements] = useState([])
   const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
   
 
   const addMovements = async (movements)=>{
-    console.log(movements)
-    /*const username = localStorage.getItem("username");
+    const username = localStorage.getItem("username");
     const auth_token = localStorage.getItem("auth_token");
-    const addMovementUrl = `http://localhost:3000/movement/addMovement/${username}/${auth_token}`
-
+    const user_role = localStorage.getItem("user_role")
+    const addMovementUrl = `http://localhost:3000/movement/addMovement/${username}/${user_role}/${auth_token}`
+    delete movements.type
+    console.table(movements)
     const options = {
       body: movements,
       headers:{
@@ -27,8 +29,22 @@ const useMovement = ()=>{
     try {
       const response = await api.post(addMovementUrl, options);
       switch (true) {
-        case response.status === 200:
+        case response.status === 201:
           setResponse({title:"Creado", body:"El asiento se creo correctamente.", success: true})
+          infoToast.show();
+          break;
+
+        case res.status === 401:
+          setResponse(res)
+          alertModal.show();
+          setTimeout(() => {
+            logOutUser()
+            alertModal.hide()
+          }, 2000);
+          break
+    
+        case res.status === 403:
+          setResponse(res)
           infoToast.show();
           break;
       
@@ -42,9 +58,34 @@ const useMovement = ()=>{
       infoToast.show()
     }
 
-    setLoading(false)*/
+    setLoading(false)
   }
 
-  return {loading, errors, response, addMovements}
+  const searchMovements = async(dates)=>{
+    const {dateFrom, dateTo}= dates
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const searchMovements = `http://localhost:3000/movement/serachMovement/${username}/${auth_token}/?dateFrom=${dateFrom}&dateTo=${dateTo}`
+
+    setLoading(true)
+    try {
+      const res = await api.get(searchMovements);
+      switch (true) {
+        case res.status === 200:
+          setMovements(res.movements);
+          break;
+        
+        default:
+          setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+      setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
+      infoToast.show()
+    }
+  }
+
+  return {loading, errors, response, addMovements, searchMovements}
 }
 export default useMovement;

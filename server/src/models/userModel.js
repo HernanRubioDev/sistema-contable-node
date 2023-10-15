@@ -17,6 +17,7 @@ const getUserByUsername = async(username) =>{
     const res = await pool.query(query, [username])
     return res
   } catch (error) {
+    console.log(error)
     return null
   }
 }

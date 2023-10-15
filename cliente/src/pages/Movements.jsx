@@ -19,12 +19,12 @@ const Movements = ()=>{
   
   const [menu, setMenu] = useState('search');
   const {getMinorAccounts, accounts} = useAccount();
-  const {loading, errors, response, addMovements} = useMovement();
+  const {loading, errors, response, addMovements, searchMovements} = useMovement();
   return(
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} setMenu={setMenu} getMinorAccounts={getMinorAccounts} addMovements={addMovements}/>
+      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} setMenu={setMenu} getMinorAccounts={getMinorAccounts} addMovements={addMovements} searchMovements={searchMovements}/>
       <MovementDetailsModal />
       <InfoToast response={response}/>
     </div>

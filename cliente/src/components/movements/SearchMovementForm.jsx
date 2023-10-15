@@ -3,7 +3,11 @@ import { useState } from "react";
 import OpenMenuButton from "../../components/OpenMenuButton";
 import MovementDetailsRow from "../movements/MovementDetailsRow";
 
-const SearchMovementForm = ({menu, setMenu})=>{
+const SearchMovementForm = ({menu, setMenu, searchMovements})=>{
+
+  const today = new Date();
+  const actualDate = today.toISOString().slice(0, 10);
+
   const initialForm = {
     dateFrom:'',
     dateTo:''
@@ -25,13 +29,13 @@ const SearchMovementForm = ({menu, setMenu})=>{
         <form className="d-flex flex-wrap align-items-center ms-3 my-3">
           <div className="d-flex flex-column me-3">
             <span className="me-2 fw-medium text-secondary">Desde:</span>
-            <input onChange={(e)=>handleChange(e)} className="input-group border border-secondary form-control"  type="date" name="dateFrom" value={form.dateFrom}/>
+            <input onChange={(e)=>handleChange(e)} className="input-group border border-secondary form-control"  type="date" name="dateFrom" value={form.dateFrom} max={actualDate}/>
           </div>
           <div className="d-flex flex-column me-3">
             <span className="me-2 fw-medium text-secondary">Hasta:</span>
-            <input onChange={(e)=>handleChange(e)} className="input-group border border-secondary form-control"  type="date" name="dateTo" value={form.dateTo}/>
+            <input onChange={(e)=>handleChange(e)} className="input-group border border-secondary form-control"  type="date" name="dateTo" value={form.dateTo} max={actualDate}/>
           </div>
-            <button onClick={()=>console.log("click")} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
+            <button onClick={()=>searchMovements(form)} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
             <button onClick={()=>setForm(initialForm)} type="button" className="btn btn-secondary pe-3 align-self-end"><img className="me-1" src="icons/reset.svg" />Limpiar</button>
         </form>
         <div className="mx-3 table-container">

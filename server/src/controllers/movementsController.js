@@ -2,8 +2,8 @@ const {getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
-  let id_company;
-  const username = req.params.username
+  console.log(req.body)
+  /*const username = req.params.username
   const movement = req.body;
   try {
     const user = await getUserByUsername(username)
@@ -33,7 +33,7 @@ const addNewMovement = async(req, res) =>{
     })
   } catch (error) {
     console.log(error)
-  }
+  }*/
  
 }
 

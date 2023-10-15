@@ -7,25 +7,25 @@ const { MinorAccountsMiddleware } = require("../middlewares/MinorAccountsMiddlew
 const accountRouter = Router();
 
 
-accountRouter.post("/addMajor/:username/:auth_token", authMiddleware, MajorAccountsMiddleware, addMajorAccount)
+accountRouter.post("/addMajor/:username/:user_role/:auth_token", authMiddleware, MajorAccountsMiddleware, addMajorAccount)
 
 
-accountRouter.post("/addMinor/:username/:auth_token", authMiddleware, MinorAccountsMiddleware, addMinorAccount)
+accountRouter.post("/addMinor/:username/:user_role/:auth_token", authMiddleware, MinorAccountsMiddleware, addMinorAccount)
 
 
-accountRouter.get("/getMajorAccounts/:username/:auth_token", authMiddleware, searchMajorAccounts)
+accountRouter.get("/getMajorAccounts/:username/:user_role/:auth_token", authMiddleware, searchMajorAccounts)
 
 
-accountRouter.get("/getMinorAccounts/:username/:auth_token", authMiddleware, searchMinorAccounts)
+accountRouter.get("/getMinorAccounts/:username/:user_role/:auth_token", authMiddleware, searchMinorAccounts)
 
 
-accountRouter.get("/getAccounts/:username/:auth_token", authMiddleware, searchAccountByName)
+accountRouter.get("/getAccounts/:username/:user_role/:auth_token", authMiddleware, searchAccountByName)
 
 /*Hacer validaciones para el nombre si es necesario*/
-accountRouter.patch("/editAccount/:username/:auth_token", authMiddleware, editAccount)
+accountRouter.patch("/editAccount/:username/:user_role/:auth_token", authMiddleware, editAccount)
 
 
-accountRouter.delete("/deleteAccount/:username/:auth_token", authMiddleware, deleteAccountMiddleware, removeAccount)
+accountRouter.delete("/deleteAccount/:username/:user_role/:auth_token", authMiddleware, deleteAccountMiddleware, removeAccount)
 
 
 module.exports = accountRouter;

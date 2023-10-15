@@ -1,48 +1,27 @@
-CREATE TABLE users (
-	id_user SERIAL PRIMARY KEY,
-	name VARCHAR (40) NOT NULL,
-	surname VARCHAR (40) NOT NULL,
-	username VARCHAR (20) NOT NULL,
-	password VARCHAR (60) NOT NULL,
-	auth_token VARCHAR,
-	user_role VARCHAR (20) NOT NULL,
-	id_company INTEGER NOT NULL, 
-	
-	CONSTRAINT users_username_key UNIQUE (username)
-	
-	);
+CREATE TABLE Users ( 
+	id_user SERIAL PRIMARY KEY, 
+	name VARCHAR(40) NOT NULL, surname VARCHAR(40) NOT NULL, 
+	username VARCHAR(20) NOT NULL UNIQUE, password VARCHAR(60) NOT NULL, 
+	user_role VARCHAR(20) NOT NULL, 
+	auth_token VARCHAR(60) );
 
-CREATE TABLE accounts (
-	id_account SERIAL PRIMARY KEY,
-	name VARCHAR (30) NOT NULL,
-	recive_credit boolean NOT NULL,
-	credit numeric (10,2) NOT NULL,
-	code VARCHAR (5) NOT NULL,
-	date_creation VARCHAR (10) NOT NULL,
-	id_company INTEGER NOT NULL,
-	
-	CONSTRAINT account_name_key UNIQUE (name)
+CREATE TABLE accounts_moves ( 
+	id_move SERIAL PRIMARY KEY, 
+	move_date DATE NOT NULL, 
+	description VARCHAR(255) NOT NULL, 
+	id_user INTEGER NOT NULL, FOREIGN KEY (id_user) REFERENCES Users(id_user) );
 
-	);
+CREATE TABLE Accounts ( 
+	id_account SERIAL PRIMARY KEY, 
+	name VARCHAR(30) NOT NULL UNIQUE, 
+	recive_credit BOOLEAN NOT NULL, 
+	credit NUMERIC(10,2) NOT NULL, 
+	code VARCHAR(5) NOT NULL, 
+	date_creation DATE NOT NULL );
 
-CREATE TABLE account_moves (
-	id_move SERIAL PRIMARY KEY,
-	date DATE NOT NULL,
-  id_account INTEGER NOT NULL,
-	description VARCHAR (255) NOT NULL,
-	move_number INTEGET not null,
-	id_company INTEGER NOT NULL,
-
-    CONSTRAINT account_move_fk FOREIGN KEY (id_account) REFERENCES accounts (id_account)
-);
-
-CREATE TABLE account_move_lines (
-	id_line SERIAL PRIMARY KEY,
-	id_move INTEGER NOT NULL,
-	debit NUMERIC (10,2) NOT NULL,
-	credit NUMERIC (10,2) NOT NULL,
-	partial_credit NUMERIC(10,2) NOT NULL,
-
-	CONSTRAINT move_lines_fk FOREIGN KEY (id_move) REFERENCES account_moves (id_move)
-	
-);
+CREATE TABLE Accounts_moves_lines ( 
+	id_move INTEGER NOT NULL REFERENCES Accounts_moves(id_move), 
+	id_account INTEGER NOT NULL REFERENCES Accounts(id_account), 
+	date DATE NOT NULL, credit NUMERIC(10,2), 
+	debit NUMERIC(10,2), 
+	PRIMARY KEY (id_move, id_account) );

@@ -159,11 +159,11 @@ const editAccount = async(req, res)=>{
         break;
     
       default:
-        res.json({title:"Error", body:"No se ha podido editar la cuenta", success: false});
+        res.json({status: 400, title:"Error", body:"No se ha podido editar la cuenta", success: false});
         break;
     }
   } catch (error) {
-    res.json({title:"Error", body:"No se ha podido editar la cuenta", success: false});
+    res.json({status:500, title:"Error", body:"No se ha podido editar la cuenta", success: false});
   }
 }
 
