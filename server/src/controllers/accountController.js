@@ -103,7 +103,6 @@ const searchMajorAccounts = async (req, res)=>{
 }
 
 const searchMinorAccounts = async(req, res) =>{
-  console.log("entro")
   try {
     const accounts = await getMinorAccounts();
     switch (true) {

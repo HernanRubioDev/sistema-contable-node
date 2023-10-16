@@ -1,9 +1,10 @@
+const { getMovementQuantity, getMovementByDates} = require("../models/movementModel");
 const {getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
   console.log(req.body)
-  /*const username = req.params.username
+  const username = req.params.username
   const movement = req.body;
   try {
     const user = await getUserByUsername(username)
@@ -33,8 +34,42 @@ const addNewMovement = async(req, res) =>{
     })
   } catch (error) {
     console.log(error)
-  }*/
- 
+  }
 }
 
-module.exports={addNewMovement}
+const searchMovementQuantity = async(req, res)=>{
+  try {
+    const response = await getMovementQuantity();
+    switch (true) {
+      case response.rowCount !==0:
+        res.json({status: 200, quantity: response.rows[0]})
+        break;
+    
+      default:
+        res.json({status:500, title:"Error", body:"No se ha podido encontrar la cantidad de movimientos.", success:false})
+        break;
+    }
+  } catch (error) {        
+    res.json({status:500, title:"Error", body:"No se ha podido encontrar la cantidad de movimientos.", success:false})
+  }
+}
+
+const searchMovementByDates = async(req, res)=>{
+  const {dateFrom, dateTo} = req.query;
+  try {
+    const response = await getMovementByDates(dateFrom, dateTo)
+    switch (true) {
+      case response.rowCount >= 0:
+        res.json({status:200, movements: response.rows[0]});
+        break;
+    
+      default:
+        res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})
+  }
+}
+
+module.exports={addNewMovement, searchMovementQuantity, searchMovementByDates}

@@ -3,7 +3,7 @@ import { useState } from "react";
 import OpenMenuButton from "../../components/OpenMenuButton";
 import MovementDetailsRow from "../movements/MovementDetailsRow";
 
-const SearchMovementForm = ({menu, setMenu, searchMovements})=>{
+const SearchMovementForm = ({menu, setMenu, searchMovementsByDates})=>{
 
   const today = new Date();
   const actualDate = today.toISOString().slice(0, 10);
@@ -35,7 +35,7 @@ const SearchMovementForm = ({menu, setMenu, searchMovements})=>{
             <span className="me-2 fw-medium text-secondary">Hasta:</span>
             <input onChange={(e)=>handleChange(e)} className="input-group border border-secondary form-control"  type="date" name="dateTo" value={form.dateTo} max={actualDate}/>
           </div>
-            <button onClick={()=>searchMovements(form)} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
+            <button onClick={()=>searchMovementsByDates(form)} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
             <button onClick={()=>setForm(initialForm)} type="button" className="btn btn-secondary pe-3 align-self-end"><img className="me-1" src="icons/reset.svg" />Limpiar</button>
         </form>
         <div className="mx-3 table-container">

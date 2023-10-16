@@ -8,6 +8,7 @@ const useMovement = ()=>{
   const [errors, setErrors] = useState({});
   const [response, setResponse] = useState(null);
   const [movements, setMovements] = useState([])
+  const [quantity, setQuantity] = useState(null);
   const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
   
@@ -61,11 +62,12 @@ const useMovement = ()=>{
     setLoading(false)
   }
 
-  const searchMovements = async(dates)=>{
+  const searchMovementsByDates = async(dates)=>{
     const {dateFrom, dateTo}= dates
     const username = localStorage.getItem("username");
     const auth_token = localStorage.getItem("auth_token");
-    const searchMovements = `http://localhost:3000/movement/serachMovement/${username}/${auth_token}/?dateFrom=${dateFrom}&dateTo=${dateTo}`
+    const user_role = localStorage.getItem("user_role");
+    const searchMovements = `http://localhost:3000/movement/getMovementByDates/${username}/${user_role}/${auth_token}/?dateFrom=${dateFrom}&dateTo=${dateTo}`
 
     setLoading(true)
     try {
@@ -74,9 +76,19 @@ const useMovement = ()=>{
         case res.status === 200:
           setMovements(res.movements);
           break;
+
+        case res.status === 400:
+          setResponse(res)
+          infoToast.show()
+          break;
+
+        case res.status === 500:
+          setResponse({title:"Error", body:"No se ha podido buscar el asiento.", success: false})
+          infoToast.show()
+          break;
         
         default:
-          setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
+          setResponse({title:"Error", body:"No se ha podido buscar el asiento.", success: false})
           infoToast.show()
           break;
       }
@@ -86,6 +98,34 @@ const useMovement = ()=>{
     }
   }
 
-  return {loading, errors, response, addMovements, searchMovements}
+  const getMovesQuantity = async()=>{
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+    const movesQuantityUrl = `http://localhost:3000/movement/getMovementQuantity/${username}/${user_role}/${auth_token}`
+    try {
+      const res = await api.get(movesQuantityUrl);
+      switch (true) {
+        case res.status === 200:
+          setQuantity(parseInt(res.quantity.count));
+          break;
+
+        case res.status === 500:
+          setResponse({title:"Error", body:"No se ha podido encontrar la cantidad de movimientos.", success: false})
+          infoToast.show()
+          break
+
+        default:
+          setResponse({title:"Error", body:"No se ha podido encontrar la cantidad de movimientos.", success: false})
+          infoToast.show()
+          break
+      }
+    } catch (error) {
+      setResponse({title:"Error", body:"No se ha podido encontrar la cantidad de movimientos.", success: false})
+      infoToast.show()
+    }
+  }
+  
+  return {loading, errors, response, quantity, setQuantity, addMovements, searchMovementsByDates, getMovesQuantity}
 }
 export default useMovement;

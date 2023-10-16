@@ -6,15 +6,23 @@ import { useEffect, useId, useState } from "react";
 import Loader from "../Loader";
 import MovementTableRow from "../movements/MovementTableRow"
 
-const NewMovementForm = ({menu, accounts, setMenu, getMinorAccounts, addMovements, loading})=>{
+const NewMovementForm = ({menu, accounts, quantity, setMenu, getMinorAccounts, addMovements, loading, getMovesQuantity})=>{
   
   useEffect(()=>{
     getMinorAccounts()
+    getMovesQuantity()
   },[])
 
   useEffect(()=>{
     if(accounts.length !== 0) form.account = accounts[0].name
-  },[accounts])
+    
+    if(quantity !== null) {
+      form.moveNum = quantity}
+    setForm({
+      ...form,
+      [quantity]: quantity
+    })
+  },[accounts, quantity])
 
   const today = new Date();
   const actualDate = today.toISOString().slice(0, 10);
