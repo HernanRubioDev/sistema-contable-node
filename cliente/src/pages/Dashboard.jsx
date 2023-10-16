@@ -4,11 +4,13 @@ import sessionContext from "../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import Menu from "../components/Menu";
 import DashboardMenu from "../components/dashboard/DashboardMenu";
+import menuContext from "../context/menuContext";
 
 
 const Dashboard = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
+  const {setMenu} = useContext(menuContext)
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])
@@ -17,7 +19,7 @@ const Dashboard = ()=>{
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
         <Header />
         <Menu />
-        <DashboardMenu />
+        <DashboardMenu setMenu={setMenu}/>
     </div>
   );
 }

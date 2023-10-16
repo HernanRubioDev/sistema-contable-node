@@ -1,13 +1,45 @@
+import { useNavigate } from "react-router-dom";
 import OpenMenuButton from "../OpenMenuButton";
 
 
-const DashboardMenu = ()=>{
+const DashboardMenu = ({setMenu})=>{
+  const navigate = useNavigate();
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
       <OpenMenuButton />
-      <div className="d-flex flex-column h-100 justify-content-center align-self-center">
-        <h1 className="text-secondary w-100 text-center">En construcción</h1>
-        <img src="icons/construction.svg" />
+      <div className="d-flex flex-column h-100 justify-content-evenly">
+        <div className="d-flex flex-wrap justify-content-center h-100 pt-4">
+          <button onClick={()=>{navigate("/accounts"), setMenu("add")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow">
+            <h3 className="text-secondary ">Crear Cuentas</h3>
+            <img src="icons/dashboard-book-write.svg" />
+          </button>
+
+          <button onClick={()=>{navigate("/accounts"), setMenu("search")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow">
+            <h3 className="text-secondary ">Buscar Cuentas</h3>
+            <img src="icons/dashboard-book-read.svg" />
+          </button>
+
+          <button onClick={()=>{navigate("/movements"), setMenu("add")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow">
+            <h3 className="text-secondary ">Crear Movimientos</h3>
+            <img src="icons/dashboard-move-write.svg" />
+          </button>
+
+          <button onClick={()=>{navigate("/movements"), setMenu("search")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow">
+            <h3 className="text-secondary ">Ver Movimientos</h3>
+            <img src="icons/dashboard-move-read.svg" />
+          </button>
+
+          <button onClick={()=>{navigate("/books"), setMenu("ledger")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow">
+            <h3 className="text-secondary ">Libro Mayor</h3>
+            <img src="icons/dashboard-journal-book.svg" />
+          </button>
+
+          <button onClick={()=>{navigate("/books"), setMenu("journal")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow">
+            <h3 className="text-secondary ">Libro Diario</h3>
+            <img src="icons/dashboard-ledger-book.svg" />
+          </button>
+
+        </div>
       </div>
     </div>
   );

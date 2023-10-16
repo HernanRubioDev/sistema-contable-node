@@ -8,16 +8,21 @@ import useMovement from "../hooks/useMovement";
 import InfoToast from "../components/InfoToast";
 import MovementsMenuWrapper from "../components/movements/MovementMenuWrapper";
 import MovementDetailsModal from "../components/movements/MovementDetailsModal";
+import menuContext from "../context/menuContext";
 
 const Movements = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
+  const {menu, setMenu} = useContext(menuContext)
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])
 
+
+  useEffect(()=>{
+    if(menu !== "search" || "add") setMenu("search")
+    menu ? '' : setMenu("search")},[])
   
-  const [menu, setMenu] = useState('search');
   const {getMinorAccounts, accounts} = useAccount();
   const {loading, errors, response, quantity, addMovements, searchMovementsByDates, getMovesQuantity} = useMovement();
   return(

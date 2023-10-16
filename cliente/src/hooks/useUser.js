@@ -69,7 +69,6 @@ const useUser = ()=>{
 
     try {
       const res = await api.post(loginEndpoint, options)
-      console.log(res)
       switch (true) {
         case res.status === 201:
           localStorage.setItem ("auth_token", res.auth_token);

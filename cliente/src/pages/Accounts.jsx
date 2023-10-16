@@ -9,15 +9,20 @@ import useAccount from "../hooks/useAccount";
 import AlertModal from "../components/AlertModal";
 import EditAccountModal from "../components/accounts/EditAccountModal";
 import ConfirmModal from "../components/ConfirmModal";
+import menuContext from "../context/menuContext";
 
 const Accounts = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
+  const {menu, setMenu} = useContext(menuContext)
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])
 
-  const [menu, setMenu] = useState('search');
+  useEffect(()=>{
+    if(menu !== "search" || "add") setMenu("search")
+    menu ? '' : setMenu("search")},[])
+  
   const [accountToEdit, setAccountToEdit] = useState(null);
   const [accountToDelete, setAccountToDelete] = useState(null);
 

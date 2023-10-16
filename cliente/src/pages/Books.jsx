@@ -5,17 +5,21 @@ import Header from "../components/Header"
 import Menu from "../components/Menu";
 import BookMenuWrapper from "../components/books/BookMenuWrapper";
 import useAccount from "../hooks/useAccount";
+import menuContext from "../context/menuContext";
 
 const Books = ()=>{
 
     const navigate = useNavigate();
     const {session} = useContext(sessionContext)
+    const {menu, setMenu} = useContext(menuContext)
     useEffect(()=>{
       if(!session) navigate("/")
     },[session])
 
+    useEffect(()=>{
+        if(menu !== "ledger" || "journal") setMenu("ledger")
+        menu ? '' : setMenu("ledger")},[])
     const {accounts, setAccounts, getMinorAccounts} = useAccount();
-    const [menu, setMenu] = useState("ledger");
 
     return(
         <div className="vh-100 d-flex flex-wrap overflow-hidden">
