@@ -260,7 +260,6 @@ const useAccount = ()=>{
     try {
       setLoading(true)
       const res =  await api.remove(deleteUrl, options);
-      console.log(res)
       switch (true) {
         case res.status === 200:
           setResponse(res)

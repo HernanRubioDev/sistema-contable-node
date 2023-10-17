@@ -7,8 +7,8 @@ const DashboardMenu = ({active, setMenu, setActive})=>{
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
       <OpenMenuButton />
-      <div className="d-flex flex-column h-100 justify-content-evenly">
-        <div className="d-flex flex-wrap justify-content-center h-100 pt-4">
+      <div className="d-flex flex-column flex-grow-1 border justify-content-star">
+        <div className="d-flex flex-wrap justify-content-center pt-4">
           <button onClick={()=>{navigate("/accounts"), setMenu("add"), setActive("accounts")}} className="dashboard-btn d-flex flex-grow-1 flex-column bg-white justify-content-evenly align-items-center border-0 m-2 p-2 shadow rounded">
             <h3 className="text-secondary ">Crear Cuentas</h3>
             <img src="icons/dashboard-book-write.svg" />

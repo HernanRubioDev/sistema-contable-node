@@ -83,10 +83,10 @@ const useUser = ()=>{
           alertModal.show()
           break
           
-          case res.status === 400:
-            setErrors(res.validations);
-            handleSession(false)
-            break
+        case res.status === 400:
+          setErrors(res.validations);
+          handleSession(false)
+          break
         
         case res.status === 403:
           setErrors(res);
