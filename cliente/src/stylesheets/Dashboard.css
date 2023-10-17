@@ -19,8 +19,18 @@
   height: 9rem;
   width: 9rem;
   max-width: 10rem;
+  transition: 0.25s;
 }
 
 .dashboard-btn h3{
   font-size: 1rem;
+}
+
+.dashboard-btn:hover{
+  transition: 0.25s;
+  scale: 1.1;
+}
+
+.active-page{
+  background-color: #198754;
 }

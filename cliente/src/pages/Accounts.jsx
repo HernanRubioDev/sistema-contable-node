@@ -18,10 +18,6 @@ const Accounts = ()=>{
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])
-
-  useEffect(()=>{
-    if(menu !== "search" || "add") setMenu("search")
-    menu ? '' : setMenu("search")},[])
   
   const [accountToEdit, setAccountToEdit] = useState(null);
   const [accountToDelete, setAccountToDelete] = useState(null);

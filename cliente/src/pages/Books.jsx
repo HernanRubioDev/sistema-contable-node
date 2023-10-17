@@ -16,9 +16,6 @@ const Books = ()=>{
       if(!session) navigate("/")
     },[session])
 
-    useEffect(()=>{
-        if(menu !== "ledger" || "journal") setMenu("ledger")
-        menu ? '' : setMenu("ledger")},[])
     const {accounts, setAccounts, getMinorAccounts} = useAccount();
 
     return(

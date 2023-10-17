@@ -10,7 +10,7 @@ import menuContext from "../context/menuContext";
 const Dashboard = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
-  const {setMenu} = useContext(menuContext)
+  const {active, setMenu, setActive} = useContext(menuContext)
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])
@@ -19,7 +19,7 @@ const Dashboard = ()=>{
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
         <Header />
         <Menu />
-        <DashboardMenu setMenu={setMenu}/>
+        <DashboardMenu active={active} setActive={setActive} setMenu={setMenu}/>
     </div>
   );
 }

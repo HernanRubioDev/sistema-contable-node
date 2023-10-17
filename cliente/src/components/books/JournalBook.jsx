@@ -21,7 +21,7 @@ const JournalBook = ({setMenu})=>{
       </div>
 
 			<div className="d-flex flex-column bg-white shadow mx-3 my-3">
-				<h3 className="fs-5 text-secondary text-center ms-3 mt-2">Libro Mayor</h3>
+				<h3 className="fs-5 text-secondary text-center ms-3 mt-2">Libro Diario</h3>
 				<form className="d-flex flex-wrap align-items-center ms-3 my-3">
           <div className="d-flex flex-column me-3">
             <span className="me-2 fw-medium text-secondary">Desde:</span>

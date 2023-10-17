@@ -14,14 +14,10 @@ const Movements = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
   const {menu, setMenu} = useContext(menuContext)
+  
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])
-
-
-  useEffect(()=>{
-    if(menu !== "search" || "add") setMenu("search")
-    menu ? '' : setMenu("search")},[])
   
   const {getMinorAccounts, accounts} = useAccount();
   const {loading, errors, response, quantity, addMovements, searchMovementsByDates, getMovesQuantity} = useMovement();
