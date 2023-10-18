@@ -45,7 +45,6 @@ const SearchAccountForm = ({accounts, loading, setMenu, setAccounts, getAccountB
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Tipo</th>
-                <th scope="col">Saldo</th>
                 <th scope="col">Creada</th>
                 <th scope="col">Código</th>
                 <th scope="col">Acción</th>

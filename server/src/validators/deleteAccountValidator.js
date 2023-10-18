@@ -25,7 +25,6 @@ const deleteMinorAccoutValidation = async(account)=>{
   const errors = {}
   const query = "SELECT * FROM accounts_moves_lines WHERE id_account = $1";
   const moves = await pool.query(query, [id_account])
-  moves.rowCount = 1;
   switch (true) {
     case moves.rowCount !== 0:
       errors.message = "No se puede eliminar una cuenta que posee movimientos asociados."

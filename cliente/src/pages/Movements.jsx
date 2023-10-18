@@ -20,13 +20,13 @@ const Movements = ()=>{
   },[session])
   
   const {getMinorAccounts, accounts} = useAccount();
-  const {loading, errors, response, quantity, addMovements, searchMovementsByDates, getMovesQuantity} = useMovement();
+  const {loading, lines, response, quantity, movements, addMovements, searchMovementsByDates, getMovesQuantity, getMoveLineById} = useMovement();
   return(
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} quantity={quantity} setMenu={setMenu} getMinorAccounts={getMinorAccounts} addMovements={addMovements} searchMovementsByDates={searchMovementsByDates} getMovesQuantity={getMovesQuantity}/>
-      <MovementDetailsModal />
+      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} quantity={quantity} setMenu={setMenu} movements={movements} getMinorAccounts={getMinorAccounts} addMovements={addMovements} searchMovementsByDates={searchMovementsByDates} getMovesQuantity={getMovesQuantity} getMoveLineById={getMoveLineById}/>
+      <MovementDetailsModal lines={lines}/>
       <InfoToast response={response}/>
     </div>
   );

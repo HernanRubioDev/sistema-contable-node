@@ -1,11 +1,12 @@
-const MovementDetailsRow = ()=>{
+const MovementDetailsRow = ({data, getMoveLineById})=>{
+  const{description, move_date, id_move}=data
     return(
     <tr>
-      <td>04/10/2020</td>
-      <td>1234</td>
-      <td>Venta a crédito</td>
+      <td>{id_move}</td>
+      <td>{move_date}</td>
+      <td>{description}</td>
       <td>
-        <button className="bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#detailsMovement">
+        <button onClick={()=>getMoveLineById(id_move)} className="bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#detailsMovement">
           <img src="icons/see-more.svg"/>
         </button>
       </td>

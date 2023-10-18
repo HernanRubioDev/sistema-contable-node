@@ -5,9 +5,9 @@ import useUser from "./useUser";
 const useMovement = ()=>{
   const api = helpHttp();
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
   const [response, setResponse] = useState(null);
   const [movements, setMovements] = useState([])
+  const [lines, setLines] = useState([]);
   const [quantity, setQuantity] = useState(null);
   const {logOutUser} = useUser();
   const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
@@ -77,7 +77,7 @@ const useMovement = ()=>{
       const res = await api.get(searchMovements);
       switch (true) {
         case res.status === 200:
-          setMovements(res.movements);
+          setMovements([res.movements]);
           break;
 
         case res.status === 400:
@@ -97,6 +97,33 @@ const useMovement = ()=>{
       }
     } catch (error) {
       setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
+      infoToast.show()
+    }
+    setLoading(false)
+  }
+
+  const getMoveLineById = async(id_move)=>{
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+
+    const serachLineURL = `http://localhost:3000/movement/getMoveLineById/${username}/${user_role}/${auth_token}/?id_move=${id_move}`
+
+    try {
+      const res = await api.get(serachLineURL)
+      switch (true) {
+        case res.status === 200:
+          console.log(res.lines)
+          setLines(res.lines);
+          break;
+      
+        default:
+          setResponse({title:"Error", body:"No se ha podido encontrar encontrar las lineas.", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+      setResponse({title:"Error", body:"No se ha podido encontrar encontrar las lineas.", success: false})
       infoToast.show()
     }
   }
@@ -129,6 +156,6 @@ const useMovement = ()=>{
     }
   }
   
-  return {loading, errors, response, quantity, setQuantity, addMovements, searchMovementsByDates, getMovesQuantity}
+  return {loading, response, quantity, movements, lines, setQuantity, addMovements, searchMovementsByDates, getMovesQuantity, getMoveLineById}
 }
 export default useMovement;

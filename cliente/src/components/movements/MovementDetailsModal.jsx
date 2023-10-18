@@ -1,4 +1,6 @@
-const MovementDetailsModal = ()=>{
+import MovementLineRow from "./MovementLineRow";
+
+const MovementDetailsModal = ({lines})=>{
     return(
         <div className="modal fade" id="detailsMovement" tabIndex="-1" aria-labelledby="detailsMovementLabel" aria-hidden="true">
            <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -11,29 +13,13 @@ const MovementDetailsModal = ()=>{
                   <table className="table table-striped table-bordered border-black">
                     <thead>
                         <tr>
-                          <th scope="col">N° Asiento</th>
-                          <th scope="col">Fecha</th>
                           <th scope="col">Cuenta</th>
-                          <th scope="col">Monto</th>
+                          <th scope="col">Debe</th>
+                          <th scope="col">Haber</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr scope="row">
-                        <td>1</td>
-                        <td>12/09/23</td>
-                        <td>Banco Rio</td>
-                        <td>10000</td>
-                      </tr>
-                    </tbody>
-                    <thead>
-                      <tr>
-                        <th className="text-center" colSpan="4" scope="col">Descripcion</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr scope="row">
-                        <td className="text-center" colSpan="4">Venta</td>
-                      </tr>
+                      {lines.length !== 0 && lines.map((line, index) => <MovementLineRow key={index} data={line}/>)}
                     </tbody>
                   </table>
                 </div>

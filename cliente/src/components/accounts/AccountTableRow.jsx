@@ -1,5 +1,5 @@
 const AccountTableRow = ({data, setAccountToEdit, setAccountToDelete})=>{
-  let {name,  credit, recive_credit ,code, date_creation} = data;
+  let {name, code, date_creation} = data;
   let type;
   switch (true) {
 
@@ -31,7 +31,6 @@ const AccountTableRow = ({data, setAccountToEdit, setAccountToDelete})=>{
   <tr>
     <td>{name}</td>
     <td>{type}</td>
-    <td>{recive_credit ? `$ ${credit}` : '-'}</td>
     <td>{date_creation}</td>
     <td>{code}</td>
     <td>

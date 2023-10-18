@@ -3,7 +3,7 @@ import { useState } from "react";
 import OpenMenuButton from "../../components/OpenMenuButton";
 import MovementDetailsRow from "../movements/MovementDetailsRow";
 
-const SearchMovementForm = ({menu, setMenu, searchMovementsByDates})=>{
+const SearchMovementForm = ({menu, movements, setMenu, searchMovementsByDates, getMoveLineById})=>{
 
   const today = new Date();
   const actualDate = today.toISOString().slice(0, 10);
@@ -42,14 +42,16 @@ const SearchMovementForm = ({menu, setMenu, searchMovementsByDates})=>{
           <table className="table table-striped">
             <thead className="sticky-top">
               <tr>
-                <th scope="col">Fecha</th>
                 <th scope="col">N° Asiento</th>
+                <th scope="col">Fecha</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody >
-              <MovementDetailsRow />
+              {movements &&
+              movements.map(move => <MovementDetailsRow key={move.id_move} data={move} getMoveLineById={getMoveLineById}/>)
+              }
             </tbody>
           </table>
         </div>
