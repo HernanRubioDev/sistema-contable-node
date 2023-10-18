@@ -3,7 +3,6 @@ const {getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
-  console.log(req.body)
   const username = req.params.username
   const movement = req.body;
   try {
@@ -25,13 +24,15 @@ const addNewMovement = async(req, res) =>{
   }
 
   try {
-    const response = await fetch("http://localhost:5000/movement:",{
+    const response = await fetch("http://localhost:5000/movements",{
       method:"POST",
       body: JSON.stringify(movement),
       headers: {
         "Content-Type":"application/json"
       }
     })
+    res.json(response)
+    console.log(response)
   } catch (error) {
     console.log(error)
   }

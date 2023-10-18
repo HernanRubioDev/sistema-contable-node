@@ -125,7 +125,9 @@ def done_move ():
                 except:
                     return jsonify({
                         "status":400,
-                        "error":'No fue posible insertar el asiento'
+                        "title":"Error",
+                        "body":'No fue posible insertar el asiento',
+                        "success":False
                     })
             else:
                 #Insercion de linea
@@ -135,19 +137,25 @@ def done_move ():
                 except:
                     return jsonify({
                         "status":400,
-                        "error":'No fue posible insertar las lineas correspondientes al asiento'
+                        "title":"Error",
+                        "body":'No fue posible insertar las lineas correspondientes al asiento',
+                        "success":False
                     })
 
     if asiento_balanceado: 
         print('Asiento Balanceado')
         return jsonify({
             "status" : 201,
-            "msj": 'Asiento insertado correctamente'
+            "title": "Agregado",
+            "body": 'El asiento se inserto correctamente',
+            "success":True
         })
     else:
         return jsonify({
             "status": 400,
-            "error": 'El asiento no está balanceado.'
+            "title":"Error",
+            "body": 'El asiento no está balanceado.',
+            "success":False
         })
 
 
