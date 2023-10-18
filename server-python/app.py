@@ -47,29 +47,34 @@ def login():
 @app.post('/movements')
 def done_move ():
     #Traigo los datos del json que recibo 
-    lineas_asiento = request.json
-
+    asiento = request.json
+    import pdb; pdb.set_trace()
     #Abro conexion con la base de datos para hacer selects de los datos que necesito
     # 1: Necesito hacer una busqueda de la cuenta para obtener el id
     conn = conection()
     cur = conn.cursor(cursor_factory=extras.RealDictCursor)
-
+    lineas_asiento = asiento["rows"]
     asiento_balanceado = True #Inicializo variable para ver tema balanceo
     move_insert = 0
     id_asiento = 0 
     for linea in lineas_asiento:
         date = linea.get('date')
-        description = linea.get('description')
         account = linea.get('account')
         monto = linea.get('ammount')
         type = linea.get('type')
         id_cpny  = linea.get('id_company')
-        move_number = linea.get('moveNum')
+        move_number = asiento.get('moveNum')
+        description = asiento.get('description')
         date = datetime.strptime(date, '%Y-%m-%d').date() #Datetime para comparar despues
         #Busco el id de la cuenta 
         cur.execute("SELECT id_account from accounts where name = %s",(account,))
-        id_account = cur.fetchone()['id_account']
-        
+        try:
+            id_account = cur.fetchone()['id_account']
+        except:
+            return jsonify({
+                "status":400,
+                "error":('La cuenta %s no existe',(account,))
+            })
         #Monto no puede ser menor que 0
         if float(monto) <= 0 : 
             return jsonify({
@@ -84,7 +89,7 @@ def done_move ():
         if type == 'haber': haber += float(monto)
         #Obtengo la ultima fecha del asiento
 
-        cur.execute("SELECT MAX(date) from account_moves") #Me traigo la fecha mas alta que es la que voy a necesitar para los asientos
+        cur.execute("SELECT MAX(move_date) from accounts_moves") #Me traigo la fecha mas alta que es la que voy a necesitar para los asientos
         
         fecha_ultimo = cur.fetchone()['max']
         # Restriccion/validacion 1 : fecha del asiento no puede ser menor a la del ultimo asiento
@@ -104,9 +109,10 @@ def done_move ():
             break
         
         elif validar_balance(lineas_asiento) : #Asiento balanceado y no se realizo insercion
-            if move_insert == 0: 
+            if move_insert == 0:
+
                 try:
-                    cur.execute("INSERT into account_moves(date,description,id_company, move_number) values (%s,%s,%s,%s) RETURNING id_move",(date,description,id_cpny, move_number))
+                    cur.execute("INSERT into accounts_moves(move_date,description) values (%s,%s) RETURNING id_move",(date,description))
                     conn.commit()
                     if cur.rowcount == 1:
                         move_insert += 1
@@ -114,7 +120,7 @@ def done_move ():
                         id_insertado = cur.fetchone()['id_move']
                         id_asiento = id_insertado
                         #Insercion primera linea
-                        cur.execute("INSERT into account_move_lines(id_move,id_account,debit,credit) values (%s,%s,%s,%s)",(int(id_asiento),int(id_account),debe,haber))
+                        cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
                         conn.commit()
                 except:
                     return jsonify({
@@ -124,7 +130,7 @@ def done_move ():
             else:
                 #Insercion de linea
                 try:
-                    cur.execute("INSERT into account_move_lines(id_move,id_account,debit,credit) values (%s,%s,%s,%s)",(int(id_asiento),int(id_account),debe,haber))
+                    cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
                     conn.commit()
                 except:
                     return jsonify({
