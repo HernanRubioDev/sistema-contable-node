@@ -38,7 +38,6 @@ const DashboardMenu = ({active, setMenu, setActive})=>{
             <h3 className="text-secondary ">Libro Diario</h3>
             <img src="icons/dashboard-ledger-book.svg" />
           </button>
-
         </div>
       </div>
     </div>

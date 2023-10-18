@@ -47,16 +47,14 @@ const NewMovementForm = ({menu, accounts, quantity, setMenu, getMinorAccounts, a
     const newRow = {date:form.date, account:form.account, type:form.type, ammount:form.ammount}
     form.rows.push(newRow);
     setForm({
-      ...form,
-      [form.rows]: form.rows
+      ...form
     })
   }
 
   const deleteRow = (row)=>{
     form.rows.splice(form.rows.indexOf(row), 1);
     setForm({
-      ...form,
-      [form.rows]: form.rows
+      ...form
     })
   }
 

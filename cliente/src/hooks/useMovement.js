@@ -19,7 +19,10 @@ const useMovement = ()=>{
     const user_role = localStorage.getItem("user_role")
     const addMovementUrl = `http://localhost:3000/movement/addMovement/${username}/${user_role}/${auth_token}`
     delete movements.type
-    console.table(movements)
+    delete movements.ammount
+    delete movements.account
+    delete movements.moveNum
+
     const options = {
       body: movements,
       headers:{
