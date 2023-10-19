@@ -9,6 +9,7 @@ CORS(app, resources={"/user/login": {"origins": "http://127.0.0.1:5173"}})
 key = Fernet.generate_key()
 from config import DB_CONFIG
 from datetime import datetime
+from decimal import Decimal
 
 def conection():
     host =  DB_CONFIG['host']
@@ -48,7 +49,7 @@ def login():
 def done_move ():
     #Traigo los datos del json que recibo 
     asiento = request.json
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     #Abro conexion con la base de datos para hacer selects de los datos que necesito
     # 1: Necesito hacer una busqueda de la cuenta para obtener el id
     conn = conection()
@@ -67,10 +68,56 @@ def done_move ():
         description = asiento.get('description')
         date = datetime.strptime(date, '%Y-%m-%d').date() #Datetime para comparar despues
         #Busco el id de la cuenta 
-        cur.execute("SELECT id_account from accounts where name = %s",(account,))
+        cur.execute("SELECT id_account,credit,code from accounts where name = %s",(account,))
         try:
-            id_account = cur.fetchone()['id_account']
+            import pdb; pdb.set_trace()
+            row = cur.fetchone()
+            id_account = row['id_account']
+            credito_cuenta = row['credit']
+            # Me traigo el tipo de cuenta
+            tipo_cuenta = row['code']
+            #Me fijo por codigo que tipo de cuenta es
+            if tipo_cuenta[0] == '1':
+                tipo_cuenta = 'activo'
+            
+            if tipo_cuenta[0] == '2':
+                tipo_cuenta = 'pasivo'
+            
+            if tipo_cuenta[0] == '3':
+                tipo_cuenta = 'patrimonio'
+
+            if tipo_cuenta[0] == '4':
+                tipo_cuenta = 'r+'
+
+            if tipo_cuenta[0] == '5':
+                tipo_cuenta = 'r-'
+            
+            # Si es activo y el tipo de linea es 'HABER' tiene que restar el saldo
+
+            if type == 'haber' and tipo_cuenta == 'activo':
+                total = credito_cuenta - Decimal(monto)
+                if total <= 0: 
+                    return jsonify({
+                        "status":400,
+                        "title":"Error",
+                        "body":('El saldo de la cuenta %s es menor al monto a insertar en la linea',(account,)),
+                        "success":False
+                    })
+                
+            #Si es pasivo y el tipo es DEBE resta
+            if type == 'debe' and tipo_cuenta == 'pasivo':
+                total = credito_cuenta - Decimal(monto)
+                if total <= 0: 
+                    return jsonify({
+                        "status":400,
+                        "title":"Error",
+                        "body":('El saldo de la cuenta %s es menor al monto a insertar en la linea',(account,)),
+                        "success":False
+                    })
+
+
         except:
+            import pdb; pdb.set_trace()
             return jsonify({
                 "status":400,
                 "error":('La cuenta %s no existe',(account,))
@@ -103,6 +150,7 @@ def done_move ():
         else:
             fecha_ultimo = None
         
+        #Validacion de saldos de cuentas
         
         if not validar_balance(lineas_asiento):
             asiento_balanceado = False
