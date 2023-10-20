@@ -2,7 +2,7 @@
 
 DB_CONFIG = {
     'host': 'localhost',
-    'database': 'sistemaContableDev',
-    'user': 'juancruz',
-    'password': 'juan123',
+    'database': 'sistema_contable',
+    'user': 'postgres',
+    'password': '123456',
 }

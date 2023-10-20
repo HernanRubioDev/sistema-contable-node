@@ -1,26 +1,25 @@
 const { getMovementQuantity, getMovementByDates, getLineById} = require("../models/movementModel");
-const {getUserByUsername} = require("../models/userModel");
+const { getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
-  const username = req.params.username
   const movement = req.body;
+  const {username} = req.params
+
   try {
     const user = await getUserByUsername(username)
     switch (true) {
-      case user.rowCount !== 0:
-        id_company = user.rows[0].id_company;
-        movement.forEach(mov => {
-          mov.id_company = id_company
-        });
+      case user.rowCount !==0:
+        movement.id_user = user.rows[0].id_user;
+        delete movement.null
         break;
     
       default:
-        res.json({"status":400})
+        res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
         break;
     }
   } catch (error) {
-    res.json({"status":500})
+    res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
   }
 
   try {
@@ -31,10 +30,11 @@ const addNewMovement = async(req, res) =>{
         "Content-Type":"application/json"
       }
     })
-    res.json(response)
-    console.log(response)
+    const body = await response.text()
+    const parsedBody = JSON.parse(body)
+    res.json(parsedBody)
   } catch (error) {
-    console.log(error)
+    res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
   }
 }
 
@@ -61,7 +61,7 @@ const searchMovementByDates = async(req, res)=>{
     const response = await getMovementByDates(dateFrom, dateTo)
     switch (true) {
       case response.rowCount >= 0:
-        res.json({status:200, movements: response.rows[0]});
+        res.json({status:200, movements: response.rows});
         break;
     
       default:
@@ -77,7 +77,6 @@ const searchLineById = async(req, res)=>{
   const{id_move} = req.query
   try {
      const lines = await getLineById(id_move);
-     console.log(lines.rows)
      switch (true) {
       case lines.rowCount !==0:
         res.json({status:200, lines: lines.rows});

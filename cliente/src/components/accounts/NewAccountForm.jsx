@@ -70,7 +70,7 @@ const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getM
           {form.recive_credit === "true" ? 
               <div className="w-50 pe-2">
                 <span>Cuenta</span>
-                <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="code" value={form.code}>
+                <select onChange={(e)=>handleChange(e)} className="form-select"  aria-label="Default select example" name="code" value={form.code}>
                   <option className="d-none" value={null}>Selecciona una cuenta</option>
                   {accounts.map(account => <option key={account.id_account} value={account.code}>{account.name}</option>)}
                 </select>
