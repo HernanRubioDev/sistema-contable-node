@@ -57,7 +57,14 @@ def done_move ():
     lineas_asiento = asiento["rows"]
     asiento_balanceado = True #Inicializo variable para ver tema balanceo
     move_insert = 0
-    id_asiento = 0 
+    id_asiento = 0
+    if len(lineas_asiento) < 2: 
+        return jsonify({
+                "status":400,
+                "title":"Error",
+                "error":'Cantidad de lineas menor a 2',
+                "success":False
+                })
     for linea in lineas_asiento:
         date = linea.get('date')
         account = linea.get('account')
@@ -70,7 +77,7 @@ def done_move ():
         #Busco el id de la cuenta 
         cur.execute("SELECT id_account,credit,code from accounts where name = %s",(account,))
         try:
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             row = cur.fetchone()
             id_account = row['id_account']
             credito_cuenta = row['credit']
@@ -117,7 +124,6 @@ def done_move ():
 
 
         except:
-            import pdb; pdb.set_trace()
             return jsonify({
                 "status":400,
                 "error":('La cuenta %s no existe',(account,))
