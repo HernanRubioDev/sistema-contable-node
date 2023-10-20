@@ -24,7 +24,7 @@ const searchMovementQuantity = async(req, res)=>{
     const response = await getMovementQuantity();
     switch (true) {
       case response.rowCount !==0:
-        res.json({status: 200, quantity: response.rows[0]})
+        res.json({status: 200, quantity: response.rows})
         break;
     
       default:
@@ -42,7 +42,7 @@ const searchMovementByDates = async(req, res)=>{
     const response = await getMovementByDates(dateFrom, dateTo)
     switch (true) {
       case response.rowCount >= 0:
-        res.json({status:200, movements: response.rows[0]});
+        res.json({status:200, movements: response.rows});
         break;
     
       default:

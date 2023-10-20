@@ -77,7 +77,7 @@ const useMovement = ()=>{
       const res = await api.get(searchMovements);
       switch (true) {
         case res.status === 200:
-          setMovements([res.movements]);
+          setMovements(res.movements);
           break;
 
         case res.status === 400:
