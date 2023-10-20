@@ -13,7 +13,7 @@ import menuContext from "../context/menuContext";
 const Movements = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
-  const {menu, setMenu} = useContext(menuContext)
+  const {menu, setMenu, setActive} = useContext(menuContext)
   
   useEffect(()=>{
     if(!session) navigate("/")
@@ -25,7 +25,7 @@ const Movements = ()=>{
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
       <Menu />
-      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} quantity={quantity} setMenu={setMenu} movements={movements} getMinorAccounts={getMinorAccounts} addMovements={addMovements} searchMovementsByDates={searchMovementsByDates} getMovesQuantity={getMovesQuantity} getMoveLineById={getMoveLineById}/>
+      <MovementsMenuWrapper menu={menu} accounts={accounts} loading={loading} quantity={quantity} setMenu={setMenu} setActive={setActive} movements={movements} getMinorAccounts={getMinorAccounts} addMovements={addMovements} searchMovementsByDates={searchMovementsByDates} getMovesQuantity={getMovesQuantity} getMoveLineById={getMoveLineById}/>
       <MovementDetailsModal lines={lines}/>
       <InfoToast response={response}/>
     </div>

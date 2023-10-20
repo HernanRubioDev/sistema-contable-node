@@ -1,8 +1,26 @@
 const { getMovementQuantity, getMovementByDates, getLineById} = require("../models/movementModel");
+const { getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
   const movement = req.body;
+  const {username} = req.params
+
+  try {
+    const user = await getUserByUsername(username)
+    switch (true) {
+      case user.rowCount !==0:
+        movement.id_user = user.rows[0].id_user;
+        delete movement.null
+        break;
+    
+      default:
+        res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
+  }
 
   try {
     const response = await fetch("http://localhost:5000/movements",{
@@ -16,7 +34,7 @@ const addNewMovement = async(req, res) =>{
     const parsedBody = JSON.parse(body)
     res.json(parsedBody)
   } catch (error) {
-    console.log(error)
+    res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
   }
 }
 

@@ -1,13 +1,13 @@
-import { NavLink } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import OpenMenuButton from "../../components/OpenMenuButton";
 import '../../stylesheets/NewMovementForm.css';
 import useForm from "../../hooks/useForm";
-import { useEffect, useId, useState } from "react";
+import { useEffect} from "react";
 import Loader from "../Loader";
 import MovementTableRow from "../movements/MovementTableRow"
 
-const NewMovementForm = ({menu, accounts, quantity, setMenu, getMinorAccounts, addMovements, loading, getMovesQuantity})=>{
-  
+const NewMovementForm = ({accounts, quantity, setMenu, setActive, getMinorAccounts, addMovements, loading, getMovesQuantity})=>{
+  const navigate = useNavigate();
   useEffect(()=>{
     getMinorAccounts()
     getMovesQuantity()
@@ -100,11 +100,11 @@ const NewMovementForm = ({menu, accounts, quantity, setMenu, getMinorAccounts, a
 
             <div className="d-flex flex-grow-1 ms-4 mt-3 mt-lg-0">
               <div className="d-flex flex-grow-1 me-2">
-                <NavLink to="/accounts" className="btn btn-secondary w-100 align-self-end ">Plan de cuentas</NavLink>
+                <button onClick={()=>{navigate("/accounts"), setMenu("search"), setActive("accounts")}} className="btn btn-secondary w-100 align-self-end ">Plan de cuentas</button>
               </div>
 
               <div className="d-flex flex-grow-1 ms-2">
-                <NavLink to="/accounts"  className="btn btn-secondary w-100 align-self-end">Agregar cuenta</NavLink>
+                <button onClick={()=>{navigate("/accounts"), setMenu("add"), setActive("accounts")}}  className="btn btn-secondary w-100 align-self-end">Agregar cuenta</button>
               </div>
             </div> 
           </div>
