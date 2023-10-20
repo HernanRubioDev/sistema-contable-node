@@ -21,7 +21,7 @@ const getMovementByDates = async(dateFrom, dateTo)=>{
 }
 
 const getLineById = async (id_move)=>{
-    const query = "SELECT name, accounts_moves_lines.credit, debit FROM accounts_moves_lines LEFT JOIN accounts ON accounts_moves_lines.id_account = accounts.id_account WHERE accounts_moves_lines.id_move = $1"
+    const query = "SELECT name, accounts_moves_lines.credit, debit FROM accounts_moves_lines LEFT JOIN accounts ON accounts_moves_lines.id_account = accounts.id_account WHERE accounts_moves_lines.id_move = $1 ORDER BY num_line ASC"
     try {
         const res = await pool.query(query, [id_move]);
         return res

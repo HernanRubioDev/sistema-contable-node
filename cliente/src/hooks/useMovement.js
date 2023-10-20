@@ -38,6 +38,11 @@ const useMovement = ()=>{
           infoToast.show();
           break;
 
+        case res.status === 400:
+          setResponse(res)
+          infoToast.show()
+          break;
+
         case res.status === 401:
           setResponse(res)
           alertModal.show();

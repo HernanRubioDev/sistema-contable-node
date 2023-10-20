@@ -1,5 +1,4 @@
 const { getMovementQuantity, getMovementByDates, getLineById} = require("../models/movementModel");
-const {getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
@@ -13,7 +12,9 @@ const addNewMovement = async(req, res) =>{
         "Content-Type":"application/json"
       }
     })
-    res.json(response)
+    const body = await response.text()
+    const parsedBody = JSON.parse(body)
+    res.json(parsedBody)
   } catch (error) {
     console.log(error)
   }
@@ -24,7 +25,7 @@ const searchMovementQuantity = async(req, res)=>{
     const response = await getMovementQuantity();
     switch (true) {
       case response.rowCount !==0:
-        res.json({status: 200, quantity: response.rows})
+        res.json({status: 200, quantity: response.rows[0]})
         break;
     
       default:
@@ -58,7 +59,6 @@ const searchLineById = async(req, res)=>{
   const{id_move} = req.query
   try {
      const lines = await getLineById(id_move);
-     console.log(lines.rows)
      switch (true) {
       case lines.rowCount !==0:
         res.json({status:200, lines: lines.rows});
