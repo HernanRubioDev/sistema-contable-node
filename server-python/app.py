@@ -70,7 +70,7 @@ def done_move ():
         #Busco el id de la cuenta 
         cur.execute("SELECT id_account,credit,code from accounts where name = %s",(account,))
         try:
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             row = cur.fetchone()
             id_account = row['id_account']
             credito_cuenta = row['credit']
@@ -96,7 +96,7 @@ def done_move ():
 
             if type == 'haber' and tipo_cuenta == 'activo':
                 total = credito_cuenta - Decimal(monto)
-                if total <= 0: 
+                if total <= 0:
                     return jsonify({
                         "status":400,
                         "title":"Error",
@@ -120,13 +120,17 @@ def done_move ():
             import pdb; pdb.set_trace()
             return jsonify({
                 "status":400,
-                "error":('La cuenta %s no existe',(account,))
+                "title":"Error",
+                "body":('La cuenta %s no existe',(account,)),
+                "success": False
             })
         #Monto no puede ser menor que 0
         if float(monto) <= 0 : 
             return jsonify({
                 "status":400,
-                "error":'El monto debe ser mayor'
+                "title":"Error",
+                "body":'El monto debe ser mayor',
+                "success":False
             })
         
         #Credit & debit
@@ -144,7 +148,10 @@ def done_move ():
             if fecha_ultimo > date : 
                 return jsonify({
                     "status":400,
-                    "error":'Fecha erronea'
+                    "title":"Error",
+                    "error":'Fecha erronea',
+                    "body":'El monto debe ser mayor',
+                    "success":False
                 })
         
         else:
@@ -153,12 +160,12 @@ def done_move ():
         #Validacion de saldos de cuentas
         
         if not validar_balance(lineas_asiento):
+            print("asiento no valanciado")
             asiento_balanceado = False
             break
         
         elif validar_balance(lineas_asiento) : #Asiento balanceado y no se realizo insercion
             if move_insert == 0:
-
                 try:
                     cur.execute("INSERT into accounts_moves(move_date,description) values (%s,%s) RETURNING id_move",(date,description))
                     conn.commit()

@@ -31,9 +31,9 @@ const useMovement = ()=>{
     }
     setLoading(true)
     try {
-      const response = await api.post(addMovementUrl, options);
+      const res = await api.post(addMovementUrl, options);
       switch (true) {
-        case response.status === 201:
+        case res.status === 201:
           setResponse({title:"Creado", body:"El asiento se creo correctamente.", success: true})
           infoToast.show();
           break;
@@ -56,8 +56,8 @@ const useMovement = ()=>{
           setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
           infoToast.show();
           break;
-      }
-    } catch (error) {
+        }
+      } catch (error) {
       setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
       infoToast.show()
     }
