@@ -47,19 +47,15 @@ def login():
 ############## Asientos Contables ############
 @app.post('/movements')
 def done_move ():
-
+    
     try:
-        import pdb; pdb.set_trace()
         #Traigo los datos del json que recibo 
         asiento = request.json
-        #import pdb; pdb.set_trace()
         #Abro conexion con la base de datos para hacer selects de los datos que necesito
         # 1: Necesito hacer una busqueda de la cuenta para obtener el id
         conn = conection()
-        #conn.autocommit = False
         conn.set_session(autocommit=False)
         cur = conn.cursor(cursor_factory=extras.RealDictCursor)
-        #conn.begin()
         lineas_asiento = asiento["rows"]
         asiento_balanceado = True #Inicializo variable para ver tema balanceo
         move_insert = 0
@@ -83,7 +79,6 @@ def done_move ():
             #Busco el id de la cuenta 
             cur.execute("SELECT id_account,credit,code from accounts where name = %s",(account,))
             try:
-                #import pdb; pdb.set_trace()
                 row = cur.fetchone()
                 id_account = row['id_account']
                 credito_cuenta = row['credit']
@@ -110,10 +105,11 @@ def done_move ():
                 if type == 'haber' and tipo_cuenta == 'activo':
                     total = credito_cuenta - Decimal(monto)
                     if total <= 0:
+                        mensaje = 'El saldo de la cuenta {} es menor al monto a insertar en la línea'.format(account)
                         return jsonify({
                             "status":400,
                             "title":"Error",
-                            "body":('El saldo de la cuenta %s es menor al monto a insertar en la linea',(account,)),
+                            "body": mensaje,
                             "success":False
                         })
                     
@@ -121,19 +117,21 @@ def done_move ():
                 if type == 'debe' and tipo_cuenta == 'pasivo':
                     total = credito_cuenta - Decimal(monto)
                     if total <= 0: 
+                        mensaje = 'El saldo de la cuenta {} es menor al monto a insertar en la línea'.format(account)
                         return jsonify({
                             "status":400,
                             "title":"Error",
-                            "body":('El saldo de la cuenta %s es menor al monto a insertar en la linea',(account,)),
+                            "body": mensaje,
                             "success":False
                         })
 
 
             except:
+                mensaje = "La cuenta {} no existe".format(account)
                 return jsonify({
                     "status":400,
                     "title":"Error",
-                    "body":('La cuenta %s no existe',(account,)),
+                    "body": mensaje,
                     "success": False
                 })
             #Monto no puede ser menor que 0
@@ -180,7 +178,7 @@ def done_move ():
                 if move_insert == 0:
                     try:
                         cur.execute("INSERT into accounts_moves(move_date,description) values (%s,%s) RETURNING id_move",(date,description))
-                        #conn.commit()
+                        
                         if cur.rowcount == 1:
                             move_insert += 1
                             print('Insercion exitosa')
@@ -188,7 +186,7 @@ def done_move ():
                             id_asiento = id_insertado
                             #Insercion primera linea
                             cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
-                            #conn.commit()
+                            
                     except:
                         return jsonify({
                             "status":400,
@@ -200,7 +198,6 @@ def done_move ():
                     #Insercion de linea
                     try:
                         cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
-                        #conn.commit()
                     except:
                         return jsonify({
                             "status":400,
@@ -237,8 +234,6 @@ def done_move ():
         })
     finally:
         # Restablecer la configuración de autocommit
-        #conn.autocommit = True
-        conn.set_session(autocommit=True)
         # Cerrar el cursor y la conexión
         cur.close()
         conn.close()
