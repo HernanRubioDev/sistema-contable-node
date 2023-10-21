@@ -6,7 +6,8 @@ const JournalBook = ({setMenu})=>{
 
 	const initialForm = {
     dateFrom:'',
-    dateTo:''
+    dateTo:'',
+    name:''
   }
 
 	const {form, setForm, handleChange} = useForm(initialForm);

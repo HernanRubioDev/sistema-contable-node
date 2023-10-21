@@ -1,6 +1,6 @@
 const {Router} = require("express");
 const {authMiddleware} = require("../middlewares/authMiddleware")
-const {addNewMovement, searchMovementQuantity, searchMovementByDates, searchLineById} = require("../controllers/movementsController");
+const {addNewMovement, searchMovementQuantity, searchMovementByDates, searchLineById, searchLineFormLedger} = require("../controllers/movementsController");
 const { searchMovementByDatesMiddleware } = require("../middlewares/searchMovesByDatesMiddleware");
 
 const movementsRouter = Router();
@@ -12,5 +12,8 @@ movementsRouter.get("/getMovementQuantity/:username/:user_role/:auth_token", aut
 movementsRouter.get("/getMovementByDates/:username/:user_role/:auth_token", authMiddleware, searchMovementByDatesMiddleware, searchMovementByDates);
 
 movementsRouter.get("/getMoveLineById/:username/:user_role/:auth_token", authMiddleware, searchLineById);
+
+movementsRouter.get("/getLineByForLedger/:username/:user_role/:auth_token", authMiddleware, searchLineFormLedger);
+
 
 module.exports=movementsRouter

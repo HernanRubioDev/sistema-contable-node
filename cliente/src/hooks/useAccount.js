@@ -303,6 +303,47 @@ const useAccount = ()=>{
     setLoading(false)
   }
 
+  const getMinorAccountsForLedger = async()=>{
+    const username = localStorage.getItem("username")
+    const auth_token = localStorage.getItem("auth_token")
+    const user_role = localStorage.getItem("user_role")
+    const accountsUrl = `http://localhost:3000/account/getAccountsForLedger/${username}/${user_role}/${auth_token}`
+    try {
+      const res = await api.get(accountsUrl)
+      switch (true) {
+        case res.status === 200:
+          setAccounts(res.accounts)
+          break;
+
+          case res.status === 401:
+            setResponse(res)
+            alertModal.show();
+            setTimeout(() => {
+            logOutUser()
+            alertModal.hide()
+            }, 2000);
+            break;
+        
+          case res.status === 403:
+            setResponse(res)
+            infoToast.show();
+            break;
+          
+          case res.status === 500:
+            setAccounts(res.accounts)
+            break;
+
+        default:
+          setResponse({title:"Error", body:"No se han podido buscar las cuentas.", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+      setResponse({title:"Error", body:"No se han podido buscar las cuentas.", success: false})
+      infoToast.show()
+    }
+  }
+
   const updateAccountsEdited = (accountEdited)=>{
     const newAccounts = accounts.map(acc => acc.id_account !== accountEdited.id_account ? acc : accountEdited)
     setAccounts(newAccounts)
@@ -313,6 +354,6 @@ const useAccount = ()=>{
     setAccounts(newAccounts)
   }
 
-  return {loading, errors, response, accounts, setAccounts,  createAccount, getMajorAccounts, getMinorAccounts, getAccountByName, editAccount, deleteAccount}
+  return {loading, errors, response, accounts, setAccounts,  createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount, getMinorAccountsForLedger}
 }
 export default useAccount

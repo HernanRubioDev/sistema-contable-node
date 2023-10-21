@@ -1,4 +1,4 @@
-const { getMovementQuantity, getMovementByDates, getLineById} = require("../models/movementModel");
+const { getMovementQuantity, getMovementByDates, getLineById, getLineFormLedger} = require("../models/movementModel");
 const { getUserByUsername} = require("../models/userModel");
 const fetch = require('node-fetch');
 
@@ -91,4 +91,23 @@ const searchLineById = async(req, res)=>{
   }
 }
 
-module.exports={addNewMovement, searchMovementQuantity, searchMovementByDates, searchLineById}
+const searchLineFormLedger = async(req, res)=>{
+  const {account, dateFrom, dateTo} = req.query;
+
+  try {
+    const response = await getLineFormLedger(account, dateFrom, dateTo);
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({status:200, lines:response.rows});
+        break;
+    
+      default:
+        res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})
+  }
+}
+
+module.exports={addNewMovement, searchMovementQuantity, searchMovementByDates, searchLineById, searchLineFormLedger}

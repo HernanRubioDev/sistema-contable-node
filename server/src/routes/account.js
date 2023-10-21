@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount, removeAccount, searchMinorAccounts} = require("../controllers/accountController");
+const {addMajorAccount, addMinorAccount, searchMajorAccounts, searchAccountByName, editAccount, removeAccount, searchMinorAccounts, serachMinorAccountsForLedger} = require("../controllers/accountController");
 const {MajorAccountsMiddleware} = require("../middlewares/MajorAccountsMiddleware");
 const {authMiddleware} = require("../middlewares/authMiddleware")
 const {deleteAccountMiddleware} = require("../middlewares/deleteAccountMiddleware");
@@ -20,6 +20,9 @@ accountRouter.get("/getMinorAccounts/:username/:user_role/:auth_token", authMidd
 
 
 accountRouter.get("/getAccounts/:username/:user_role/:auth_token", authMiddleware, searchAccountByName)
+
+
+accountRouter.get("/getAccountsForLedger/:username/:user_role/:auth_token", authMiddleware, serachMinorAccountsForLedger)
 
 /*Hacer validaciones para el nombre si es necesario*/
 accountRouter.patch("/editAccount/:username/:user_role/:auth_token", authMiddleware, editAccount)

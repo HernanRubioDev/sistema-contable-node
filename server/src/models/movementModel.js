@@ -30,4 +30,24 @@ const getLineById = async (id_move)=>{
     }
 }
 
-module.exports={getMovementQuantity, getMovementByDates, getLineById}
+const getLineFormLedger = async(account, dateFrom, dateTo)=>{
+    const query = `SELECT
+    acc.code,
+    aml.num_line,
+    to_char(am.move_date, 'DD/MM/YYYY') AS move_date,
+    am.description,
+    aml.credit,
+    aml.debit
+  FROM accounts_moves_lines AS aml
+  INNER JOIN accounts_moves AS am ON aml.id_move = am.id_move
+  INNER JOIN accounts AS acc ON aml.id_account = acc.id_account
+  WHERE acc.name = '${account}'AND move_date BETWEEN '${dateFrom}' AND '${dateTo}'`
+  try {
+    const res = await pool.query(query)
+    return res
+  } catch (error) {
+    return null;
+  }
+}
+
+module.exports={getMovementQuantity, getMovementByDates, getLineById, getLineFormLedger}

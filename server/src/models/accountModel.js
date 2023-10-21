@@ -52,6 +52,16 @@ const getMinorAccounts = async() =>{
   }
 }
 
+const getMinorAccountsForLedger = async()=>{
+  const query = "select sq.code, sq.name from (SELECT * FROM accounts WHERE code NOT LIKE '%00') AS sq INNER JOIN accounts AS acc ON acc.id_account=sq.id_account WHERE sq.code LIKE '1%' OR sq.code LIKE '2%';";
+  try {
+    const res = await pool.query(query);
+    return res
+  } catch (error) {
+    return null
+  }
+}
+
 const getAccountByName = async(accountName)=>{
   const query = `SELECT * ,to_char(date_creation, 'DD/MM/YYYY') AS date_creation FROM accounts WHERE name LIKE '${accountName}%' ORDER BY code ASC
 `;
@@ -83,5 +93,5 @@ const deleteAccount = async(id_account)=>{
   }
 }
 
-module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getMinorAccounts, getAccountByName, patchAccoutName, deleteAccount}
+module.exports = {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getMinorAccounts, getMinorAccountsForLedger, getAccountByName, patchAccoutName, deleteAccount}
 
