@@ -9,8 +9,8 @@ import MovementTableRow from "../movements/MovementTableRow"
 const NewMovementForm = ({accounts, quantity, setMenu, setActive, getMinorAccounts, addMovements, loading, getMovesQuantity})=>{
   const navigate = useNavigate();
   useEffect(()=>{
-    getMinorAccounts()
     getMovesQuantity()
+    getMinorAccounts()
   },[])
 
   useEffect(()=>{

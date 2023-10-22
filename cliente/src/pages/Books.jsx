@@ -7,7 +7,7 @@ import BookMenuWrapper from "../components/books/BookMenuWrapper";
 import useAccount from "../hooks/useAccount";
 import menuContext from "../context/menuContext";
 import useBook from "../hooks/useBook";
-import AlertModal from "../components/AlertModal";
+import InfoToast from "../components/InfoToast";
 
 const Books = ()=>{
 
@@ -19,14 +19,14 @@ const Books = ()=>{
     },[session])
 
     const {accounts, setAccounts, getMinorAccountsForLedger} = useAccount();
-    const {response, lines, getLedgerBook} = useBook();
+    const {loading, response, lines, setLines, getLedgerBook} = useBook();
 
     return(
         <div className="vh-100 d-flex flex-wrap overflow-hidden">
             <Header />
             <Menu />
-            <BookMenuWrapper menu={menu} accounts={accounts} lines={lines} setAccounts={setAccounts} setMenu={setMenu} getMinorAccountsForLedger={getMinorAccountsForLedger} getLedgerBook={getLedgerBook}/>
-            <AlertModal response={response} />
+            <BookMenuWrapper menu={menu} loading={loading} accounts={accounts} lines={lines} setLines={setLines} setAccounts={setAccounts} setMenu={setMenu} getMinorAccountsForLedger={getMinorAccountsForLedger} getLedgerBook={getLedgerBook}/>
+            <InfoToast response={response} />
         </div>
     );
 }

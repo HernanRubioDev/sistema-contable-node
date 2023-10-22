@@ -354,6 +354,6 @@ const useAccount = ()=>{
     setAccounts(newAccounts)
   }
 
-  return {loading, errors, response, accounts, setAccounts,  createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount, getMinorAccountsForLedger}
+  return {loading, errors, response, accounts, setAccounts,  createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount, getMinorAccounts, getMinorAccountsForLedger}
 }
 export default useAccount

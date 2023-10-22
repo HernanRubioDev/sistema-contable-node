@@ -1,9 +1,16 @@
 import LedgerTableRow from "./LedgerTableRow";
+import Loader from "../Loader";
 
-const LedgerTable = ({lines})=>{
-	const saldo = 0;
+const LedgerTable = ({loading, lines})=>{
+	
     return(
-			<table className="table table-striped">
+			loading 
+			?
+			<div className="d-flex justify-content-center">
+				<Loader />
+			</div>
+			:
+			<table className="table table-bordered">
 				<thead>
 					<tr>
 						<th scope="col">Operación</th>
@@ -14,8 +21,14 @@ const LedgerTable = ({lines})=>{
 					</tr>
 				</thead>
 				<tbody>
-					{lines !==0 &&
-					lines.map((line) => <LedgerTableRow key={line.num_line} data={line} saldo={line.code[0]==='1' ? saldo+line.debit : saldo+line.credit}/>)
+					{lines.length !==0 &&
+					lines.map((line) => <LedgerTableRow key={line.num_line} data={line}/>)
+					}
+					{lines.length !==0 &&					
+					<tr>
+						<td className="fw-bold" colSpan={4}>Saldo final</td>
+						<td className="text-center fw-bold">{lines[lines.length-1].saldo}</td>
+					</tr>
 					}
 				</tbody>
 			</table>

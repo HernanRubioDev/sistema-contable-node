@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { helpHttp } from "../helpers/helpHttp";
-import useUser from "./useUser";
 
 const useBook = ()=>{
   const api = helpHttp();
@@ -15,33 +14,90 @@ const useBook = ()=>{
     const auth_token = localStorage.getItem("auth_token");
     const user_role = localStorage.getItem("user_role");
     const ledgerBookUrl = `http://localhost:3000/movement/getLineByForLedger/${username}/${user_role}/${auth_token}/?account=${account}&dateFrom=${dateFrom}&dateTo=${dateTo}`
-    
+    setLoading(true)
     try {
       const res = await api.get(ledgerBookUrl);
+      console.log(res)
       switch (true) {
         case res.status === 200:
-					console.log(res.lines)
-          setLines(res.lines);
+          setLines(calculateLedgerBoook(res.lines));
+          break;
+
+        case res.status === 404:
+          setResponse(res);
+          infoToast.show()
+          setLines([])
           break;
 
         case res.status === 500:
           setResponse(res);
-          //infoToast.show()
+          infoToast.show()
           break;
 
         default:
-					console.log("entro a default")
           setResponse({title:"Error", body:"No se han encontrado los movimientos asociados.", success: false})
-          //infoToast.show()
+          infoToast.show()
           break;
       }
     } catch (error) {
-			console.log(error)
         setResponse({title:"Error", body:"No se han encontrado los movimientos asociados.", success: false})
-        //infoToast.show()
+        infoToast.show()
     }
+    setLoading(false)
   }
-	return {loading, response, lines, getLedgerBook}
+	return {loading, response, lines, setLines, getLedgerBook}
+}
+
+const calculateLedgerBoook = (lines)=>{
+  let saldo = 0.00;
+	const newLines = []
+  for (let i = 0; i < lines.length; i++) {
+    if(i === 0){
+      switch (true) {
+        case parseFloat(lines[i].debit) !== 0:
+          saldo = parseFloat(lines[i].debit)
+          lines[i].saldo=saldo
+          break;
+
+        case parseFloat(lines[i].credit) !== 0:
+          saldo = parseFloat(lines[i].credit)
+          lines[i].saldo=saldo
+          break;
+      }
+    }
+    else{
+      if(lines[i].code[0] === "1"){
+        switch (true) {
+          case lines[i].debit !== "0.00":
+            saldo += parseFloat(lines[i].debit)
+            lines[i].saldo=saldo
+            break;
+            
+            
+          case lines[i].credit !== "0.00":
+            saldo -= parseFloat(lines[i].credit)
+            lines[i].saldo=saldo
+            break;
+        }
+      }
+      if(lines[i].code[0] === "2"){
+        switch (true) {
+          case lines[i].debit !== "0.00":
+            saldo -= parseFloat(lines[i].debit)
+            lines[i].saldo=saldo
+            break;
+            
+            
+          case lines[i].credit !== "0.00":
+            saldo += parseFloat(lines[i].credit)
+            lines[i].saldo=saldo
+            break;
+        }
+      }
+    }
+    newLines.push(lines[i])
+  }
+  return newLines
 }
 
 export default useBook;

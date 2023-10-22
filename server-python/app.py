@@ -74,6 +74,7 @@ def done_move ():
             type = linea.get('type')
             id_cpny  = linea.get('id_company')
             move_number = asiento.get('moveNum')
+            id_user = asiento.get('id_user')
             description = asiento.get('description')
             date = datetime.strptime(date, '%Y-%m-%d').date() #Datetime para comparar despues
             #Busco el id de la cuenta 
@@ -177,7 +178,8 @@ def done_move ():
             elif validar_balance(lineas_asiento) : #Asiento balanceado y no se realizo insercion
                 if move_insert == 0:
                     try:
-                        cur.execute("INSERT into accounts_moves(move_date,description) values (%s,%s) RETURNING id_move",(date,description))
+                        print(id_user)
+                        cur.execute("INSERT into accounts_moves(move_date,description, id_user) values (%s,%s,%s) RETURNING id_move",(date, description, id_user))
                         
                         if cur.rowcount == 1:
                             move_insert += 1
@@ -255,7 +257,9 @@ def validar_balance(lineas_asiento):
 
     if round(suma_debe,2) == round(suma_haber,2):
         return True
-    else: return False
+    else:
+        print("entro") 
+        return False
 
 
 #MAIN 

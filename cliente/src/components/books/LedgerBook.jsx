@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import useForm from "../../hooks/useForm";
 import LedgerTable from "./LedgerTable";
 
-const LedgerBook = ({accounts, lines, setMenu, getMinorAccountsForLedger, getLedgerBook})=>{
+const LedgerBook = ({loading, accounts, lines, setLines, setMenu, getMinorAccountsForLedger, getLedgerBook})=>{
 
   useEffect(()=>{
     getMinorAccountsForLedger()
@@ -12,7 +12,7 @@ const LedgerBook = ({accounts, lines, setMenu, getMinorAccountsForLedger, getLed
 	const initialForm = {
     dateFrom:'',
     dateTo:'',
-	account:''
+		account:''
   }
 
 	const {form, handleChange} = useForm(initialForm);
@@ -47,7 +47,7 @@ const LedgerBook = ({accounts, lines, setMenu, getMinorAccountsForLedger, getLed
           </div>
 					<button onClick={()=>getLedgerBook(form)} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
         </form>
-			<LedgerTable lines={lines} accounts={accounts}/>
+				<LedgerTable loading={loading} key="1" lines={lines} setLines={setLines} accounts={accounts}/>
 			</div>
 		</div>
 	);
