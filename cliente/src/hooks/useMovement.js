@@ -84,8 +84,8 @@ const useMovement = ()=>{
         case res.status === 200:
           setMovements(res.movements);
           break;
-
-        case res.status === 400:
+          
+          case res.status === 400:
           setResponse(res)
           infoToast.show()
           break;
@@ -118,7 +118,6 @@ const useMovement = ()=>{
       const res = await api.get(serachLineURL)
       switch (true) {
         case res.status === 200:
-          console.log(res.lines)
           setLines(res.lines);
           break;
       

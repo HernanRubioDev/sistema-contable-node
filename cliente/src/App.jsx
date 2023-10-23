@@ -18,10 +18,10 @@ function App() {
           <Routes>
               <Route path='/' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
-                <Route path='/dashboard' element={<Dashboard />}/>
-                <Route path='/accounts' element={<Accounts />}/>
-                <Route path='/movements' element={<Movements />}/>
-                <Route path='/books' element={<Books />}/>
+              <Route path='/dashboard' element={<Dashboard />}/>
+              <Route path='/accounts' element={<Accounts />}/>
+              <Route path='/movements' element={<Movements />}/>
+              <Route path='/books' element={<Books />}/>
           </Routes>
         </Router>
       </MenuProvider>

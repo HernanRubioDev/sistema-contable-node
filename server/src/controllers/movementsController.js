@@ -93,7 +93,6 @@ const searchLineById = async(req, res)=>{
 
 const searchLineFormLedger = async(req, res)=>{
   const {account, dateFrom, dateTo} = req.query;
-
   try {
     const response = await getLineFormLedger(account, dateFrom, dateTo);
     switch (true) {
@@ -102,7 +101,7 @@ const searchLineFormLedger = async(req, res)=>{
         break;
 
       case response.rowCount === 0:
-        res.json({status:404, title:"Error", body:"No se han encontrado movimientos asociados a esa cuenta", success:false})
+        res.json({status:404, title:"Error", body:"No se han encontrado movimientos asociados", success:false})
         break;
 
       default:

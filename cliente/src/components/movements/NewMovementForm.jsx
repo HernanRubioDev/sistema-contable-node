@@ -63,7 +63,7 @@ const NewMovementForm = ({accounts, quantity, setMenu, setActive, getMinorAccoun
 
       <OpenMenuButton />
 
-      <div className="d-flex flex-column justify-content-between align-items-center my-3">
+      <div className="d-flex flex-column justify-content-between align-items-center my-2">
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/back-arrow.svg" /> Volver</button>
       </div>
       

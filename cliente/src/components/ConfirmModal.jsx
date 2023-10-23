@@ -1,4 +1,4 @@
-
+import '../stylesheets/ConfirmModal.css'
 const ConfirmModal = ({accountToDelete, deleteAccount})=>{
     return(
     <form className="modal fade" id="ConfirmModal" tabIndex="-1" aria-labelledby="ConfirmModalLabel" aria-hidden="true">
@@ -12,7 +12,9 @@ const ConfirmModal = ({accountToDelete, deleteAccount})=>{
 						<p>¿Está seguro de que desea eliminar esta cuenta?</p>
 					</div>
 					<div className="modal-footer">
-						<button onClick={()=>deleteAccount(accountToDelete)} type="button" data-bs-dismiss="modal" className="btn btn-danger"> Eliminar</button>
+						<button onClick={()=>deleteAccount(accountToDelete)} type="button d-flex align-items-center" data-bs-dismiss="modal" className="btn btn-danger"> 
+						<img className="me-1 delete-icon pb-1" src="icons/delete.svg"/>Eliminar
+						</button>
 					</div>
 				</div>
 			</div>

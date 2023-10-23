@@ -23,7 +23,7 @@ const Menu =()=>{
       <ul className="d-flex flex-column list-unstyled bg-dashboard h-100 m-0 position-relative">
         <button className="bg-transparent align-self-end border-0 end-0 me-2 mt-2 position-absolute d-lg-none" data-bs-dismiss="offcanvas"><img src="icons/close-button.svg" /></button>
         
-         <li className={`d-flex justify-content-center mt-sm-5 mt-lg-3 option-hover py-1 ps-5 ${active==="dashboard" ? 'active-page' : ''}`}>
+         <li className={`d-flex justify-content-center mt-5 mt-lg-3 option-hover py-1 ps-5 ${active==="dashboard" ? 'active-page' : ''}`}>
           <NavLink onClick={()=>setActive("dashboard")} to="/dashboard" className="w-100 d-flex text-decoration-none">
               <img className="me-4 " src="icons/dashboard.svg"/>
               <span className="text-white fs-4 lh-0">Dashboard</span>

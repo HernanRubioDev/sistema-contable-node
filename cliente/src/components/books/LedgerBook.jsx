@@ -5,13 +5,14 @@ import LedgerTable from "./LedgerTable";
 
 const LedgerBook = ({loading, accounts, lines, setLines, setMenu, getMinorAccountsForLedger, getLedgerBook})=>{
 
+	const today = new Date().toISOString().slice(0, 10);
   useEffect(()=>{
     getMinorAccountsForLedger()
   },[])
 
 	const initialForm = {
     dateFrom:'',
-    dateTo:'',
+    dateTo:today,
 		account:''
   }
 
@@ -34,7 +35,7 @@ const LedgerBook = ({loading, accounts, lines, setLines, setMenu, getMinorAccoun
 						<label className="me-2 fw-medium text-secondary">Cuenta</label>
 						<select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" defaultValue="Seleccione una cuenta" name="account">
 						<option disabled>Seleccione una cuenta</option>
-						{accounts && accounts.map(acc => <option key={acc.id_account} value={acc.name}>{acc.name}</option>)}
+						{accounts && accounts.map((acc, index) => <option key={index} value={acc.name}>{acc.name}</option>)}
 					</select>
 				</div>
 				<div className="d-flex flex-column me-3">

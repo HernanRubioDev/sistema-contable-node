@@ -9,7 +9,7 @@ const SearchMovementForm = ({menu, movements, setMenu, searchMovementsByDates, g
 
   const initialForm = {
     dateFrom:'',
-    dateTo:''
+    dateTo:actualDate
   }
 
   const {form, setForm, handleChange} = useForm(initialForm);
@@ -19,11 +19,11 @@ const SearchMovementForm = ({menu, movements, setMenu, searchMovementsByDates, g
 
       <OpenMenuButton />
 
-      <div className="d-flex flex-column justify-content-between align-items-center mt-3">
+      <div className="d-flex flex-column justify-content-between align-items-center mt-2">
         <button onClick={()=>setMenu("add")} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/add.svg" />Agregar</button>
       </div>
 
-      <div className="bg-white mx-3 my-3 shadow">
+      <div className="bg-white mx-3 my-2 shadow">
         <h3 className="fs-5 text-secondary text-center ms-3 mt-2">Buscar Asiento</h3>
         <form className="d-flex flex-wrap align-items-center ms-3 my-3">
           <div className="d-flex flex-column me-3">
@@ -38,7 +38,7 @@ const SearchMovementForm = ({menu, movements, setMenu, searchMovementsByDates, g
             <button onClick={()=>setForm(initialForm)} type="button" className="btn btn-secondary pe-3 align-self-end"><img className="me-1" src="icons/reset.svg" />Limpiar</button>
         </form>
         <div className="mx-3 table-container">
-          <table className="table table-striped">
+          <table className="table table-striped table-bordered">
             <thead className="sticky-top">
               <tr>
                 <th scope="col">N° Asiento</th>

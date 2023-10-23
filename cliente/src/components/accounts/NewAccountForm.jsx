@@ -22,12 +22,12 @@ const NewAccountForm = ({loading, accounts, errors, setMenu, createAccount, getM
   return(
     <div className="d-flex flex-column flex-grow-1 bg-body-secondary h-100">
       <OpenMenuButton />
-      <div className="d-flex flex-column justify-content-between align-items-center pt-3">
+      <div className="d-flex flex-column justify-content-between align-items-center pt-2">
         <button onClick={()=>handleClick()} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img src="icons/back-arrow.svg" /> Volver</button>
         <h5 className="text-secondary align-self-start ms-4">Cuentas</h5>
       </div>
 
-      <div className="d-flex flex-column bg-white shadow mx-3 my-3">
+      <div className="d-flex flex-column bg-white shadow mx-3 my-2">
         <h3 className="fs-5 text-secondary text-center ms-3 mt-2">Registrar Cuenta</h3>
         <form className="d-flex flex-column my-3 mx-3">
           <div className="d-flex">
