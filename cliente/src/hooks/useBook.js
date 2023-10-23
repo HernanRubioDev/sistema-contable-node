@@ -17,10 +17,14 @@ const useBook = ()=>{
     setLoading(true)
     try {
       const res = await api.get(ledgerBookUrl);
-      console.log(res)
       switch (true) {
         case res.status === 200:
           setLines(calculateLedgerBoook(res.lines));
+          break;
+
+        case res.status === 400:
+          setResponse(res);
+          infoToast.show()
           break;
 
         case res.status === 404:
@@ -35,12 +39,12 @@ const useBook = ()=>{
           break;
 
         default:
-          setResponse({title:"Error", body:"No se han encontrado los movimientos asociados.", success: false})
+          setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
           infoToast.show()
           break;
       }
     } catch (error) {
-        setResponse({title:"Error", body:"No se han encontrado los movimientos asociados.", success: false})
+        setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
         infoToast.show()
     }
     setLoading(false)
@@ -86,7 +90,6 @@ const calculateLedgerBoook = (lines)=>{
             saldo -= parseFloat(lines[i].debit)
             lines[i].saldo=saldo
             break;
-            
             
           case lines[i].credit !== "0.00":
             saldo += parseFloat(lines[i].credit)

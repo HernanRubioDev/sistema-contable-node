@@ -2,20 +2,22 @@ import { NavLink } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { useContext } from "react";
 import sessionContext from "../context/UserContext";
+import menuContext from "../context/menuContext";
 
 const Header = ()=>{
   const {logOutUser} = useUser();
+  const {setActive} = useContext(menuContext)
   const {session} = useContext(sessionContext)
   return(
   <nav className="navbar navbar-expand-lg bg-body-tertiary col-12">
     <div className="container-fluid">
-      <NavLink to='/' className="navbar-brand"><img src="/icons/brand.svg" /><span className="text-secondary ms-2">ACCOUNTME</span></NavLink>
+      <NavLink onClick={()=>setActive("dashboard")} to='/' className="navbar-brand"><img src="/icons/brand.svg" /><span className="text-secondary ms-2">ACCOUNTME</span></NavLink>
       <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div className="offcanvas-header">
-          <NavLink to='/' className="navbar-brand"><img src="/icons/brand.svg" /><span className="text-secondary ms-2">ACCOUNTME</span></NavLink>
+          <NavLink onClick={()=>setActive("dashboard")} to='/' className="navbar-brand"><img src="/icons/brand.svg" /><span className="text-secondary ms-2">ACCOUNTME</span></NavLink>
           <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body d-flex flex-column flex-lg-row">

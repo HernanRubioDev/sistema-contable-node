@@ -138,7 +138,6 @@ const serachMinorAccountsForLedger = async(req, res)=>{
 
 const searchAccountByName = async (req, res)=>{
   const accountName = req.query.accountName;
-
   try {
     const accounts = await getAccountByName(accountName);
     switch (true) {
