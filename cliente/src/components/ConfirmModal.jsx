@@ -12,7 +12,7 @@ const ConfirmModal = ({accountToDelete, deleteAccount})=>{
 						<p>¿Está seguro de que desea eliminar esta cuenta?</p>
 					</div>
 					<div className="modal-footer">
-						<button onClick={()=>deleteAccount(accountToDelete)} type="button d-flex align-items-center" data-bs-dismiss="modal" className="btn btn-danger"> 
+						<button onClick={()=>deleteAccount(accountToDelete)} type="button" data-bs-dismiss="modal" className="btn btn-danger  d-flex align-items-center"> 
 						<img className="me-1 delete-icon pb-1" src="icons/delete.svg"/>Eliminar
 						</button>
 					</div>
