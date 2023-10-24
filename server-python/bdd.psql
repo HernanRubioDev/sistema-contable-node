@@ -19,9 +19,11 @@ CREATE TABLE Accounts (
 	code VARCHAR(5) NOT NULL, 
 	date_creation DATE NOT NULL );
 
-CREATE TABLE Accounts_moves_lines ( 
-	id_move INTEGER NOT NULL REFERENCES Accounts_moves(id_move), 
-	id_account INTEGER NOT NULL REFERENCES Accounts(id_account), 
-	date DATE NOT NULL, credit NUMERIC(10,2), 
-	debit NUMERIC(10,2), 
-	PRIMARY KEY (id_move, id_account) );
+CREATE TABLE Accounts_moves_lines (
+id_move INTEGER NOT NULL REFERENCES Accounts_moves(id_move), 
+id_account INTEGER NOT NULL REFERENCES Accounts(id_account),
+num_line SERIAL NOT NULL UNIQUE, 
+date DATE NOT NULL, 
+credit NUMERIC(10,2), 
+debit NUMERIC(10,2), 
+PRIMARY KEY (id_move, id_account) );
