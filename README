@@ -1,0 +1,35 @@
+Vamos a instalar las librerias de los proyectos
+
+Tenemos 2 carpetas para los servidore y una para el client
+
+
+--- Arrancamos con cliente ----
+
+1- cd cliente 
+2- npm install o yarn install  (Elegimos uno de los dos dependiendo que usamos)
+
+
+
+-- Servidor 1 Node --- 
+
+1- cd server 
+2- npm install o yarn install  (Elegimos uno de los dos dependiendo que usamos)
+
+
+-- Servidor 2 Python 
+
+1- cd server-python
+2- pip install -r requiermnets.txt
+
+
+
+Para arrancar el proyecto entero
+
+1- Modificar los archivos 
+   --> config.py en server-python
+   --> .env. en server
+
+2- Arrancar procesos.
+    --> python app.py en server-python
+    -->npm run app en server
+    --> npm run dev en cliente
