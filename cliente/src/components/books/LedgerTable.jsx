@@ -25,13 +25,15 @@ const LedgerTable = ({loading, lines})=>{
 						{lines.length !==0 &&
 						lines.map((line) => <LedgerTableRow key={line.num_line} data={line}/>)
 						}
+					</tbody>
+					<tfoot>
 						{lines.length !==0 &&					
 						<tr>
 							<td className="fw-bold" colSpan={4}>Saldo final</td>
 							<td className="text-center fw-bold">{lines[lines.length-1].saldo}</td>
 						</tr>
 						}
-					</tbody>
+					</tfoot>
 				</table>
 			</div>
 		);
