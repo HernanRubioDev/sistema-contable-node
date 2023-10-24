@@ -53,7 +53,7 @@ const getMinorAccounts = async() =>{
 }
 
 const getMinorAccountsForLedger = async()=>{
-  const query = "select sq.code, sq.name from (SELECT * FROM accounts WHERE code NOT LIKE '%00') AS sq INNER JOIN accounts AS acc ON acc.id_account=sq.id_account WHERE sq.code LIKE '1%' OR sq.code LIKE '2%';";
+  const query = "select sq.code, sq.name from (SELECT * FROM accounts WHERE code NOT LIKE '%00') AS sq INNER JOIN accounts AS acc ON acc.id_account=sq.id_account;";
   try {
     const res = await pool.query(query);
     return res

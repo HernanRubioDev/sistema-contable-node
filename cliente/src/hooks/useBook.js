@@ -140,6 +140,45 @@ const calculateLedgerBoook = (lines)=>{
             break;
         }
       }
+      if(lines[i].code[0] === "3"){
+        switch (true) {
+          case lines[i].debit !== "0.00":
+            saldo += parseFloat(lines[i].debit)
+            lines[i].saldo=saldo
+            break;
+            
+          case lines[i].credit !== "0.00":
+            saldo -= parseFloat(lines[i].credit)
+            lines[i].saldo=saldo
+            break;
+        }
+      }
+      if(lines[i].code[0] === "4"){
+        switch (true) {
+          case lines[i].debit !== "0.00":
+            saldo -= parseFloat(lines[i].debit)
+            lines[i].saldo=saldo
+            break;
+            
+          case lines[i].credit !== "0.00":
+            saldo += parseFloat(lines[i].credit)
+            lines[i].saldo=saldo
+            break;
+        }
+      }
+      if(lines[i].code[0] === "4"){
+        switch (true) {
+          case lines[i].debit !== "0.00":
+            saldo += parseFloat(lines[i].debit)
+            lines[i].saldo=saldo
+            break;
+            
+          case lines[i].credit !== "0.00":
+            saldo -= parseFloat(lines[i].credit)
+            lines[i].saldo=saldo
+            break;
+        }
+      }
     }
     newLines.push(lines[i])
   }
