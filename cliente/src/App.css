@@ -9,3 +9,7 @@
 .cursor-pointer{
   cursor: pointer;
 }
+
+.transparent{
+  color: transparent;
+}

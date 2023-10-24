@@ -1,13 +1,15 @@
 import OpenMenuButton from "../OpenMenuButton";
 import useForm from "../../hooks/useForm";
 import "../../stylesheets/JournalBook.css";
+import JournalTable from "./JournalTable";
+import { useEffect } from "react";
 
-const JournalBook = ({setMenu})=>{
-
+const JournalBook = ({loading, lines, setLines, setMenu, getJournalBook})=>{
+  useEffect(()=>setLines([]),[])
+	const today = new Date().toISOString().slice(0, 10);
 	const initialForm = {
     dateFrom:'',
-    dateTo:'',
-    name:''
+    dateTo:today,
   }
 
 	const {form, setForm, handleChange} = useForm(initialForm);
@@ -32,9 +34,10 @@ const JournalBook = ({setMenu})=>{
             <span className="me-2 fw-medium text-secondary">Hasta:</span>
             <input onChange={(e)=>handleChange(e)} className="input-group border border-secondary form-control" id="date-to"  type="date" name="dateTo" value={form.dateTo}/>
           </div>
-            <button onClick={()=>console.log("click")} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
+            <button onClick={()=>getJournalBook(form)} type="button" className="btn btn-success pe-3 align-self-end me-3"><img className="me-1" src="icons/magnifying-glass.svg" />Buscar</button>
             <button onClick={()=>setForm(initialForm)} type="button" className="btn btn-secondary pe-3 align-self-end"><img className="me-1" src="icons/reset.svg" />Limpiar</button>
         </form>
+        <JournalTable loading={loading} lines={lines}/>
 			</div>
 		</div>
 	);

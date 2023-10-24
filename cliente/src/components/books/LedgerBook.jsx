@@ -7,6 +7,7 @@ const LedgerBook = ({loading, accounts, lines, setLines, setMenu, getMinorAccoun
 
 	const today = new Date().toISOString().slice(0, 10);
   useEffect(()=>{
+		setLines([])
     getMinorAccountsForLedger()
   },[])
 
@@ -54,7 +55,5 @@ const LedgerBook = ({loading, accounts, lines, setLines, setMenu, getMinorAccoun
 	);
 }
 
-/*SELECT aml.num_line, am.move_date, acc.name, am.description, aml.credit, aml.debit FROM accounts_moves_lines AS aml INNER JOIN accounts_moves AS am ON aml.id_move = am.id_move INNER JOIN accounts AS acc ON aml.id_account = acc.id_account;*/
-
-/*SELECT aml.num_line, am.move_date, am.description, aml.credit, aml.debit FROM accounts_moves_lines AS aml INNER JOIN accounts_moves AS am ON aml.id_move = am.id_move INNER JOIN accounts AS acc ON aml.id_account = acc.id_account WHERE acc.name='Caja';*/
+/*select am.id_move, am.move_date, am.description, acc.name, aml.debit, aml.credit from accounts_moves as am inner join accounts_moves_lines as aml on am.id_move = aml.id_move inner join accounts as acc on acc.id_account = aml.id_account*/
 export default LedgerBook

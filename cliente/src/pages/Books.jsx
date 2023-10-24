@@ -19,13 +19,13 @@ const Books = ()=>{
     },[session])
 
     const {accounts, setAccounts, getMinorAccountsForLedger} = useAccount();
-    const {loading, response, lines, setLines, getLedgerBook} = useBook();
+    const {loading, response, lines, setLines, getLedgerBook, getJournalBook} = useBook();
 
     return(
         <div className="vh-100 d-flex flex-wrap overflow-hidden">
             <Header />
             <Menu />
-            <BookMenuWrapper menu={menu} loading={loading} accounts={accounts} lines={lines} setLines={setLines} setAccounts={setAccounts} setMenu={setMenu} getMinorAccountsForLedger={getMinorAccountsForLedger} getLedgerBook={getLedgerBook}/>
+            <BookMenuWrapper menu={menu} loading={loading} accounts={accounts} lines={lines} setLines={setLines} setAccounts={setAccounts} setMenu={setMenu} getMinorAccountsForLedger={getMinorAccountsForLedger} getLedgerBook={getLedgerBook} getJournalBook={getJournalBook}/>
             <InfoToast response={response} />
         </div>
     );

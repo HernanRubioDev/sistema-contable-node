@@ -10,7 +10,7 @@ const LedgerTable = ({loading, lines})=>{
 				<Loader />
 			</div>
 			:
-			<div className="px-3">
+			<div className="px-3 table-container">
 				<table className="table table-bordered table-striped">
 					<thead>
 						<tr>

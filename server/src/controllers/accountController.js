@@ -1,5 +1,4 @@
 const {setAccount, getLastMajorAccount, getLastMinorAccount, getMajorsAccounts, getMinorAccounts, getAccountByName, patchAccoutName, deleteAccount, getMinorAccountsForLedger} = require("../models/accountModel");
-const {getUserByUsername} = require("../models/userModel");
 
 const addMajorAccount = async(req, res)=>{
   const newAccount = req.body;

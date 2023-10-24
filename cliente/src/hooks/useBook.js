@@ -49,7 +49,50 @@ const useBook = ()=>{
     }
     setLoading(false)
   }
-	return {loading, response, lines, setLines, getLedgerBook}
+
+  const getJournalBook = async(form)=>{
+    const {dateFrom, dateTo} = form;
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+    const journalBookUrl = `http://localhost:3000/movement/getLineByForJournal/${username}/${user_role}/${auth_token}/?dateFrom=${dateFrom}&dateTo=${dateTo}`
+    setLoading(true)
+    try {
+      const res = await api.get(journalBookUrl);
+      switch (true) {
+        case res.status === 200:
+          setLines(calculateJournalBook(res.lines))
+          break;
+  
+        case res.status === 400:
+          setResponse(res);
+          infoToast.show()
+          break;
+  
+        case res.status === 404:
+          setResponse(res);
+          infoToast.show()
+          setLines([])
+          break;
+  
+        case res.status === 500:
+          setResponse(res);
+          infoToast.show()
+          break;
+  
+        default:
+          setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+      console.log(error)
+        setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+        infoToast.show()
+    }
+    setLoading(false)
+  }
+	return {loading, response, lines, setLines, getLedgerBook, getJournalBook}
 }
 
 const calculateLedgerBoook = (lines)=>{
@@ -100,6 +143,30 @@ const calculateLedgerBoook = (lines)=>{
     }
     newLines.push(lines[i])
   }
+  return newLines
+}
+
+const calculateJournalBook = (lines) =>{
+  const newLines = []
+
+  for (const line of lines) {
+    if (!newLines.some((otherMove) => otherMove.id_move === line.id_move)) {
+      line.rows=[]
+      newLines.push(line);
+    }
+  }
+
+  newLines.forEach(newLine => {
+    lines.forEach(line => {
+      if(newLine.id_move === line.id_move){
+        newLine.rows.push({account: line.name, debit: line.debit, credit: line.credit});
+      }
+    });
+    delete newLine.debit
+    delete newLine.credit
+    delete newLine.name
+  });
+
   return newLines
 }
 
