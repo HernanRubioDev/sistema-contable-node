@@ -189,13 +189,13 @@ def done_move ():
                     try:
                         cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
                         #Update de saldo de cuenta
-                        if type == 'haber' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' or tipo_cuenta == 'patrimonio'): 
+                        if type == 'haber' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' ): 
                             total = credito_cuenta - Decimal(monto) #Tengo que restar el saldo
-                        elif type == 'debe' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' or tipo_cuenta == 'patrimonio') :
+                        elif type == 'debe' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' ) :
                             total = credito_cuenta + Decimal(monto)
-                        elif type == 'debe' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+'):
+                        elif type == 'debe' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+' or tipo_cuenta == 'patrimonio' ):
                             total = credito_cuenta - Decimal(monto) #Tengo que restar el saldo
-                        elif type == 'haber' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+'):
+                        elif type == 'haber' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+' or tipo_cuenta == 'patrimonio'):
                             total = credito_cuenta + Decimal(monto)
 
                         #Hago la actualizacion en la base
