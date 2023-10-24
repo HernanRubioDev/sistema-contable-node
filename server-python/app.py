@@ -20,34 +20,10 @@ def conection():
     conn = connect(host=host,port=5432,dbname=database,user=user,password=password)
     return conn
 
-
-@app.post('/user/login')
-def login():
-    conn = conection()
-    cur = conn.cursor(cursor_factory=extras.RealDictCursor)
-    username = request.json.get("username",None)
-    pwd = request.json.get("password",None)
-    #Consulta de user + pwd a base de datos
-    cur.execute("SELECT * FROM users where username=%s and password = %s",(username,pwd))
-    account = cur.fetchone()
-    print(account)
-    if account:
-        id = account['id_user'] #Traigo el id del user
-        auth_token = str(uuid.uuid4()) #Creo uuid
-        cur.execute("update users set auth_token=%s where id_user=%s ",(auth_token,id))
-        conn.commit()  #Confirmo cambios 
-        return jsonify({
-            "status":201,
-            "auth_token":auth_token}) #Retorno tkn
-    else:
-        return jsonify ({"status":403,
-                         "auth_token":None})
-    
-
 ############## Asientos Contables ############
 @app.post('/movements')
 def done_move ():
-    
+
     try:
         #Traigo los datos del json que recibo 
         asiento = request.json
@@ -72,7 +48,7 @@ def done_move ():
             account = linea.get('account')
             monto = linea.get('ammount')
             type = linea.get('type')
-            id_cpny  = linea.get('id_company')
+            id_usr  = linea.get('id_user')
             move_number = asiento.get('moveNum')
             id_user = asiento.get('id_user')
             description = asiento.get('description')
@@ -82,7 +58,7 @@ def done_move ():
             try:
                 row = cur.fetchone()
                 id_account = row['id_account']
-                credito_cuenta = row['credit']
+                credito_cuenta = row['credit']  
                 # Me traigo el tipo de cuenta
                 tipo_cuenta = row['code']
                 #Me fijo por codigo que tipo de cuenta es
@@ -105,7 +81,7 @@ def done_move ():
 
                 if type == 'haber' and tipo_cuenta == 'activo':
                     total = credito_cuenta - Decimal(monto)
-                    if total <= 0:
+                    if total <  0:
                         mensaje = 'El saldo de la cuenta {} es menor al monto a insertar en la línea'.format(account)
                         return jsonify({
                             "status":400,
@@ -113,11 +89,12 @@ def done_move ():
                             "body": mensaje,
                             "success":False
                         })
+                    #cur.execute("Update FROM accounts set credit=%s where id_account = %s",(total,id_account)) #Aca se hace la resta...
                     
                 #Si es pasivo y el tipo es DEBE resta
                 if type == 'debe' and tipo_cuenta == 'pasivo':
                     total = credito_cuenta - Decimal(monto)
-                    if total <= 0: 
+                    if total <  0: 
                         mensaje = 'El saldo de la cuenta {} es menor al monto a insertar en la línea'.format(account)
                         return jsonify({
                             "status":400,
@@ -169,7 +146,7 @@ def done_move ():
                 fecha_ultimo = None
             
             #Validacion de saldos de cuentas
-            
+           #import pdb; pdb.set_trace()
             if not validar_balance(lineas_asiento):
                 print("asiento no valanciado")
                 asiento_balanceado = False
@@ -178,7 +155,6 @@ def done_move ():
             elif validar_balance(lineas_asiento) : #Asiento balanceado y no se realizo insercion
                 if move_insert == 0:
                     try:
-                        print(id_user)
                         cur.execute("INSERT into accounts_moves(move_date,description, id_user) values (%s,%s,%s) RETURNING id_move",(date, description, id_user))
                         
                         if cur.rowcount == 1:
@@ -188,7 +164,19 @@ def done_move ():
                             id_asiento = id_insertado
                             #Insercion primera linea
                             cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
-                            
+                            #import pdb; pdb.set_trace()
+                            if type == 'haber' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-'): 
+                                total = credito_cuenta - Decimal(monto) #Tengo que restar el saldo
+                            elif type == 'debe' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' ) :
+                                total = credito_cuenta + Decimal(monto)
+                            elif type == 'debe' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+' or tipo_cuenta == 'patrimonio'):
+                                total = credito_cuenta - Decimal(monto) #Tengo que restar el saldo
+                            elif type == 'haber' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+' or tipo_cuenta == 'patrimonio'):
+                                total = credito_cuenta + Decimal(monto)
+
+                            #Hago la actualizacion en la base
+                            cur.execute("Update accounts set credit= %s where id_account = %s",(total,id_account))
+
                     except:
                         return jsonify({
                             "status":400,
@@ -200,6 +188,18 @@ def done_move ():
                     #Insercion de linea
                     try:
                         cur.execute("INSERT into accounts_moves_lines(id_move,id_account,date,debit,credit) values (%s,%s,%s,%s,%s)",(int(id_asiento),int(id_account),date,debe,haber))
+                        #Update de saldo de cuenta
+                        if type == 'haber' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' or tipo_cuenta == 'patrimonio'): 
+                            total = credito_cuenta - Decimal(monto) #Tengo que restar el saldo
+                        elif type == 'debe' and (tipo_cuenta == 'activo' or tipo_cuenta == 'r-' or tipo_cuenta == 'patrimonio') :
+                            total = credito_cuenta + Decimal(monto)
+                        elif type == 'debe' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+'):
+                            total = credito_cuenta - Decimal(monto) #Tengo que restar el saldo
+                        elif type == 'haber' and (tipo_cuenta == 'pasivo' or tipo_cuenta == 'r+'):
+                            total = credito_cuenta + Decimal(monto)
+
+                        #Hago la actualizacion en la base
+                        cur.execute("Update accounts set credit= %s where id_account = %s",(total,id_account))
                     except:
                         return jsonify({
                             "status":400,
