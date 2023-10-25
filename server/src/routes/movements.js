@@ -4,10 +4,11 @@ const {addNewMovement, searchMovementQuantity, searchMovementByDates, searchLine
 const { searchMovementByDatesMiddleware } = require("../middlewares/searchMovesByDatesMiddleware");
 const { LedgerBookMiddleware } = require("../middlewares/LedgerBookMiddleware");
 const { JournalBookMiddleware } = require("../middlewares/JournalBookMiddleware");
+const { movementMiddleware } = require("../middlewares/movementMiddleware");
 
 const movementsRouter = Router();
 
-movementsRouter.post("/addMovement/:username/:user_role/:auth_token", authMiddleware, addNewMovement);
+movementsRouter.post("/addMovement/:username/:user_role/:auth_token", authMiddleware, movementMiddleware, addNewMovement);
 
 movementsRouter.get("/getMovementQuantity/:username/:user_role/:auth_token", authMiddleware, searchMovementQuantity);
 

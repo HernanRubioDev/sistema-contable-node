@@ -31,10 +31,8 @@ const useAccount = ()=>{
 
     try {
       const res = await api.post(url, options);
-      console.log(res)
       switch (true) {
         case res.status === 201:
-          console.log("entro")
           setResponse(res)
           infoToast.show();
           break;
@@ -65,7 +63,6 @@ const useAccount = ()=>{
       }
       
     } catch (error) {
-      console.log(error)
       setResponse({status:res.status, title:"Error", body:"La cuenta no se ha podido crear."})
       infoToast.show();
     }

@@ -51,7 +51,7 @@ const getLineFormLedger = async(account, dateFrom, dateTo)=>{
 }
 
 const getLinesForJournal = async(dateFrom, dateTo)=>{
-    const query = "SELECT am.id_move, to_char(am.move_date, 'DD/MM/YYYY') AS move_date, am.description, acc.name, aml.debit, aml.credit from accounts_moves AS am INNER JOIN accounts_moves_lines AS aml ON am.id_move = aml.id_move INNER JOIN accounts AS acc ON acc.id_account = aml.id_account WHERE aml.date BETWEEN $1 AND $2";
+    const query = "SELECT am.id_move, to_char(am.move_date, 'DD/MM/YYYY') AS move_date, am.description, acc.name, aml.debit, aml.credit from accounts_moves AS am INNER JOIN accounts_moves_lines AS aml ON am.id_move = aml.id_move INNER JOIN accounts AS acc ON acc.id_account = aml.id_account WHERE aml.date BETWEEN $1 AND $2 ORDER BY aml.num_line";
     try {
       const res = await pool.query(query, [dateFrom, dateTo]);
       return res

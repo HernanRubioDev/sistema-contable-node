@@ -205,7 +205,6 @@ const calculateJournalBook = (lines) =>{
     delete newLine.credit
     delete newLine.name
   });
-
   return newLines
 }
 
