@@ -57,12 +57,18 @@ const searchMovementQuantity = async(req, res)=>{
 
 const searchMovementByDates = async(req, res)=>{
   const {dateFrom, dateTo} = req.query;
+
   try {
     const response = await getMovementByDates(dateFrom, dateTo)
     switch (true) {
-      case response.rowCount >= 0:
+      case response.rowCount > 0:
         res.json({status:200, movements: response.rows});
         break;
+
+      case response.rowCount === 0:
+      
+        res.json({status:404, title:"Error", body:"No se han encontrado movimientos.", success:false})  
+        break
     
       default:
         res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})

@@ -18,12 +18,12 @@ const LedgerTable = ({loading, lines})=>{
 							<th scope="col">Descripción</th>
 							<th scope="col">Debe</th>
 							<th scope="col">Haber</th>
-							<th scope="col">Saldo</th>
+							<th className="text-center" scope="col">Saldo</th>
 						</tr>
 					</thead>
 					<tbody>
 						{lines.length !==0 &&
-						lines.map((line) => <LedgerTableRow key={line.num_line} data={line}/>)
+						lines.map((line, index) => <LedgerTableRow key={index} data={line}/>)
 						}
 					</tbody>
 					<tfoot>

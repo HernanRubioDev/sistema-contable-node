@@ -18,11 +18,8 @@ const useMovement = ()=>{
     const auth_token = localStorage.getItem("auth_token");
     const user_role = localStorage.getItem("user_role")
     const addMovementUrl = `http://localhost:3000/movement/addMovement/${username}/${user_role}/${auth_token}`
-    delete movements.type
-    delete movements.ammount
-    delete movements.account
-    delete movements.moveNum
 
+    
     const options = {
       body: movements,
       headers:{
@@ -86,6 +83,11 @@ const useMovement = ()=>{
           break;
           
           case res.status === 400:
+          setResponse(res)
+          infoToast.show()
+          break;
+          
+          case res.status === 404:
           setResponse(res)
           infoToast.show()
           break;

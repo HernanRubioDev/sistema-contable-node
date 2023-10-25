@@ -23,7 +23,7 @@ const JournalTable = ({loading, lines})=>{
         </thead>
         <tbody>
           {lines.length !==0 &&
-          lines.map(line => <JournalTableRow key={line.id_move} data={line}/>)
+          lines.map((line, index) => <JournalTableRow key={index} data={line}/>)
           }
 
         </tbody>
