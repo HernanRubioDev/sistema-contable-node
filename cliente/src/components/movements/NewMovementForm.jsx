@@ -130,8 +130,8 @@ const NewMovementForm = ({accounts, quantity, setMenu, setActive, getMinorAccoun
             </div>
           </div>
           <div className="d-flex justify-content-center justify-content-evenly col-6 my-2">
-            <button onClick={()=>addRow(form)} type="button" className="btn btn-secondary col-5">Agregar</button>
-            <button onClick={()=>addMovements(form)} type="button" className="btn btn-success col-5">Registrar</button>
+            <button onClick={()=>addRow(form)} type="button" className="btn btn-secondary col-5" disabled={!form.ammount ? true : false}>Agregar</button>
+            <button onClick={()=>addMovements(form)} type="button" className="btn btn-success col-5" disabled={form.rows.length === 0 ? true : false}>Registrar</button>
           </div>
           <div className={`${loading ? 'd-flex justify-content-center' : 'move-table-container'}`}>
             {loading ? 

@@ -89,6 +89,7 @@ const useMovement = ()=>{
           
           case res.status === 404:
           setResponse(res)
+          setMovements([])
           infoToast.show()
           break;
 

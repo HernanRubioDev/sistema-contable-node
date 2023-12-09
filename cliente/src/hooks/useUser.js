@@ -35,7 +35,7 @@ const useUser = ()=>{
           setTimeout(() => {
             alertModal.hide()
             navigate("/")
-          }, 3000);
+          }, 2000);
           break;
 
         case res.status === 500:
@@ -44,13 +44,13 @@ const useUser = ()=>{
           break;
 
         default:
-          setResponse(res)
+          setResponse({title:"Error", body:"Parece que ha ocurrido un error. Inténtelo mas tarde.", success:false})
           alertModal.show()
           break;
       }
       
     } catch (error) {
-      setResponse(res)
+      setResponse({title:"Error", body:"Parece que ha ocurrido un error. Inténtelo mas tarde.", success:false})
       alertModal.show()
     }
     setLoading(false)

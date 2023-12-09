@@ -50,6 +50,21 @@ const Menu =()=>{
               <span className="text-white fs-4 lh-0">Libros</span>
           </NavLink>
          </li>
+         <li className={`accordion-item d-flex flex-column justify-content-center mt-4  ${active==="books" ? 'active-page' : ''}`}>
+            <div className="accordion-header d-flex justify-content-center align-items-center option-hover ps-5 py-1">
+               <img className="me-1" src="icons/employees.svg"/>
+              <button className="accordion-button collapsed text-white fs-4 lh-0 ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#employeesColapse" aria-expanded="false" aria-controls="collapseTwo">
+                Empleados
+               <img className="ms-3" src="icons/down-arrow.svg"/>
+              </button>
+            </div>
+            <div id="employeesColapse" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <NavLink  onClick={()=>{setMenu("employeers"), setActive("employeers")}} to={"/employeers/add"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Agregar</span></NavLink>
+              <NavLink  onClick={()=>{setMenu("employeers"), setActive("employeers")}} to={"/employeers/search"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Buscar</span></NavLink>
+              <NavLink  onClick={()=>{setMenu("employeers"), setActive("employeers")}} to={"/employeers/receipt"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Recibos</span></NavLink>
+              <NavLink  onClick={()=>{setMenu("employeers"), setActive("employeers")}} to={"/employeers/accruals"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Devengamientos</span></NavLink>
+            </div>
+         </li>
       </ul>
     </nav>
   );
