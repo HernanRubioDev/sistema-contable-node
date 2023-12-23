@@ -1,3 +1,27 @@
+DESCRIPCIÓN
+Pryecto académico para la asignatura Sistemas Administrativos II sobre el desarrollo de un sistema contable.
+
+REQUERIMIENTOS:
+   - Manejo de sesiones de usuarios.
+   - Manejo de roles de usuarios.
+   - Altas, bajas, modificaciones, y consultas de cuentas contables.
+   - Alta y consultas de asientos contables con sus respectivas validaciones.
+   - Consulta de libro mayor y libro diario.
+
+TECNOLOGIAS
+   BACKEND:
+      - NodeJs con Express
+      - Python con Flask
+   
+   FRONTEND:
+      - JavaScript
+      - ReactJs
+      - Bootstrap
+
+   PERSISTENCIA:
+      -PostgresSQL
+
+INSTALACIÓN
 Vamos a instalar las librerias de los proyectos
 
 Tenemos 2 carpetas para los servidore y una para el client
