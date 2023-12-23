@@ -40,7 +40,7 @@ def done_move ():
             return jsonify({
                     "status":400,
                     "title":"Error",
-                    "error":'Cantidad de lineas menor a 2',
+                    "body":'Cantidad de lineas menor a 2',
                     "success":False
                     })
         for linea in lineas_asiento:

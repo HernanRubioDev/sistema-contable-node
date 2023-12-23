@@ -1,4 +1,4 @@
-const {nameVilation, surnameVilation, usernameVilation, passwordVilation, repeatPasswordValidation, idCompanyValidation} = require("../validators/registerValidator");
+const {nameVilation, surnameVilation, usernameVilation, passwordVilation, repeatPasswordValidation} = require("../validators/registerValidator");
 
 const registerMiddleware = async(req, res, next)=>{
   const {name, surname, username, password, rePassword} = req.body;

@@ -1,0 +1,103 @@
+##################################################################### BASE DE DATOS PARA EL SISTEMA CONTABLE #####################################################################
+
+CREATE TABLE Users ( 
+	id_user SERIAL PRIMARY KEY, 
+	name VARCHAR(40) NOT NULL, 
+	surname VARCHAR(40) NOT NULL, 
+	username VARCHAR(20) NOT NULL UNIQUE, 
+	password VARCHAR(60) NOT NULL, 
+	user_role VARCHAR(20) NOT NULL, 
+	auth_token VARCHAR(60) );
+
+CREATE TABLE accounts_moves ( 
+id_move SERIAL PRIMARY KEY, 
+move_date DATE NOT NULL, 
+description VARCHAR(255) NOT NULL, 
+id_user INTEGER NOT NULL, FOREIGN KEY (id_user) REFERENCES Users(id_user) );
+
+CREATE TABLE Accounts ( 
+id_account SERIAL PRIMARY KEY, 
+name VARCHAR(30) NOT NULL UNIQUE, 
+recive_credit BOOLEAN NOT NULL, 
+credit NUMERIC(10,2) NOT NULL, 
+code VARCHAR(5) NOT NULL, 
+date_creation DATE NOT NULL );
+
+CREATE TABLE Accounts_moves_lines ( 
+	id_move INTEGER NOT NULL REFERENCES Accounts_moves(id_move), 
+	id_account INTEGER NOT NULL REFERENCES Accounts(id_account),
+	num_line SERIAL NOT NULL UNIQUE, 
+	date DATE NOT NULL, 
+	credit NUMERIC(10,2), 
+	debit NUMERIC(10,2), PRIMARY KEY (id_move, id_account) );
+
+	##################################################################### BASE DE DATOS PARA EL SISTEMA DE SUELDOS #####################################################################
+
+	CREATE TABLE banks (
+  id_bank SERIAL PRIMARY KEY,
+  name VARCHAR(40) NOT NULL,
+  address VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE cities (
+  id_city SERIAL PRIMARY KEY,
+  name VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE concepts (
+  id_concept SERIAL PRIMARY KEY,
+  type CHAR NOT NULL,
+  percentage NUMERIC NOT NULL
+);
+
+CREATE TABLE concept_types (
+  id_concept_type SERIAL PRIMARY KEY,
+	concept_name: VARCHAR(40) NOT NULL,
+  type CHAR NOT NULL
+);
+
+CREATE TABLE categories (
+  id_category SERIAL PRIMARY KEY,
+  category VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE employees (
+  id_employee SERIAL PRIMARY KEY,
+  name VARCHAR(40) NOT NULL,
+  surname VARCHAR(40) NOT NULL,
+  id_city INTEGER REFERENCES cities(id_city),
+  salary INTEGER NOT NULL,
+  cuil VARCHAR(20) NOT NULL,
+  childrens INTEGER,
+	entry_date DATE NOT NULL
+);
+
+CREATE TABLE cities_employees (
+  id_employee INTEGER REFERENCES employees(id_employee),
+  id_city INTEGER REFERENCES cities(id_city)
+);
+
+
+CREATE TABLE employees_categories (
+  id_employee INTEGER REFERENCES employees(id_employee),
+  id_category INTEGER REFERENCES categories(id_category)
+);
+
+CREATE TABLE pay_check_concepts (
+  id_pay_check INTEGER REFERENCES payments(id_payment),
+  id_concept INTEGER REFERENCES concepts(id_concept),
+);
+
+CREATE TABLE pay_checks (
+  id_pay_check SERIAL PRIMARY KEY,
+  id_bank INTEGER REFERENCES banks(id_bank),
+  id_employee INTEGER REFERENCES employees(id_employee),
+  payment_date DATE NOT NULL,
+  remuneration FLOAT NOT NULL,
+  net_total FLOAT NOT NULL,
+  pesos VARCHAR(40) NOT NULL,
+  month DATE NOT NULL,
+  deposit_date DATE NOT NULL
+);
+
+

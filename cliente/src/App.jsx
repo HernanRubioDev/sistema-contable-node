@@ -8,6 +8,7 @@ import Accounts from './pages/Accounts';
 import Dashboard from './pages/Dashboard';
 import Movements from './pages/Movements';
 import Books from './pages/Books';
+import Employees from './pages/Employees';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path='/accounts' element={<Accounts />}/>
               <Route path='/movements' element={<Movements />}/>
               <Route path='/books' element={<Books />}/>
+              <Route path='/employees' element={<Employees />}/>
           </Routes>
         </Router>
       </MenuProvider>

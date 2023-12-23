@@ -34,3 +34,7 @@
 .active-page{
   background-color: #198754;
 }
+
+.menu{
+  min-width: 17rem;
+}

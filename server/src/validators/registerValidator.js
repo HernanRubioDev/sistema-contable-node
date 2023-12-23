@@ -85,7 +85,7 @@ const passwordVilation = (password)=>{
       break;
 
     case !passwordRegEx.test(password):
-      errors.password = "La contraseña debe contener al menos una letra mayuscula y un numero."
+      errors.password = "La contraseña debe contener al menos una letra mayúscula, una minúscula y un número."
       break;
       
     default:

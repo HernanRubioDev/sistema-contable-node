@@ -11,8 +11,6 @@ ALTER USER juancruz CREATEDB;    # Doy permisos
 postgres=# CREATE DATABASE project1;   # Creamos la base
 CREATE DATABASE
 
-
-
 postgres=# ALTER DATABASE project1 OWNER TO juancruz;  #Le damos permisos al usuario juancruz
 ALTER DATABASE
 
