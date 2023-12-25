@@ -1,4 +1,4 @@
-const {setEmployee, getEmployeeById, getAllEmployees} = require('../models/employeeModel');
+const {setEmployee, getEmployeeById, getEmployee, getCities} = require('../models/employeeModel');
 
 const addNewEmployee = async(req, res)=>{
   const employee = req.body
@@ -41,12 +41,13 @@ const searchEmployeeById = async(req, res)=>{
   }
 }
 
-const searchAllEmployees = async(req, res)=>{
+const searchEmployee = async(req, res)=>{
+  const employee = req.query;
   try {
-    const response = await getAllEmployees()
+    const response = await getEmployee(employee);
     switch (true) {
       case response.rowCount !== 0:
-        res.json({status:200, employees: response.rows[0]}) //VERIFICAR SI ROWS[0] DEVUELVE SOLO UNA FILA O TODAS
+        res.json({status:200, employees: response.rows})
         break;
 
       case response.rowCount === 0:
@@ -62,4 +63,21 @@ const searchAllEmployees = async(req, res)=>{
   }
 }
 
-module.exports={addNewEmployee, searchEmployeeById, searchAllEmployees}
+const searchCities = async (req, res)=>{
+  try {
+    const response = await getCities();
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({status:200, cities: response.rows})
+        break;
+
+      default:
+        res.json({status:500, title:"Error", body:"No se han podido cargar las ciudades. Intentelo mas tarde.", success:false})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:"No se han podido cargar las ciudades. Intentelo mas tarde.", success:false})
+  }
+}
+
+module.exports={addNewEmployee, searchEmployeeById, searchEmployee, searchCities}

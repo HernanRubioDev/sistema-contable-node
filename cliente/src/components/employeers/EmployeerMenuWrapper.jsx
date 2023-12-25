@@ -3,13 +3,13 @@ import NewEmployeerForm from "./NewEmployeerForm";
 import SearchEmployeerForm from "./SearchEmployeerForm";
 import SearchReciptsForm from "./SearchReciptsForm";
 
-const EmployeerMenuWrapper = ({menu, loading, employees, addEmployee, getEmployee})=>{
+const EmployeerMenuWrapper = ({menu, loading, employees, cities, addEmployee, getEmployee, getCities})=>{
   switch (menu) {
     case 'add':
       return <NewEmployeerForm addEmployee={addEmployee} loading={loading}/>
     
     case 'search':
-      return <SearchEmployeerForm loading={loading} employees={employees} getEmployee={getEmployee}/> 
+      return <SearchEmployeerForm loading={loading} employees={employees} cities={cities} getEmployee={getEmployee} getCities={getCities}/> 
 
     case 'receipt':
       return <SearchReciptsForm />

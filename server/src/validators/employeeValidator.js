@@ -64,7 +64,6 @@
     
       case !regEx.test(cuil):
         errors.message = "Formato de Cuil inválido."
-        console.log(errors)
         break;
 
       default:
@@ -123,7 +122,6 @@
         break;
 
       case childrens < 0:
-        console.log("entro")
         errors.message = "El campo Hijos no puede ser menor a 0."
         break;
 

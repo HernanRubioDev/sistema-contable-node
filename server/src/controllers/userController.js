@@ -48,7 +48,7 @@ const loginUser = async (req, res)=>{
           : 
           res.json({status:500, title:"Ups...", body:"Parece que ha ocurrido un error...intentelo mas tarde", success:false})
         }
-        else {console.log("entro") 
+        else {
         res.json({status:403, message:"El usuario o la contraseña son incorrectos."})}
         break
 

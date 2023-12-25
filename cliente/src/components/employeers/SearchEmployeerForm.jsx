@@ -1,15 +1,20 @@
 import OpenMenuButton from "../OpenMenuButton";
 import useForm from '../../hooks/useForm';
 import Loader from "../Loader";
+import { useEffect } from "react";
+import SearchEmployeeTableRow from "./SearchEmployeeTableRow";
 
 const initialForm ={
   name:'',
   surname:'',
-  town:'',
+  city:'PERGAMINO',
 }
-
-const SearchEmployeerForm = ({loading, employees, getEmployee})=>{
+const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities})=>{
   const {form, setForm, handleChange} = useForm(initialForm)
+  useEffect(()=>{
+    getCities();
+  },[]) 
+
   return(
     <div className="h-100 d-flex flex-column flex-grow-1 bg-body-secondary px-3">
       <OpenMenuButton />
@@ -29,9 +34,8 @@ const SearchEmployeerForm = ({loading, employees, getEmployee})=>{
           </div>
           <div className="col">
             <span>Localidad</span>
-            <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" value={form.town} name="town">
-              <option value="1">Pergamino</option>
-              <option value="2">Junin</option>
+            <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" value={form.city} name="city">
+              {cities && cities.map(city => <option key={city.id_city} value={city.city}>{city.city}</option>)}
             </select>
           </div>
           <div className="col d-flex align-items-end">
@@ -57,22 +61,7 @@ const SearchEmployeerForm = ({loading, employees, getEmployee})=>{
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center">
-              <td>Hernan</td>
-              <td>Rubio</td>
-              <td>Pergamino</td>
-              <td>11-11111111-1</td>
-              <td>13/11/23</td>
-              <td><button className="btn btn-sm btn-primary">Devengar</button></td>
-            </tr>
-            <tr className="text-center">
-              <td>Hernan</td>
-              <td>Rubio</td>
-              <td>Pergamino</td>
-              <td>11-11111111-1</td>
-              <td>13/11/23</td>
-              <td><button className="btn btn-sm btn-primary">Devengar</button></td>
-            </tr>
+            {employees && employees.map((employee, index) => <SearchEmployeeTableRow key={index} employee={employee}/>)}
           </tbody>
         </table>
         }

@@ -9,8 +9,7 @@ const employeeMiddleware = (req, res, next)=>{
   isEmpty(validations) ? 
   res.json({status:400, title:"Error", body: validations.message, success: false}) 
   : 
-  console.log("paso")
-  //next();
+  next();
 }
 
 module.exports={employeeMiddleware}

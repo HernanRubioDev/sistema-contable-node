@@ -86,7 +86,6 @@ const useBook = ()=>{
           break;
       }
     } catch (error) {
-      console.log(error)
         setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
         infoToast.show()
     }
