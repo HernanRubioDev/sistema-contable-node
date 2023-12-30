@@ -1,4 +1,4 @@
-const {setEmployee, getEmployeeById, getEmployee, getCities} = require('../models/employeeModel');
+const {setEmployee, getEmployeeById, getEmployee, getCities, getCategories} = require('../models/employeeModel');
 
 const addNewEmployee = async(req, res)=>{
   const employee = req.body
@@ -80,4 +80,21 @@ const searchCities = async (req, res)=>{
   }
 }
 
-module.exports={addNewEmployee, searchEmployeeById, searchEmployee, searchCities}
+const searchCategories = async (req, res)=>{
+  try {
+    const response = await getCategories();
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({status:200, categories: response.rows})
+        break;
+
+      default:
+        res.json({status:500, title:"Error", body:"No se han podido cargar las categorias. Intentelo mas tarde.", success:false})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:"No se han podido cargar las categorias. Intentelo mas tarde.", success:false})
+  }
+}
+
+module.exports={addNewEmployee, searchEmployeeById, searchEmployee, searchCities, searchCategories}

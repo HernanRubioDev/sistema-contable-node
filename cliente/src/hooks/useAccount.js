@@ -31,6 +31,7 @@ const useAccount = ()=>{
 
     try {
       const res = await api.post(url, options);
+      console.log(res)
       switch (true) {
         case res.status === 201:
           setResponse(res)

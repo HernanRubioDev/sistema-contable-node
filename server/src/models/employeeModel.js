@@ -1,12 +1,19 @@
 const {pool} = require("../../db");
 
-const setEmployee = async(employee)=>{
- try {
-  
- } catch (error) {
-  return null;
- }
-}
+const setEmployee = async (employee) => {
+  const {name, surname, birth, salary, cuil, childrens, entry_date, category, city} = employee;
+  const query = "INSERT INTO employees (name, surname, birth, salary, cuil, childrens, entry_date, id_city, id_category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+
+  try {
+    const res = await pool.query(query,[name, surname, birth, salary, cuil, childrens, entry_date, city, category])
+    return res;
+
+  } catch (error) {
+    console.log(error)
+    return null
+    
+  }
+};
 
 const getEmployeeById = async(employee)=>{
  try {
@@ -36,11 +43,21 @@ const getEmployee = async(employee)=>{
 const getCities = async()=>{
   const query = "SELECT * FROM cities";
   try {
-    const res = pool.query(query);
+    const res = await pool.query(query);
     return res;
   } catch (error) {
     return null;
   }
 }
 
-module.exports={setEmployee, getEmployeeById, getEmployee, getCities}
+const getCategories = async()=>{
+  const query = "SELECT * FROM categories";
+  try {
+    const res = await pool.query(query);
+    return res;
+  } catch (error) {
+    return null;
+  }
+}
+
+module.exports={setEmployee, getEmployeeById, getEmployee, getCities, getCategories}

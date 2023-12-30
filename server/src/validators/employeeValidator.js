@@ -56,7 +56,7 @@
 
   const cuilValidation =(cuil)=>{
     const errors = {}
-    const regEx = /^[2]{1}[0-9]{8}[0-9]{1}$/;
+    const regEx = /^[2]{1}[0-9]{8}[0-9]{1}[0-9]{1}$/g;
     switch (true) {
       case !cuil:
         errors.message = "El campo Cuil es obligatorio."

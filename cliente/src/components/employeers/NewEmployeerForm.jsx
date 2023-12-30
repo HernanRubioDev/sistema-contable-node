@@ -1,8 +1,12 @@
 import OpenMenuButton from "../OpenMenuButton";
 import useForm from '../../hooks/useForm';
+import { useEffect } from "react";
 
-const NewEmployeerForm = ({loading, employees, addEmployee})=>{
-
+const NewEmployeerForm = ({loading, employees, cities, categories, addEmployee, getCities, getCategories})=>{
+  useEffect(()=>{
+    getCities()
+    getCategories()
+  },[])
   const initialForm ={
       name:'',
       surname:'',
@@ -11,8 +15,8 @@ const NewEmployeerForm = ({loading, employees, addEmployee})=>{
       bank:'',
       salary:'',
       birth:'',
-      category:'',
-      city:'',
+      category:'1',
+      city:'1',
       childrens:''
     }
 
@@ -65,16 +69,13 @@ const NewEmployeerForm = ({loading, employees, addEmployee})=>{
             <div className="col">
               <span>Categoria</span>
               <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="category" value={form.category}>
-                <option value="1">Junior</option>
-                <option value="2">Semisenior</option>
-                <option value="2">Senior</option>
+                {categories.map(category => <option key={category.id_category} value={category.id_category}>{category.category}</option>)}
               </select>
             </div>
             <div className="col">
               <span>Localidad</span>
               <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" value={form.city} name="city">
-                <option value="1">Pergamino</option>
-                <option value="2">Junin</option>
+                {cities.map((city, index) => <option key={index} value={city.id_city}>{city.city}</option>)}
               </select>
             </div>
           </div>
