@@ -12,7 +12,6 @@ const NewEmployeerForm = ({loading, employees, cities, categories, addEmployee, 
       surname:'',
       entry_date:'',
       cuil:'',
-      bank:'',
       salary:'',
       birth:'',
       category:'1',
@@ -32,56 +31,47 @@ const NewEmployeerForm = ({loading, employees, cities, categories, addEmployee, 
         <form className="d-flex flex-wrap justify-content-evenly border">
           <div className="row row-cols-3 w-100 mt-3">
             <div className="col">
-              <span>Nombre</span>
+              <lable className="fw-medium text-secondary">Nombre</lable>
               <input onChange={(e)=>handleChange(e)} type="text" className="form-control" name="name" value={form.name} autoComplete="off" autoFocus/>
             </div>
             <div className="col">
-              <span>Apellido</span>
+              <lable className="fw-medium text-secondary">Apellido</lable>
               <input onChange={(e)=>handleChange(e)} type="text" className="form-control" name="surname" value={form.surname} autoComplete="off"/>
             </div>
             <div className="col">
-              <span>F. Ingreso</span>
+              <lable className="fw-medium text-secondary">F. Ingreso</lable>
               <input onChange={(e)=>handleChange(e)} type="date" className="form-control" name="entry_date" value={form.entry_date} autoComplete="off"/>
             </div>
           </div>
           <div className="row row-cols-3 w-100 mt-3">
             <div className="col">
-              <span>Cuil</span>
+              <lable className="fw-medium text-secondary">Cuil</lable>
               <input onChange={(e)=>handleChange(e)} type="text" className="form-control" name="cuil" value={form.cuil} autoComplete="off"/>
             </div>
             <div className="col">
-              <span>Banco</span>
-              <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="bank" value={form.bank}>
-                <option value="1">Macro</option>
-                <option value="2">Provincia</option>
-              </select>
-            </div>
-            <div className="col">
-              <span>Salario</span>
+              <lable className="fw-medium text-secondary">Salario</lable>
               <input onChange={(e)=>handleChange(e)} type="number" className="form-control" name="salary" value={form.salary} autoComplete="off"/>
             </div>
-          </div>
-          <div className="row row-cols-3 w-100 mt-3">
             <div className="col">
-              <span>F. Nacimiento</span>
+              <lable className="fw-medium text-secondary">F. Nacimiento</lable>
               <input onChange={(e)=>handleChange(e)} type="date" className="form-control" name="birth" value={form.birth}/>
             </div>
+          </div>
+          <div className="row row-cols-3 w-100 mt-3 mb-3">
             <div className="col">
-              <span>Categoria</span>
+              <lable className="fw-medium text-secondary">Categoria</lable>
               <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="category" value={form.category}>
                 {categories.map(category => <option key={category.id_category} value={category.id_category}>{category.category}</option>)}
               </select>
             </div>
             <div className="col">
-              <span>Localidad</span>
+              <lable className="fw-medium text-secondary">Localidad</lable>
               <select onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" value={form.city} name="city">
                 {cities.map((city, index) => <option key={index} value={city.id_city}>{city.city}</option>)}
               </select>
             </div>
-          </div>
-          <div className="row row-cols-3 w-100 my-3">
             <div className="col">
-              <span>Hijos</span>
+              <lable className="fw-medium text-secondary">Hijos</lable>
               <input onChange={(e)=>handleChange(e)} type="number" className="form-control" name="childrens" value={form.childrens} autoComplete="off"/>
             </div>
           </div>
