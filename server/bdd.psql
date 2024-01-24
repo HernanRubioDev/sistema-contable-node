@@ -35,20 +35,20 @@ CREATE TABLE Accounts_moves_lines (
 
 	CREATE TABLE banks (
   id_bank SERIAL PRIMARY KEY,
-  name VARCHAR(40) NOT NULL
+  bank VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE cities (
   id_city SERIAL PRIMARY KEY,
-  name VARCHAR(40) NOT NULL
+  city VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE concepts (
   id_concept SERIAL PRIMARY KEY,
-  type CHAR NOT NULL,
+  type CHAR NOT NULL CHECK (type IN ('G','E')),
   percentage NUMERIC NOT NULL,
-  name varchar(40) NOT NULL,
-);
+  concept varchar(40) NOT NULL
+  );
 
 CREATE TABLE categories (
   id_category SERIAL PRIMARY KEY,
@@ -63,8 +63,10 @@ CREATE TABLE employees (
   cuil VARCHAR(20) NOT NULL,
   childrens INTEGER NOT NULL,
 	entry_date DATE NOT NULL,
+  birth DATE NOT NULL,
   id_city INTEGER REFERENCES cities(id_city),
-  id_category INTEGER REFERENCES categories(id_category)
+  id_category INTEGER REFERENCES categories(id_category),
+  id_bank INTEGER REFERENCES banks(id_bank)
 );
 
 CREATE TABLE pay_checks (
@@ -81,7 +83,7 @@ CREATE TABLE pay_checks (
 
 CREATE TABLE pay_check_concepts (
   id_pay_check INTEGER REFERENCES pay_checks(id_pay_check),
-  id_concept INTEGER REFERENCES concepts(id_concept),
+  id_concept INTEGER REFERENCES concepts(id_concept)
 );
 
 

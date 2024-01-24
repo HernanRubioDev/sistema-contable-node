@@ -1,6 +1,7 @@
 const {checkAuth} = require("../models/userModel")
 
 const authMiddleware = async(req, res, next)=>{
+
   const {username, auth_token, user_role} = req.params
   try {
     const auth = await checkAuth(username, auth_token);
@@ -19,7 +20,6 @@ const authMiddleware = async(req, res, next)=>{
     }
   } catch (error) {
     res.json({status:500, title:"Error", body:"Ups...Parece que ha ocurrido un error. Intentelo mas tarde.", success:false})
-
   }
 }
 
