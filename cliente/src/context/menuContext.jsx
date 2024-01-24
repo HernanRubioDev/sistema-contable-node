@@ -4,7 +4,7 @@ const menuContext = createContext();
 
 const MenuProvider = ({children})=>{
   const [menu, setMenu] = useState();
-  const [active, setActive] = useState("dashboard")
+  const [active, setActive] = useState(window.location.pathname.slice(1))
 
   const data = {menu, active, setMenu, setActive}
 

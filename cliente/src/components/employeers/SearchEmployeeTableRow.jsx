@@ -1,4 +1,4 @@
-const SearchEmployeeTableRow = ({employee})=>{
+const SearchEmployeeTableRow = ({employee, setEmployeeToPay})=>{
   const {name, surname, city, cuil, entry_date} = employee
   return(
   <tr className="text-center">
@@ -7,7 +7,7 @@ const SearchEmployeeTableRow = ({employee})=>{
     <td>{city}</td>
     <td>{cuil}</td>
     <td>{entry_date}</td>
-    <td><button className="btn btn-sm btn-primary">Devengar</button></td>
+    <td><button onClick={()=>setEmployeeToPay(employee)} className="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#paycheck_stub"><img src="icons/money-bag.svg"/></button></td>
   </tr>
   );
 }

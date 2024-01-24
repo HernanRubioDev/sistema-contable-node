@@ -4,12 +4,15 @@ import useUser from "./useUser";
 
 const useEmployee = ()=>{
   const api = helpHttp();
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
-  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState(null)
+  const [employees, setEmployees] = useState([])
   const [cities, setCities] = useState([])
   const [categories, setCategories] = useState([])
-  const {logOutUser} = useUser();
+  const [banks, setBanks] = useState([])
+  const [concepts, setConcepts] = useState([]);
+
+  const {logOutUser} = useUser()
 	const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
 
   const addEmployee = async (employee)=>{
@@ -19,7 +22,6 @@ const useEmployee = ()=>{
     const user_role = localStorage.getItem("user_role");
     
     const url =`http://localhost:3000/employee/addEmployee/${username}/${user_role}/${auth_token}`
-    console.table(employee)
     const options = {
       body: employee,
       headers:{
@@ -29,7 +31,6 @@ const useEmployee = ()=>{
     setLoading(true)
     try {
       const res = await api.post(url, options)
-      console.log(res)
       switch (true) {
         case res.status === 201:
           setResponse(res)
@@ -66,7 +67,6 @@ const useEmployee = ()=>{
           break;
       }
     } catch (error) {
-      console.log(error)
       setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
       infoToast.show()
     }
@@ -82,7 +82,6 @@ const useEmployee = ()=>{
     setLoading(true)
     try {
       const res = await api.get(endpoint)
-      console.log(res)
       switch (true) {
         case res.status === 200:
           setEmployees(res.employees)
@@ -91,6 +90,20 @@ const useEmployee = ()=>{
         case res.status === 404:
           setResponse(res);
           setEmployees([])
+          infoToast.show()
+          break;
+
+         case res.status === 401:
+          setResponse(res)
+          alertModal.show()
+          setTimeout(()=>{
+            logOutUser()
+            alertModal.hide()
+          },2000)
+          break;
+  
+        case res.status === 403:
+          setResponse(res)
           infoToast.show()
           break;
 
@@ -115,13 +128,27 @@ const useEmployee = ()=>{
     const username = localStorage.getItem("username");
     const auth_token = localStorage.getItem("auth_token");
     const user_role = localStorage.getItem("user_role");
-    const endpoint = `http://localhost:3000/employee/getCities/${username}/${user_role}/${auth_token}`
+    const endpoint = `http://localhost:3000/city/getCities/${username}/${user_role}/${auth_token}`
     setLoading(true)
     try {
       const res = await api.get(endpoint)
       switch (true) {
         case res.status === 200:
           setCities(res.cities)
+          break;
+
+        case res.status === 401:
+          setResponse(res)
+          alertModal.show()
+          setTimeout(()=>{
+            logOutUser()
+            alertModal.hide()
+          },2000)
+          break;
+  
+        case res.status === 403:
+          setResponse(res)
+          infoToast.show()
           break;
 
         case res.status === 500:
@@ -146,7 +173,7 @@ const useEmployee = ()=>{
     const username = localStorage.getItem("username");
     const auth_token = localStorage.getItem("auth_token");
     const user_role = localStorage.getItem("user_role");
-    const endpoint = `http://localhost:3000/employee/getCategories/${username}/${user_role}/${auth_token}`
+    const endpoint = `http://localhost:3000/category/getCategories/${username}/${user_role}/${auth_token}`
 
     try {
       const res = await api.get(endpoint)
@@ -170,7 +197,106 @@ const useEmployee = ()=>{
       infoToast.show()
     }
   }
-  return {loading, response, employees, cities, categories ,addEmployee, getEmployee, getCities, getCategories}
+
+  const getBanks = async()=>{
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+
+    const endpoint = `http://localhost:3000/bank/getBanks/${username}/${user_role}/${auth_token}`
+
+    try {
+      const res = await api.get(endpoint)
+      switch (true) {
+        case res.status === 200:
+          setBanks(res.banks)
+          break;
+
+        case res.status === 404:
+          setResponse(res)
+          infoToast.show()
+          break;
+
+        case res.status === 401:
+          setResponse(res)
+          alertModal.show()
+          setTimeout(()=>{
+            logOutUser()
+            alertModal.hide()
+          },2000)
+          break;
+
+        case res.status === 403:
+          setResponse(res)
+          infoToast.show()
+          break;
+
+        case res.status === 500:
+          setResponse(res);
+          infoToast.show()
+          break;
+      
+        default:
+          setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+        setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+        infoToast.show()
+    }
+  }
+
+  const  getConcepts = async()=>{
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+
+    const endpoint = `http://localhost:3000/concept/getConcepts/${username}/${user_role}/${auth_token}`
+
+    try {
+      const res = await api.get(endpoint)
+      switch (true) {
+        case res.status === 200:
+          setConcepts(res.concepts)
+          break;
+
+        case res.status === 404:
+          setResponse(res)
+          infoToast.show()
+          break;
+
+        case res.status === 401:
+          setResponse(res)
+          alertModal.show()
+          setTimeout(()=>{
+            logOutUser()
+            alertModal.hide()
+          },2000)
+          break;
+
+        case res.status === 403:
+          setResponse(res)
+          infoToast.show()
+          break;
+
+        case res.status === 500:
+          setResponse(res);
+          infoToast.show()
+          break;
+      
+        default:
+          setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+        setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+        infoToast.show()
+    }
+  }
+
+  return {loading, response, employees, cities, categories, banks, concepts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts}
 }
 
 export default useEmployee;

@@ -4,17 +4,18 @@ import Loader from "../Loader";
 import { useEffect } from "react";
 import SearchEmployeeTableRow from "./SearchEmployeeTableRow";
 
-const initialForm ={
-  name:'',
-  surname:'',
-  city:'PERGAMINO',
-}
-const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities})=>{
-  const {form, setForm, handleChange} = useForm(initialForm)
+
+const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities, setEmployeeToPay})=>{
+  const initialForm ={
+    name:'',
+    surname:'',
+    city:'Pergamino',
+  }
+  const {form, handleChange} = useForm(initialForm)
   useEffect(()=>{
     getCities();
   },[]) 
-
+  
   return(
     <div className="h-100 d-flex flex-column flex-grow-1 bg-body-secondary px-3">
       <OpenMenuButton />
@@ -22,7 +23,7 @@ const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities
         <h5 className="text-secondary align-self-start">Buscar empleado</h5>
       </div>
       <div className="d-flex flex-column bg-white my-2 border shadow p-3">
-        <form className="d-flex flex-wrap justify-content-evenly">
+        <form onSubmit={(e)=>{e.preventDefault(), getEmployee(form)}} className="d-flex flex-wrap justify-content-evenly">
         <div className="row row-cols-4 w-100">
          <div className="col">
             <span>Nombre</span>
@@ -39,7 +40,7 @@ const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities
             </select>
           </div>
           <div className="col d-flex align-items-end">
-            <button onClick={()=>getEmployee(form)} type="button" className="btn btn-sm btn-success w-100 fw-semibold d-flex justify-content-center align-items-center py-2"><img className="me-2" src="icons/magnifying-glass.svg"/> Buscar</button>
+            <button type="submit" className="btn btn-sm btn-success w-100 fw-semibold d-flex justify-content-center align-items-center py-2"><img className="me-2" src="icons/magnifying-glass.svg"/> Buscar</button>
           </div>
         </div>
         </form>
@@ -57,11 +58,11 @@ const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities
               <th scope="col">Localidad</th>
               <th scope="col">Cuil</th>
               <th scope="col">F. Ingreso</th>
-              <th scope="col">Acción</th>
+              <th scope="col">Devengar</th>
             </tr>
           </thead>
           <tbody>
-            {employees && employees.map((employee, index) => <SearchEmployeeTableRow key={index} employee={employee}/>)}
+            {employees && employees.map((employee, index) => <SearchEmployeeTableRow key={index} employee={employee} setEmployeeToPay={setEmployeeToPay}/>)}
           </tbody>
         </table>
         }
