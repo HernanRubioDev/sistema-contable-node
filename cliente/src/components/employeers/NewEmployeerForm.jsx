@@ -63,26 +63,26 @@ const NewEmployeerForm = ({loading, employees, cities, categories, banks, addEmp
               <label htmlFor="salary" className="fw-semibold text-secondary">Salario</label>
               <input id="salary" onChange={(e)=>handleChange(e)} type="number" className="form-control" name="salary" value={form.salary} autoComplete="off"/>
             </div>
-          </div>
-          <div className="row row-cols-3 w-100 mt-3">
-            <div className="col">
-              <label htmlFor="birth" className="fw-semibold text-secondary">F. Nacimiento</label>
-              <input id="birth" onChange={(e)=>handleChange(e)} type="date" className="form-control" name="birth" value={form.birth} max={actualDate}/>
+            <div className="row row-cols-3 w-100 mt-3">
+              <div className="col">
+                <label htmlFor="birth" className="fw-semibold text-secondary">F. Nacimiento</label>
+                <input id="birth" onChange={(e)=>handleChange(e)} type="date" className="form-control" name="birth" value={form.birth} max={actualDate}/>
+              </div>
+              <div className="col">
+                <label htmlFor="category" className="fw-semibold text-secondary">Categoria</label>
+                <select id="category" onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="category" value={form.category}>
+                  {categories.map(category => <option key={category.id_category} value={category.id_category}>{category.category}</option>)}
+                </select>
+              </div>
+              <div className="col">
+                <label htmlFor="city" className="fw-semibold text-secondary">Localidad</label>
+                <select id="city" onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" value={form.city} name="city">
+                  {cities.map((city, index) => <option key={index} value={city.id_city}>{city.city}</option>)}
+                </select>
+              </div>
             </div>
-            <div className="col">
-              <label htmlFor="category" className="fw-semibold text-secondary">Categoria</label>
-              <select id="category" onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" name="category" value={form.category}>
-                {categories.map(category => <option key={category.id_category} value={category.id_category}>{category.category}</option>)}
-              </select>
             </div>
-            <div className="col">
-              <label htmlFor="city" className="fw-semibold text-secondary">Localidad</label>
-              <select id="city" onChange={(e)=>handleChange(e)} className="form-select" aria-label="Default select example" value={form.city} name="city">
-                {cities.map((city, index) => <option key={index} value={city.id_city}>{city.city}</option>)}
-              </select>
-            </div>
-          </div>
-          <div className="row row-cols-3 w-100 my-3">
+          <div className="row row-cols-3 w-100 mt-3 mb-3">
             <div className="col">
               <label htmlFor="number" className="fw-semibold text-secondary">Hijos</label>
               <input id="number" onChange={(e)=>handleChange(e)} type="number" className="form-control" name="childrens" value={form.childrens} autoComplete="off"/>

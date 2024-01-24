@@ -13,9 +13,11 @@ const setEmployee = async (employee) => {
   }
 };
 
-const getEmployeeById = async(employee)=>{
+const getEmployeeById = async(id_employee)=>{
+ const query = "SELECT * FROM employees WHERE id_employee = $1"
  try {
-
+  const res = await pool.query(query,[id_employee]);
+  return res
  } catch (error) {
   return null;
  }
