@@ -11,6 +11,8 @@ const Dashboard = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
   const {active, setMenu, setActive} = useContext(menuContext)
+
+
   useEffect(()=>{
     if(!session) navigate("/")
   },[session])

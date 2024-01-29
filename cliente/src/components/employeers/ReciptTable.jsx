@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 import ConceptsRow from "./ConceptsRow";
 
-const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts})=>{
-  const {name, surname, city, bank, cuil, category, entry_date, salary} = emplyoeeToPay || ''
-  const today = new Date().toLocaleDateString()
-  const [totalGrav, setTotalGrav] = useState(0.0)
-  const [totalExcen, setTotalExcen] = useState(0.0)
-  const [totalDesc, setTotalDesc] = useState(0.0)
+const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setTotalConcepts, today})=>{
+
+  const {id_employee, name, surname, bank, cuil, salary} = emplyoeeToPay || ''
+
   useEffect(()=>{
     getConcepts()
   },[])
 
   useEffect(()=>{
     if(concepts && salary){
-      let totalG = salary;
-      console.log(salary)
+      let totalG = parseFloat(salary);
       let totalE = 0;
       let totalD = 0;
       concepts.forEach(concept => {
@@ -30,9 +27,13 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts})=>{
             break;
         }
       });
-      setTotalGrav(totalG)
-      setTotalExcen(totalE)
-      setTotalDesc(totalD)
+      setTotalConcepts({
+        ...totalConcepts,
+        totalGrav: totalG,
+        totalExcen: totalE,
+        totalDesc: totalD,
+        totalSalary: totalG - totalD + totalE
+      })
     }
   },[concepts, salary])
 
@@ -63,7 +64,7 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts})=>{
         <tbody>
           <tr>
             <td>{surname+' '+name}</td>
-            <td>????</td>
+            <td>{id_employee + 1000}</td>
             <td>{cuil}</td>
             <td>{bank}</td>
           </tr>
@@ -96,16 +97,16 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts})=>{
         </thead>
         <tbody>
           <tr>
-            <td>{today}</td>
-            <td>{totalGrav}</td>
-            <td>{totalExcen}</td>
-            <td>{totalDesc}</td>
+            <td>{today.toLocaleDateString()}</td>
+            <td>{totalConcepts.totalGrav}</td>
+            <td>{totalConcepts.totalExcen}</td>
+            <td>{totalConcepts.totalDesc}</td>
           </tr>
         </tbody>
         <thead>
           <tr>
             <th className="" scope="col" colSpan='3'>Total Neto</th>
-            <th className=" " scope="col">{totalGrav-totalDesc+totalExcen}</th>
+            <th className=" " scope="col">{totalConcepts.totalSalary}</th>
           </tr>
         </thead>
       </table>

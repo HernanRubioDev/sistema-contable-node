@@ -4,8 +4,8 @@ const fetch = require('node-fetch');
 
 const addNewMovement = async(req, res) =>{
   const movement = req.body;
+  console.log(movement)
   const {username} = req.params
-
   try {
     const user = await getUserByUsername(username)
     switch (true) {

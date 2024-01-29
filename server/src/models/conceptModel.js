@@ -1,7 +1,7 @@
 const {pool} = require("../../db");
 
 const getConcepts = async()=>{
-  const query = "SELECT type, percentage, concept FROM concepts";
+  const query = "SELECT * FROM concepts";
 
   try {
     const res = await pool.query(query);

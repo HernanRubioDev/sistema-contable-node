@@ -63,4 +63,8 @@ const searchEmployee = async(req, res)=>{
   }
 }
 
+const payEmployee = async(req,res) =>{
+  
+}
+
 module.exports={addNewEmployee, searchEmployeeById, searchEmployee}

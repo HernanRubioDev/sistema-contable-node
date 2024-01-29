@@ -18,8 +18,7 @@ const useMovement = ()=>{
     const auth_token = localStorage.getItem("auth_token");
     const user_role = localStorage.getItem("user_role")
     const addMovementUrl = `http://localhost:3000/movement/addMovement/${username}/${user_role}/${auth_token}`
-
-    
+    let res;
     const options = {
       body: movements,
       headers:{
@@ -28,7 +27,8 @@ const useMovement = ()=>{
     }
     setLoading(true)
     try {
-      const res = await api.post(addMovementUrl, options);
+       res = await api.post(addMovementUrl, options);
+
       switch (true) {
         case res.status === 201:
           setResponse({title:"Creado", body:"El asiento se creo correctamente.", success: true})
@@ -62,9 +62,11 @@ const useMovement = ()=>{
       } catch (error) {
       setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
       infoToast.show()
+    } 
+    finally{
+      setLoading(false)
+      return res
     }
-
-    setLoading(false)
   }
 
   const searchMovementsByDates = async(dates)=>{
@@ -75,6 +77,7 @@ const useMovement = ()=>{
     const searchMovements = `http://localhost:3000/movement/getMovementByDates/${username}/${user_role}/${auth_token}/?dateFrom=${dateFrom}&dateTo=${dateTo}`
 
     setLoading(true)
+
     try {
       const res = await api.get(searchMovements);
       switch (true) {

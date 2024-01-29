@@ -26,7 +26,7 @@ const getEmployeeById = async(id_employee)=>{
 const getEmployee = async(employee)=>{
   const {name, surname, city} = employee
   const query = `
-  SELECT e.name, e.surname, e.cuil, c.city, ca.category, e.salary, e.childrens, to_char(e.birth, 'DD/MM/YYYY') as birth,  to_char(e.entry_date, 'DD/MM/YYYY') as entry_date, b.bank 
+  SELECT e.id_employee, e.name, e.surname, e.cuil, c.city, ca.category, e.salary, e.childrens, to_char(e.birth, 'DD/MM/YYYY') as birth,  to_char(e.entry_date, 'DD/MM/YYYY') as entry_date, b.bank, b.id_bank 
   FROM employees e
   INNER JOIN cities c ON e.id_city=c.id_city
   INNER JOIN categories ca ON e.id_category = ca.id_category

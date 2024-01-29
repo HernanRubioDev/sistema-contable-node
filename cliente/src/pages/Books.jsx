@@ -21,6 +21,12 @@ const Books = ()=>{
     const {accounts, setAccounts, getMinorAccountsForLedger} = useAccount();
     const {loading, response, lines, setLines, getLedgerBook, getJournalBook} = useBook();
 
+    useEffect(()=>{
+        if(!menu){
+          setMenu("ledger")
+        }
+      },[])
+
     return(
         <div className="vh-100 d-flex flex-wrap overflow-hidden">
             <Header />

@@ -14,6 +14,12 @@ const Movements = ()=>{
   const navigate = useNavigate();
   const {session} = useContext(sessionContext)
   const {menu, setMenu, setActive} = useContext(menuContext)
+
+  useEffect(()=>{
+    if(!menu){
+      setMenu("search")
+    }
+  },[])
   
   useEffect(()=>{
     if(!session) navigate("/")

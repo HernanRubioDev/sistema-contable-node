@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { helpHttp } from "../helpers/helpHttp";
 import useUser from "./useUser";
-
+import useMovement from "./useMovement";
 const useEmployee = ()=>{
   const api = helpHttp();
   const [loading, setLoading] = useState(false)
@@ -11,9 +11,9 @@ const useEmployee = ()=>{
   const [categories, setCategories] = useState([])
   const [banks, setBanks] = useState([])
   const [concepts, setConcepts] = useState([]);
-
   const {logOutUser} = useUser()
 	const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
+  const {addMovements} = useMovement()
 
   const addEmployee = async (employee)=>{
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"))
@@ -296,7 +296,65 @@ const useEmployee = ()=>{
     }
   }
 
-  return {loading, response, employees, cities, categories, banks, concepts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts}
+  const createRecipt = async(employeeInfo, totalConcepts)=>{
+    //Recordar traer los concepts ya que son necesarios para almacenarlos en la tabla intermedia pay_checks_concepts
+    const today = new Date().toISOString().slice(0, 10);
+    const {totalSalary, totalDesc, totalExcen, totalGrav} = totalConcepts
+    const {name, surname} = employeeInfo
+    const movement = {
+      date: today,
+      description: `Devengación de sueldo a ${name} ${surname}`,
+      account: 'CMV',
+      rows: [
+        {
+          date: today,
+          account: 'Banco Nacion c/c',
+          type: 'haber',
+          ammount: totalSalary
+        },
+        {
+          date: today,
+          account: 'Egresos',
+          type: 'debe',
+          ammount: totalSalary
+        }
+      ],
+    } 
+
+    try {
+      const resMovement = await addMovements(movement);
+      console.log(resMovement)
+      switch (resMovement.status) {
+
+        case 200:
+          setResponse(resMovement);
+          break;
+
+        case 400:
+          setResponse(resMovement);
+          break;
+
+        case 500:
+          setResponse(resMovement);
+          break;
+
+        default:
+        setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
+         infoToast.show()
+          break;
+      }
+    } catch (error) {
+      setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
+      infoToast.show()
+    }
+    addPayCheck(employeeInfo, concepts)
+  }
+
+  const addPayCheck = (employeeInfo, concept)=>{
+    console.log(employeeInfo)
+  }
+
+  return {loading, response, employees, cities, categories, banks, concepts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts, createRecipt}
 }
 
 export default useEmployee;

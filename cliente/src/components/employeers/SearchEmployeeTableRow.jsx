@@ -1,5 +1,6 @@
 const SearchEmployeeTableRow = ({employee, setEmployeeToPay})=>{
-  const {name, surname, city, cuil, entry_date} = employee
+  const {id_employee, name, surname, city, cuil, entry_date} = employee
+
   return(
   <tr className="text-center">
     <td>{name}</td>

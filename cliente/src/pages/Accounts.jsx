@@ -23,6 +23,15 @@ const Accounts = ()=>{
   const [accountToDelete, setAccountToDelete] = useState(null);
 
   const {loading, errors, response, accounts, setAccounts, createAccount, getMajorAccounts, getAccountByName, editAccount, deleteAccount} = useAccount();
+
+  useEffect(()=>{
+    if(!menu){
+      if(!menu){
+        setMenu("search")
+      }
+    }
+  },[])
+
   return(
     <div className="vh-100 d-flex flex-wrap overflow-hidden">
       <Header />
