@@ -1,13 +1,28 @@
 import { useEffect, useState } from "react";
 import ConceptsRow from "./ConceptsRow";
 
-const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setTotalConcepts, today})=>{
-
+const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setTotalConcepts, today, setConcepts})=>{
   const {id_employee, name, surname, bank, cuil, salary} = emplyoeeToPay || ''
 
-  useEffect(()=>{
-    getConcepts()
-  },[])
+  const initialConcept = {
+    concept:'',
+    type:'G',
+    percentage:'0.0'
+  }
+
+  const [newConcept, setNewConcept] = useState(initialConcept)
+
+  const conceptHandleChange = (e)=>{
+    setNewConcept({
+      ...newConcept,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleDeleteConcept = (id_concept)=>{
+    const filteredConcepts = concepts.filter(c => c.id_concept !== id_concept);
+    setConcepts(filteredConcepts)
+  }
 
   useEffect(()=>{
     if(concepts && salary){
@@ -36,6 +51,13 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setT
       })
     }
   },[concepts, salary])
+
+  const handleAddNewConcept = ()=>{
+    console.log(concepts.length)
+    newConcept.id_concept = concepts.length + 1;
+    newConcept.manualy_added= true,
+    setConcepts((prevConcept) => [...prevConcept, newConcept])
+  }
 
   return(
     <div className="px-3">
@@ -84,15 +106,29 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setT
             <td></td>
             <td></td>
           </tr>
-          {concepts.map((concept, index) => <ConceptsRow key={index} data={concept} salary={salary}/>)}
-          
+          {concepts.map((concept, index) => <ConceptsRow key={index} data={concept} salary={salary} handleDeleteConcept={handleDeleteConcept}/>)}
+          <tr>
+            <td>
+              <input onChange={(e)=>conceptHandleChange(e)} className="form-control m-0 p-0 border-0 focus-ring focus-ring-light bg-transparent" type="text" placeholder="Ej: Bonificación" value={newConcept.concept} name="concept"/>
+            </td>
+            <td colSpan='2'>
+            <select onChange={(e)=>conceptHandleChange(e)} className="form-select m-0 p-0 border-0 focus-ring focus-ring-light bg-transparent" value={newConcept.type} name="type">
+              <option value="G">Gravada</option>
+              <option value="E">Excenta</option>
+              <option value="D">Descuento</option>
+            </select>
+            </td>
+            <td>
+              <input onChange={(e)=>conceptHandleChange(e)} className="form-control m-0 p-0 border-0 focus-ring focus-ring-light bg-transparent" value={newConcept.percentage} type="text" placeholder="Ej: 0.3" name="percentage"/>
+            </td>
+          </tr>
         </tbody>
         <thead>
           <tr>
             <th className="text-secondary" scope="col">Fecha Actual</th>
             <th className="text-secondary" scope="col">Total Gravadas</th>
             <th className="text-secondary" scope="col">Total Exentas</th>
-            <th className="text-secondary" scope="col">Total Descuentos</th>
+            <th className="text-secondary position-relative" scope="col">Total Descuentos <button onClick={()=>handleAddNewConcept()}><i class="fas fa-plus-circle position-absolute top-0 start-100 translate-middle text-success"></i></button></th>
           </tr>
         </thead>
         <tbody>

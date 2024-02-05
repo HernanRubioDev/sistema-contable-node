@@ -26,7 +26,7 @@ const Employees = ()=>{
     if(!session) navigate("/")
   },[session])
 
-  const {loading, employees, response, cities, categories, banks, concepts, createRecipt, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts} = useEmployee();
+  const {loading, employees, response, cities, categories, banks, concepts, createRecipt, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, setConcepts} = useEmployee();
   return(
     <div className="vh-100 d-flex flex-column overflow-hidden">
         <Header />
@@ -35,7 +35,7 @@ const Employees = ()=>{
           <EmployeerMenuWrapper menu={menu} loading={loading} employees={employees} cities={cities} categories={categories} banks={banks} addEmployee={addEmployee} getEmployee={getEmployee} getCities={getCities} getCategories={getCategories} getBanks={getBanks} setEmployeeToPay={setEmployeeToPay} />
           <InfoToast response={response}/>
           <AlertModal response={response}/>
-          <PaycheckStubModal emplyoeeToPay={emplyoeeToPay} concepts={concepts}  getConcepts={getConcepts} createRecipt={createRecipt}/> 
+          <PaycheckStubModal emplyoeeToPay={emplyoeeToPay} concepts={concepts}  getConcepts={getConcepts} setConcepts={setConcepts} createRecipt={createRecipt}/> 
         </div>
     </div>
   );

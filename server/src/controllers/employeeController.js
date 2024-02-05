@@ -1,4 +1,4 @@
-const {setEmployee, getEmployeeById, getEmployee} = require('../models/employeeModel');
+const {setEmployee, getEmployeeById, getEmployee, setNewPayment, getReciptByDatesAndName} = require('../models/employeeModel');
 
 const addNewEmployee = async(req, res)=>{
   const employee = req.body
@@ -64,7 +64,43 @@ const searchEmployee = async(req, res)=>{
 }
 
 const payEmployee = async(req,res) =>{
-  
+  const recipt = req.body;
+  try {
+    const response = await setNewPayment(recipt);
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({status:201, title:"Devengado", body:`Devengamiento exitoso del empleado ${recipt.name}.`, success:true})
+        break;
+    
+      default:
+        res.json({status:500, title:"Error", body:`Ah ocurrido un error, intentelo más tarde.`, success:true})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:`Ah ocurrido un error, intentelo más tarde.`, success:true})
+  }
 }
 
-module.exports={addNewEmployee, searchEmployeeById, searchEmployee}
+const searchReciptByDatesAndName = async(req, res)=>{
+  const data = req.query
+  try {
+    const response = await getReciptByDatesAndName(data);
+    switch (true) {
+      case response.rowCount !== 0:
+        res.json({status:200, recipts: response.rows})
+        break;
+
+      case response.rowCount === 0:
+        res.json({status:404, title:"Error", body:"No se han encontrado recibos con esos datos.", success:false})
+        break;
+    
+      default:
+        res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})
+        break;
+    }
+  } catch (error) {
+    res.json({status:500, title:"Error", body:"No se pudo realizar la operacion. Intentelo mas tarde.", success:false})
+  }
+}
+
+module.exports={addNewEmployee, searchEmployeeById, searchEmployee, payEmployee, searchReciptByDatesAndName}

@@ -296,45 +296,22 @@ const useEmployee = ()=>{
     }
   }
 
-  const createRecipt = async(employeeInfo, totalConcepts)=>{
-    //Recordar traer los concepts ya que son necesarios para almacenarlos en la tabla intermedia pay_checks_concepts
-    const today = new Date().toISOString().slice(0, 10);
-    const {totalSalary, totalDesc, totalExcen, totalGrav} = totalConcepts
-    const {name, surname} = employeeInfo
-    const movement = {
-      date: today,
-      description: `Devengación de sueldo a ${name} ${surname}`,
-      account: 'CMV',
-      rows: [
-        {
-          date: today,
-          account: 'Banco Nacion c/c',
-          type: 'haber',
-          ammount: totalSalary
-        },
-        {
-          date: today,
-          account: 'Egresos',
-          type: 'debe',
-          ammount: totalSalary
-        }
-      ],
-    } 
-
-    try {
+  const createRecipt = async(recipt)=>{
+    const {movement} = recipt
+   try {
       const resMovement = await addMovements(movement);
+
       console.log(resMovement)
-      switch (resMovement.status) {
+      switch (true) {
+        case resMovement.status === 201:
+          addPayCheck(recipt)
+          break;
 
-        case 200:
+        case resMovement.status === 400:
           setResponse(resMovement);
           break;
 
-        case 400:
-          setResponse(resMovement);
-          break;
-
-        case 500:
+        case resMovement.status === 500:
           setResponse(resMovement);
           break;
 
@@ -347,14 +324,39 @@ const useEmployee = ()=>{
       setResponse({title:"Error", body:"El asiento no se ha podido crear.", success: false})
       infoToast.show()
     }
-    addPayCheck(employeeInfo, concepts)
   }
 
-  const addPayCheck = (employeeInfo, concept)=>{
-    console.log(employeeInfo)
+  const addPayCheck = async (recipt)=>{
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+    const url = `http://localhost:3000/employee/addRecipt/${username}/${user_role}/${auth_token}`
+    const options = {
+      body: recipt,
+      headers:{
+        "content-type":"application/json",
+      }
+    }
+    try {
+      const res = await api.post(url, options);
+      switch (true) {
+        case res.status === 201:
+          setResponse(res);
+          infoToast.show();
+          break;
+      
+        default:
+          setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+          infoToast.show()
+          break;
+      }
+    } catch (error) {
+      setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+      infoToast.show()
+    }
   }
 
-  return {loading, response, employees, cities, categories, banks, concepts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts, createRecipt}
+  return {loading, response, employees, cities, categories, banks, concepts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts, setConcepts, createRecipt}
 }
 
 export default useEmployee;

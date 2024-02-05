@@ -69,6 +69,7 @@ CREATE TABLE employees (
   id_bank INTEGER REFERENCES banks(id_bank)
 );
 
+
 CREATE TABLE pay_checks (
   id_pay_check SERIAL PRIMARY KEY,
   id_bank INTEGER REFERENCES banks(id_bank),
@@ -76,9 +77,16 @@ CREATE TABLE pay_checks (
   payment_date DATE NOT NULL,
   remuneration FLOAT NOT NULL,
   net_total FLOAT NOT NULL,
-  pesos numeric NOT NULL,
-  month DATE NOT NULL,
-  deposit_date DATE NOT NULL
+  deposit_date DATE NOT NULL,
+  category VARCHAR(20) NOT NULL,
+  file: VARCHAR(20) NOT NULL,
+);
+
+CREATE TABLE pay_checks_rows (
+  id_pay_check_row SERIAL PRIMARY KEY,
+  ammount FLOAT NOT NULL,
+  concept_type CHAR(1) NOT NULL CHECK (concept_type IN ('E','G','D')),
+  concept_name VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE pay_check_concepts (

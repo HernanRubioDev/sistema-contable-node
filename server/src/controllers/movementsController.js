@@ -20,6 +20,7 @@ const addNewMovement = async(req, res) =>{
     }
   } catch (error) {
     res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
+    console.log("entro")
   }
 
   try {
@@ -32,6 +33,7 @@ const addNewMovement = async(req, res) =>{
     })
     const body = await response.text()
     const parsedBody = JSON.parse(body)
+    console.log(parsedBody)
     res.json(parsedBody)
   } catch (error) {
     res.json({status:500, title:"Error", body:"Intentelo mas tarde.", success:false})
