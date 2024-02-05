@@ -128,7 +128,7 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setT
             <th className="text-secondary" scope="col">Fecha Actual</th>
             <th className="text-secondary" scope="col">Total Gravadas</th>
             <th className="text-secondary" scope="col">Total Exentas</th>
-            <th className="text-secondary position-relative" scope="col">Total Descuentos <button onClick={()=>handleAddNewConcept()}><i class="fas fa-plus-circle position-absolute top-0 start-100 translate-middle text-success"></i></button></th>
+            <th className="text-secondary position-relative" scope="col">Total Descuentos <button onClick={()=>handleAddNewConcept()}><i className="fas fa-plus-circle position-absolute top-0 start-100 translate-middle text-success"></i></button></th>
           </tr>
         </thead>
         <tbody>

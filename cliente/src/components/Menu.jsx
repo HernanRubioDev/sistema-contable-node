@@ -61,7 +61,7 @@ const Menu =()=>{
             <div id="employeesColapse" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <NavLink  onClick={()=>{setMenu("add"), setActive("employees")}} to={"/employees"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Agregar</span></NavLink>
               <NavLink  onClick={()=>{setMenu("search"), setActive("employees")}} to={"/employees"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Buscar</span></NavLink>
-              <NavLink  onClick={()=>{setMenu("employeers"), setActive("employees")}} to={"/employees"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Recibos</span></NavLink>
+              <NavLink  onClick={()=>{setMenu("receipt"), setActive("employees")}} to={"/employees"} className="w-100 d-flex text-decoration-none d-flex option-hover ps-5 py-1"><span className="text-white ms-5 ps-3">Recibos</span></NavLink>
             </div>
          </li>
       </ul>

@@ -11,6 +11,7 @@ const useEmployee = ()=>{
   const [categories, setCategories] = useState([])
   const [banks, setBanks] = useState([])
   const [concepts, setConcepts] = useState([]);
+  const [recipts, setRecipts] = useState([]);
   const {logOutUser} = useUser()
 	const infoToast = new bootstrap.Toast(document.getElementById("infoToast"))
   const {addMovements} = useMovement()
@@ -356,7 +357,51 @@ const useEmployee = ()=>{
     }
   }
 
-  return {loading, response, employees, cities, categories, banks, concepts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts, setConcepts, createRecipt}
+  const searchRecipt = async (e, data)=>{
+    e.preventDefault();
+    const {name, surname, date_from, date_to} = data
+    const username = localStorage.getItem("username");
+    const auth_token = localStorage.getItem("auth_token");
+    const user_role = localStorage.getItem("user_role");
+    const url=`http://localhost:3000/employee/getReciptByDatesAndName/${username}/${user_role}/${auth_token}/?name=${name}&&surname=${surname}&&date_from=${date_from}&&date_to=${date_to}`
+    try {
+      setLoading(true);
+      const res = await api.get(url);
+      console.log(res)
+      switch (true) {
+        case res.status === 200:
+          setRecipts(res.recipts)
+          break;
+
+        case res.status === 403:
+          setResponse(res);
+          break;
+
+        case res.status === 404:
+          setResponse(res);
+          break;
+
+        case res.status === 500:
+          setResponse(res);
+          infoToast.show()
+          break;
+
+        default:
+          setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+          infoToast.show()
+          break;
+      }
+
+    } catch (error) {
+      setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
+      infoToast.show()
+    }
+    finally{
+      setLoading(false);
+    }
+  }
+
+  return {loading, response, employees, cities, categories, banks, concepts, recipts, addEmployee, getEmployee, getCities, getCategories, getBanks, getConcepts, getConcepts, setConcepts, createRecipt, searchRecipt}
 }
 
 export default useEmployee;

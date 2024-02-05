@@ -1,6 +1,5 @@
 const ConceptsRow = ({data, salary, handleDeleteConcept})=>{
   const {id_concept, concept, percentage, type} = data
-  console.log(data)
   return(
     <tr className="position-relative">
       <td>{concept}</td>
