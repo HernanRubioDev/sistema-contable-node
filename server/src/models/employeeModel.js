@@ -50,14 +50,12 @@ const setNewPayment = async (recipt)=>{
     await client.query('BEGIN')
     const payCheckQueryRes = await client.query(payCheckQuery,[id_employee, payment_date, salary, net_total, deposite_date, bank, file, city, name, surname, cuil])
     const id_pay_check = payCheckQueryRes.rows[0].id_pay_check
-    console.log(id_pay_check)
     recipt.concepts.forEach(async c => {
       await client.query(payCheckConceptQuery, [c.ammount, c.concept_type, c.concept_name, id_pay_check])
     });
     await client.query('COMMIT')
     return payCheckQueryRes;
   } catch (error) {
-    console.log(error)
     await client.query('ROLLBACK')
     return null 
   }

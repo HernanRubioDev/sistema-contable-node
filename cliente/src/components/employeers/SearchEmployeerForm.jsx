@@ -3,7 +3,7 @@ import useForm from '../../hooks/useForm';
 import Loader from "../Loader";
 import { useEffect } from "react";
 import SearchEmployeeTableRow from "./SearchEmployeeTableRow";
-
+import '../../stylesheets/SearchEmployeeForm.css'
 
 const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities, setEmployeeToPay})=>{
   const initialForm ={
@@ -22,7 +22,7 @@ const SearchEmployeerForm = ({loading, employees, cities, getEmployee, getCities
       <div className="d-flex flex-column justify-content-between align-items-center pt-2">
         <h5 className="text-secondary align-self-start">Buscar empleado</h5>
       </div>
-      <div className="d-flex flex-column bg-white my-2 border shadow p-3">
+      <div className="employee-table-container d-flex flex-column bg-white my-2 border shadow p-3">
         <form onSubmit={(e)=>{e.preventDefault(), getEmployee(form)}} className="d-flex flex-wrap justify-content-evenly">
         <div className="row row-cols-4 w-100">
          <div className="col">

@@ -26,7 +26,6 @@ const LedgerBook = ({loading, accounts, lines, setLines, setMenu, getMinorAccoun
 
 			<div className="d-flex flex-column justify-content-between align-items-center pt-3">
         <button onClick={()=>setMenu("journal")} type="button" className="btn btn-primary rounded-pill pe-4 me-5 align-self-end"><img className="me-2" src="icons/magnifying-glass.svg" />Libro Diario</button>
-        <h5 className="text-secondary align-self-start ms-4">Libros</h5>
       </div>
 
 			<div className="d-flex flex-column bg-white shadow mx-3 my-3">

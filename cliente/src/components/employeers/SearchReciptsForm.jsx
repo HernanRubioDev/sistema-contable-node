@@ -3,15 +3,19 @@ import useForm from '../../hooks/useForm';
 import Loader from "../Loader";
 import ReciptTableRow from "./reciptTableRow";
 import { useEffect } from "react";
+import '../../stylesheets/SearchReciptsForm.css'
 
-const SearchReciptsForm = ({loading, recipts, searchRecipt})=>{
+const SearchReciptsForm = ({loading, recipts, searchRecipt, setRecipt})=>{
 
   const today = new Date().toISOString().slice(0,10);
+
+  useEffect(()=>{setRecipt(null)},[])
+
   const initialForm = {
     name:'',
     surname:'',
     date_from:'',
-    date_to:'',
+    date_to:today,
   }
 
   const {form, handleChange} = useForm(initialForm)
@@ -22,7 +26,7 @@ const SearchReciptsForm = ({loading, recipts, searchRecipt})=>{
       <div className="d-flex flex-column justify-content-between align-items-center pt-2">
         <h5 className="text-secondary align-self-start">Ver desvengamientos</h5>
       </div>
-      <div className="d-flex flex-column bg-white my-2 border shadow p-3">
+      <div className="recipt-table-container d-flex flex-column bg-white my-2 border shadow p-3 overflow-hidden">
         <form onSubmit={(e)=>searchRecipt(e, form)} className="d-flex flex-wrap justify-content-evenly">
           <div className="row row-cols-4 w-100 d-flex justify-content-center">
             <div className="col col-3">
@@ -52,21 +56,24 @@ const SearchReciptsForm = ({loading, recipts, searchRecipt})=>{
           <Loader />
         </div>   
         :
-        <table className="table table-striped mt-2">
-          <thead>
-            <tr className="text-center">
-              <th scope="col">Nombre</th>
-              <th scope="col">Apellido</th>
-              <th scope="col">Ciudad</th>
-              <th scope="col">Devengado</th>
-              <th scope="col">Ver</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recipts ? recipts.map((recipt, index) => <ReciptTableRow key={index} recipt={recipt}/>) : ''} 
-          </tbody>
-        </table>
+        <div className="overflow-y-auto">
+          <table className="table table-striped mt-2">
+            <thead>
+              <tr className="text-center">
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Devengado</th>
+                <th scope="col">Ver</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recipts ? recipts.map((recipt, index) => <ReciptTableRow key={index} recipt={recipt} setRecipt={setRecipt}/>) : ''} 
+            </tbody>
+          </table>
+        </div>   
         }
+      
      </div>
     </main>
   )

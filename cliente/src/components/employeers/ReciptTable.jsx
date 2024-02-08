@@ -53,17 +53,17 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setT
   },[concepts, salary])
 
   const handleAddNewConcept = ()=>{
-    console.log(concepts.length)
     newConcept.id_concept = concepts.length + 1;
     newConcept.manualy_added= true,
     setConcepts((prevConcept) => [...prevConcept, newConcept])
+
   }
 
   return(
     <div className="px-3">
       <p className="text-end text-secondary fw-semibold m-0 d-none d-md-block">RECIBO DE HABERES Ley N° 20.744</p>
       <div className="d-flex justify-content-between">
-          <img src="icons/hacker.svg" className="col-2 col-md-1"/>
+        <img src="icons/hacker.svg" className="col-2 col-md-1"/>
         <ul className="ms-3 p-0 text-secondary fw-medium fs-6 flex-grow-1">
           <li className="list-group-item">Empresa:<span className="fw-normal"> C.O.R.R.U.P.T</span></li>
           <li className="list-group-item">Ubicación: <span className="fw-normal">Calle Falsa 123</span></li>
@@ -119,7 +119,7 @@ const ReciptsTable = ({emplyoeeToPay, concepts, getConcepts, totalConcepts, setT
             </select>
             </td>
             <td>
-              <input onChange={(e)=>conceptHandleChange(e)} className="form-control m-0 p-0 border-0 focus-ring focus-ring-light bg-transparent" value={newConcept.percentage} type="text" placeholder="Ej: 0.3" name="percentage"/>
+              <input onChange={(e)=>conceptHandleChange(e)} className="form-control m-0 p-0 border-0 focus-ring focus-ring-light bg-transparent" value={newConcept.percentage} type="number" min={0} placeholder="Ej: 0.3" name="percentage"/>
             </td>
           </tr>
         </tbody>

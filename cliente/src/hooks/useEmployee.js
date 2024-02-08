@@ -301,10 +301,10 @@ const useEmployee = ()=>{
     const {movement} = recipt
    try {
       const resMovement = await addMovements(movement);
-
       console.log(resMovement)
       switch (true) {
         case resMovement.status === 201:
+          
           addPayCheck(recipt)
           break;
 
@@ -345,6 +345,12 @@ const useEmployee = ()=>{
           setResponse(res);
           infoToast.show();
           break;
+
+        
+        case res.status === 400:
+          setResponse(res)
+          infoToast.show()
+          break;
       
         default:
           setResponse({title:"Error", body:"Ha ocurrindo un error. Intentelo mas tarde", success: false})
@@ -367,10 +373,14 @@ const useEmployee = ()=>{
     try {
       setLoading(true);
       const res = await api.get(url);
-      console.log(res)
       switch (true) {
         case res.status === 200:
           setRecipts(res.recipts)
+          break;
+      
+        case res.status === 400:
+          setResponse(res);
+          infoToast.show()
           break;
 
         case res.status === 403:
